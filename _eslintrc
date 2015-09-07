@@ -1,16 +1,4 @@
 {
-  "rules": {
-    "indent": [2, 2],
-    "quotes": [2, "double"],
-    "linebreak-style": [2, "unix"],
-    "semi": [2, "always"],
-    "strict": [2, "global"]
-  },
-  "env": {
-    "es6": true,
-    "node": true,
-    "browser": true
-  },
   "ecmaFeatures": {
     "arrowFunctions": true,
     "binaryLiterals": true,
@@ -37,7 +25,16 @@
     "jsx": true,
     "experimentalObjectRestSpread": true
   },
-  "plugins": [
-    "react"
-  ]
+  "rules": {
+    "indent": [2, 2],
+    "quotes": [2, "single"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "strict": [2, "function"]
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true
+  }
 }
