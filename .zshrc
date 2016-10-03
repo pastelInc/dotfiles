@@ -97,9 +97,3 @@ alias dclean='docker rmi $(docker images | awk "/^<none>/ { print $3 }")'
 # environment
 export LANG=ja_JP.UTF-8
 export PATH=/usr/local/sbin:$PATH
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-export NODE_PATH=$HOME/.nodebrew/current/lib/node_modules:$NODE_PATH
-export PATH=$HOME/.rbenv/bin:$PATH
-eval "$(rbenv init -)"
-export PHPBREW_RC_DISABLE=1
-source $HOME/.phpbrew/bashrc
