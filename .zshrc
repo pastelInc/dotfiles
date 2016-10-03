@@ -25,10 +25,6 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load --verbose
 
-# environment
-
-export LANG=en_US.UTF-8
-
 # 644 permission
 umask 022
 
@@ -83,8 +79,7 @@ precmd () { vcs_info }
 
 RPROMPT='${vcs_info_msg_0_}'
 
-PROMPT="
-[%n] %{${fg[yellow]}%}%~%{${reset_color}%}
+PROMPT="[%n] %{${fg[yellow]}%}%~%{${reset_color}%}
 %(?.%{$fg[green]%}.%{$fg[blue]%})%(?!凸 <!ζ'ヮ'%)ζ <)%{${reset_color}%} "
 
 PROMPT2='[%n]> '
@@ -92,7 +87,19 @@ PROMPT2='[%n]> '
 SPROMPT="%{$fg[red]%}%{$suggest%}∞のワの? < %B%r%b %{$fg[red]%}is collect? [yes!(y), no!(n),a,e]:${reset_color} "
 
 # options
-
 setopt correct
 setopt re_match_pcre
 setopt prompt_subst
+
+# alias
+alias dclean='docker rmi $(docker images | awk "/^<none>/ { print $3 }")'
+
+# environment
+export LANG=ja_JP.UTF-8
+export PATH=/usr/local/sbin:$PATH
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+export NODE_PATH=$HOME/.nodebrew/current/lib/node_modules:$NODE_PATH
+export PATH=$HOME/.rbenv/bin:$PATH
+eval "$(rbenv init -)"
+export PHPBREW_RC_DISABLE=1
+source $HOME/.phpbrew/bashrc
