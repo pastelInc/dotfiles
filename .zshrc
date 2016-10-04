@@ -91,9 +91,5 @@ setopt correct
 setopt re_match_pcre
 setopt prompt_subst
 
-# alias
-alias dclean='docker rmi $(docker images | awk "/^<none>/ { print $3 }")'
-
 # environment
 export LANG=ja_JP.UTF-8
-export PATH=/usr/local/sbin:$PATH
