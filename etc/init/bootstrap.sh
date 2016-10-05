@@ -1,6 +1,8 @@
 # zplug
 if [ ! -d ~/.zplug ]; then
-    curl -sL zplug.sh/installer | zsh
+    export ZPLUG_HOME=~/.zplug
+    git clone https://github.com/zplug/zplug $ZPLUG_HOME
+    source $ZPLUG_HOME/init.zsh
 fi
 # Neobundle
 if [ ! -d ~/.vim/bundle ]; then
