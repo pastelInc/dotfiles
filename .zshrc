@@ -99,6 +99,3 @@ SPROMPT="%{$fg[red]%}%{$suggest%}∞のワの? < %B%r%b %{$fg[red]%}is collect? 
 setopt correct
 setopt re_match_pcre
 setopt prompt_subst
-
-# environment
-export LANG=ja_JP.UTF-8
