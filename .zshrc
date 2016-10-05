@@ -1,11 +1,11 @@
 # Check if zplug is installed
-[[ -d ~/.zplug ]] || {
-  curl -fLo ~/.zplug/zplug --create-dirs https://git.io/zplug
-  source ~/.zplug/zplug && zplug update --self
-}
+if [[ ! -d ~/.zplug ]]; then
+  git clone https://github.com/zplug/zplug ~/.zplug
+  source ~/.zplug/init.zsh && zplug update --self
+fi
 
 # Essential
-source ~/.zplug/zplug
+source ~/.zplug/init.zsh
 
 zplug "supercrabtree/k"
 zplug "zsh-users/zsh-completions"
