@@ -1,13 +1,12 @@
 # Check if zplug is installed
-[[ -d ~/.zplug ]] || {
-  curl -fLo ~/.zplug/zplug --create-dirs https://git.io/zplug
-  source ~/.zplug/zplug && zplug update --self
-}
+if [[ ! -d ~/.zplug ]]; then
+  git clone https://github.com/zplug/zplug ~/.zplug
+  source ~/.zplug/init.zsh && zplug update --self
+fi
 
 # Essential
-source ~/.zplug/zplug
+source ~/.zplug/init.zsh
 
-zplug "supercrabtree/k"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
@@ -31,17 +30,27 @@ umask 022
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # completions
-
-#fpath=(~/.zplug/repos/zsh-users/zsh-completions/src $fpath)
-
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:messages' format '%d'
 zstyle ':completion:*:descriptions' format '%d'
 zstyle ':completion:*:options' verbose yes
 zstyle ':completion:*:values' verbose yes
 zstyle ':completion:*:options' prefix-needed yes
+zstyle ':completion:*' use-cache true
+zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*' matcher-list \
+    '' \
+    'm:{a-z}={A-Z}' \
+    'l:|=* r:|[.,_-]=* r:|=* m:{a-z}={A-Z}'
+# sudo completions
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+    /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+zstyle ':completion:*' menu select
+zstyle ':completion:*' keep-prefix
+zstyle ':completion:*' completer _oldlist _complete _match _ignored \
+    _approximate _list _history
 
-autoload -Uz compinit; compinit
+autoload -U compinit; compinit -d ~/.zcompdump
 
 zstyle ':completion:*:processes' command "ps -u $USER -o pid,stat,%cpu,%mem,cputime,command"
 
@@ -90,16 +99,3 @@ SPROMPT="%{$fg[red]%}%{$suggest%}∞のワの? < %B%r%b %{$fg[red]%}is collect? 
 setopt correct
 setopt re_match_pcre
 setopt prompt_subst
-
-# alias
-alias dclean='docker rmi $(docker images | awk "/^<none>/ { print $3 }")'
-
-# environment
-export LANG=ja_JP.UTF-8
-export PATH=/usr/local/sbin:$PATH
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-export NODE_PATH=$HOME/.nodebrew/current/lib/node_modules:$NODE_PATH
-export PATH=$HOME/.rbenv/bin:$PATH
-eval "$(rbenv init -)"
-export PHPBREW_RC_DISABLE=1
-source $HOME/.phpbrew/bashrc

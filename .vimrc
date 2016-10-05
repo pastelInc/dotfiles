@@ -1,85 +1,75 @@
 set nocompatible
-" Note: Skip initialization for vim-tiny or vim-small.
- if 0 | endif
+filetype plugin indent off
 
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
+set runtimepath+=~/.vim/bundle/neobundle.vim/
 
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" My Bundles here:
-" Refer to |:NeoBundle-examples|.
-" Note: You don't set neobundle setting in .gvimrc!
 " Plugins
+let g:neobundle_default_git_protocol = 'https'
+call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
 \     'windows' : 'tools\\update-dll-mingw',
 \     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
+\     'msys' : 'make -f make_cygwin.mak',
+\     'mac' : 'make',
 \     'linux' : 'make',
 \     'unix' : 'gmake',
 \    },
 \ }
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle "thinca/vim-template"
-NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'elzr/vim-json'
-NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'https://github.com/flazz/vim-colorschemes.git'
+NeoBundle 'https://github.com/scrooloose/syntastic'
+NeoBundle 'https://github.com/Shougo/neobundle.vim'
+NeoBundle 'https://github.com/Shougo/unite.vim'
+NeoBundle 'https://github.com/Shougo/vimfiler'
+NeoBundle 'https://github.com/Shougo/vinarise'
+NeoBundle 'https://github.com/Shougo/neosnippet'
+NeoBundle 'https://github.com/Shougo/neosnippet-snippets'
+NeoBundle "https://github.com/thinca/vim-template"
+NeoBundle 'https://github.com/ujihisa/unite-colorscheme'
+NeoBundle 'https://github.com/vim-scripts/surround.vim'
+NeoBundle 'https://github.com/vim-scripts/sudo.vim'
+NeoBundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
+NeoBundle 'https://github.com/bronson/vim-trailing-whitespace.git'
+NeoBundle 'https://github.com/elzr/vim-json.git'
+NeoBundle 'https://github.com/pangloss/vim-javascript.git'
+NeoBundle 'https://github.com/rust-lang/rust.vim'
+NeoBundle 'https://github.com/mxw/vim-jsx'
+NeoBundle 'https://github.com/leafgarland/typescript-vim'
+if has('python')
+    " NeoBundle "https://github.com/klen/python-mode"
+endif
 if has('lua')
-    NeoBundle 'Shougo/neocomplete
-endif 
-
+    NeoBundle 'https://github.com/Shougo/neocomplete'
+endif
 call neobundle#end()
 
-" Required:
 filetype plugin indent on
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
 NeoBundleCheck
 
 if has('lua')
-  " neocomplete setting
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#enable_underbar_completion = 1
-  let g:neocomplete#enable_auto_select = 1
-  let g:neocomplete#sources#syntax#min_syntax_length = 3
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+    " neocomplete setting
+    let g:acp_enableAtStartup = 0
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#enable_underbar_completion = 1
+    let g:neocomplete#enable_auto_select = 1
+    let g:neocomplete#sources#syntax#min_syntax_length = 3
+    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-  if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-  endif
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+    if !exists('g:neocomplete#keyword_patterns')
+      let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-  imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplete#close_popup() : "\<CR>"
-  smap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+    imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplete#close_popup() : "\<CR>"
+    smap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
 
-  inoremap <expr><S-CR> neocomplete#smart_close_popup()."\<CR>"
-  inoremap <expr><C-l> neocomplete#smart_close_popup()
-  inoremap <expr><TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
-  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><S-CR> neocomplete#smart_close_popup()."\<CR>"
+    inoremap <expr><C-l> neocomplete#smart_close_popup()
+    inoremap <expr><TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 endif
 
 
@@ -90,7 +80,6 @@ let g:neosnippet#disable_runtime_snippets = {'javascript': 1}
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
-
 
 filetype plugin indent on
 syntax on
@@ -107,32 +96,31 @@ set softtabstop=4
 set backspace=start,indent
 set scrolloff=20
 
-"colorscheme freya
-
 if exists('&ambiwidth')
     set ambiwidth=double
 endif
 
 " encoding settings
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8,cp932
-
-"## specify input encoding
-map -E :e ++enc=euc-jp
-map -J :e ++enc=iso-2022-jp
-map -S :e ++enc=sjis
-map -U :e ++enc=utf-8
-
-"## specify output encoding
-map =E :set fileencoding=euc-jp
-map =J :set fileencoding=iso-2022-jp
-map =S :set fileencoding=sjis
-map =U :set fileencoding=utf-8
+" source ~/dotfiles/encode.vim
 
 " statusline settings
 set laststatus=2
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+
+" Python setting
+let g:pymode_doc = 0
+let g:pymode_folding = 0
+let g:pymode_run = 0
+let g:pymode_lint = 0
+let g:pymode_syntax_print_as_function = 1
+let g:pymode_rope_sorted_completions = 0
+let g:pymode_rope_extended_complete = 0
+let g:pymode_rope_vim_completion = 0
+
+" OCaml setting
+
+" C++ settings
+autocmd Filetype c,cpp,cu set cindent
 
 " case
 set smartcase
@@ -141,6 +129,7 @@ set smartcase
 set nowritebackup
 set nobackup
 set noswapfile
+set noundofile
 
 " hlsearch
 set hlsearch
@@ -148,38 +137,24 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " unite.vim setting
 let g:unite_enable_start_insert=0
-"let g:unite_source_grep_default_opts = '-Hn'
-"prefix key
-nmap <Space> [unite]
+let g:unite_source_grep_default_opts = '-Hn'
 
-"カレントディレクトリを表示
-nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-"バッファと最近開いたファイル一覧を表示
-nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
-"最近開いたディレクトリを表示
-nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
-"バッファを表示
-nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
-"レジストリを表示
-nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
-"タブを表示
-nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
-"ヒストリ/ヤンクを表示
-nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
-"outline
-nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR>
-"file_rec:!
-nnoremap <silent> [unite]<CR> :<C-u>Unite<Space>file_rec:!<CR>
-"unite.vimを開いている間のキーマッピング
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()"{{{
-    " ESCでuniteを終了
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-endfunction"}}}
-"nnoremap <silent> ,ug :<C-u>Unite grep<CR>
-"nnoremap <silent> ,qg :<C-u>Unite -no-quit grep<CR>
-"nnoremap <silent> ,ut :<C-u>Unite -immediately tab:no-current<CR>
-"nnoremap <silent> ,uw :<C-u>Unite -immediately window:no-current<CR>
+nnoremap <silent> ,us :<C-u>Unite source -start-insert<CR>
+nnoremap <silent> ,ub :<C-u>Unite buffer_tab<CR>
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> ,ug :<C-u>Unite grep<CR>
+nnoremap <silent> ,qg :<C-u>Unite -no-quit grep<CR>
+nnoremap <silent> ,ut :<C-u>Unite -immediately tab:no-current<CR>
+nnoremap <silent> ,uw :<C-u>Unite -immediately window:no-current<CR>
+
+au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
 
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -196,49 +171,7 @@ nnoremap <silent> ,f :<C-u>VimFilerBufferDir -create -quit <CR>
 nnoremap <silent> ,F :<C-u>VimFilerBufferDir -create -split -quit<CR>
 
 " tab setting
-" Anywhere SID.
-function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
-
-" Set tabline.
-function! s:my_tabline()  "{{{
-  let s = ''
-  for i in range(1, tabpagenr('$'))
-    let bufnrs = tabpagebuflist(i)
-    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-    let no = i  " display 0-origin tabpagenr.
-    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-    let title = fnamemodify(bufname(bufnr), ':t')
-    let title = '[' . title . ']'
-    let s .= '%'.i.'T'
-    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let s .= no . ':' . title
-    let s .= mod
-    let s .= '%#TabLineFill# '
-  endfor
-  let s .= '%#TabLineFill#%T%=%#TabLine#'
-  return s
-endfunction "}}}
-let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
-set showtabline=2 " 常にタブラインを表示
-
-" The prefix key.
-nnoremap    [Tag]   <Nop>
-nmap    t [Tag]
-" Tab jump
-for n in range(1, 9)
-  execute 'nnoremap <silent> [Tag]'.n  ':<C-u>tabnext'.n.'<CR>'
-endfor
-
-" tc 新しいタブを一番右に作る
-map <silent> [Tag]c :tablast <bar> tabnew<CR>
-" tx タブを閉じる
-map <silent> [Tag]x :tabclose<CR>
-" tn 次のタブ
-map <silent> [Tag]n :tabnext<CR>
-" tp 前のタブ
-map <silent> [Tag]p :tabprevious<CR>
+nnoremap <silent> <C-t> :tabe<CR>
 
 " VimShell settings
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
@@ -258,8 +191,16 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['html', 'rst', 'latex'] }
 nnoremap <silent> ,s :<C-u>SyntasticToggleMode<CR>
 
+" syntastic c++ settings
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_compiler_options = ' -std=c++0x -stdlib=libc++'
+if executable('clang++')
+    let g:syntastic_cpp_compiler = 'clang++'
+endif
+
 " syntastic javascript settings
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['standard']
 
 " syntastic typescript settings
 "let g:syntastic_typescript_tsc_args = '-t ES5 --noImplicitAny'
@@ -272,17 +213,19 @@ au BufWinEnter * let w:m1 = matchadd("WhitespaceEOL", ' \+$')
 au WinEnter * let w:m1 = matchadd("WhitespaceEOL", ' \+$')
 
 " 全角スペースの表示
-"highlight ZenkakuSpace cterm=underline ctermbg=red guibg=#666666
-"au BufWinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
-"au WinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
+highlight ZenkakuSpace cterm=underline ctermbg=red guibg=#666666
+au BufWinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
+au WinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
+
+" crontabファイルの編集
+autocmd BufRead /tmp/crontab.* :set nobackup nowritebackup
 
 " indent-guides
 let g:indent_guides_enable_on_vim_startup = 1
 
 
 " spell check
-set spelllang=en,cjk
+set spelllang+=cjk
 set spell
 
-" vim-json
 let g:vim_json_syntax_conceal = 0
