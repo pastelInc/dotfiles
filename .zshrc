@@ -7,7 +7,6 @@ fi
 # Essential
 source ~/.zplug/init.zsh
 
-zplug "supercrabtree/k"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
