@@ -2,7 +2,7 @@
 if [ ! -d ~/.zplug ]; then
     export ZPLUG_HOME=~/.zplug
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
-    source $ZPLUG_HOME/init.zsh
+    # source $ZPLUG_HOME/init.zsh
 fi
 # Neobundle
 if [ ! -d ~/.vim/bundle ]; then
