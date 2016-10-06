@@ -182,12 +182,11 @@ else
 endif
 let g:vimshell_interactive_update_time = 300
 
-
 " syntastic settings
 let g:syntastic_check_on_open = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': ['python', 'ocaml', 'javascript', 'coffee'],
+                           \ 'active_filetypes': ['python', 'ocaml', 'javascript', 'coffee', 'php'],
                            \ 'passive_filetypes': ['html', 'rst', 'latex'] }
 nnoremap <silent> ,s :<C-u>SyntasticToggleMode<CR>
 
