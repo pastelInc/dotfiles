@@ -17,6 +17,7 @@ NeoBundle 'Shougo/vimproc.vim', {
 \    },
 \ }
 NeoBundle 'https://github.com/flazz/vim-colorschemes.git'
+NeoBundle 'https://github.com/vim-scripts/twilight256.vim.git'
 NeoBundle 'https://github.com/scrooloose/syntastic'
 NeoBundle 'https://github.com/Shougo/neobundle.vim'
 NeoBundle 'https://github.com/Shougo/unite.vim'
@@ -83,6 +84,7 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 filetype plugin indent on
 syntax on
+colorscheme twilight256
 set list
 set listchars=eol:$,tab:>\
 set number
