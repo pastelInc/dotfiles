@@ -44,13 +44,28 @@ export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
 setopt no_global_rcs
+
 # Add ~/bin to PATH
-export PATH=~/bin:~/.nodebrew/current/bin:~/.rbenv/bin:$PATH
+export PATH="~/bin:$PATH"
+
+# Settings for nodebrew
+export PATH="~/.nodebrew/current/bin:$PATH"
 
 # Settings for golang
 export GOPATH="$HOME"
 export GOBIN="$GOPATH/bin"
 export PATH="$GOBIN:$PATH"
+
+# Settings for pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Settings for phpbrew
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
+
+# Settings for rbenv
+export PATH="~/.rbenv/bin:$PATH"
 
 # declare the environment variables
 export CORRECT_IGNORE='_*'

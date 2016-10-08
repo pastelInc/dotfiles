@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# Homebrew
+if ! which brew >/dev/null 2>&1; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
 # zplug
 if [ ! -d ~/.zplug ]; then
-    git clone https://github.com/zplug/zplug ~/.zplug
+    brew install zplug
 fi
 # nodebrew
 if [ ! -d ~/.nodebrew ]; then
@@ -10,9 +14,7 @@ if [ ! -d ~/.nodebrew ]; then
 fi
 # rbenv
 if [ ! -d ~/.rbenv ]; then
-    git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-    ~/.rbenv/bin/rbenv init
-    git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+    brew install rbenv
 fi
 # phpbrew
 if [ ! -d ~/.phpbrew ]; then
@@ -20,8 +22,9 @@ if [ ! -d ~/.phpbrew ]; then
   chmod +x phpbrew
   mv phpbrew ~/bin
   phpbrew init
+  phpbrew lookup-prefix homebrew
 fi
 # pyenv
 if [ ! -d ~/.pyenv ]; then
-    git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+  brew install pyenv
 fi
