@@ -3,3 +3,5 @@
 	name = pastelInc
 [push]
 	default = simple
+[color]
+	ui = true
