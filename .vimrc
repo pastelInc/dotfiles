@@ -23,7 +23,6 @@ NeoBundle 'Shougo/vimproc.vim', {
 \    },
 \ }
 NeoBundle 'https://github.com/flazz/vim-colorschemes.git'
-NeoBundle 'https://github.com/vim-scripts/twilight256.vim.git'
 NeoBundle 'https://github.com/scrooloose/syntastic'
 NeoBundle 'https://github.com/Shougo/unite.vim'
 NeoBundle 'https://github.com/Shougo/vimfiler'
