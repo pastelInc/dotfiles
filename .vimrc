@@ -1,4 +1,9 @@
-set nocompatible
+if 0 | endif
+
+if &compatible
+    set nocompatible
+endif
+
 filetype plugin indent off
 
 set runtimepath+=~/.vim/bundle/neobundle.vim/
@@ -6,6 +11,7 @@ set runtimepath+=~/.vim/bundle/neobundle.vim/
 " Plugins
 let g:neobundle_default_git_protocol = 'https'
 call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
 \     'windows' : 'tools\\update-dll-mingw',
@@ -19,7 +25,6 @@ NeoBundle 'Shougo/vimproc.vim', {
 NeoBundle 'https://github.com/flazz/vim-colorschemes.git'
 NeoBundle 'https://github.com/vim-scripts/twilight256.vim.git'
 NeoBundle 'https://github.com/scrooloose/syntastic'
-NeoBundle 'https://github.com/Shougo/neobundle.vim'
 NeoBundle 'https://github.com/Shougo/unite.vim'
 NeoBundle 'https://github.com/Shougo/vimfiler'
 NeoBundle 'https://github.com/Shougo/vinarise'
