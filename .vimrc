@@ -29,7 +29,7 @@ NeoBundle 'https://github.com/Shougo/vimfiler'
 NeoBundle 'https://github.com/Shougo/vinarise'
 NeoBundle 'https://github.com/Shougo/neosnippet'
 NeoBundle 'https://github.com/Shougo/neosnippet-snippets'
-NeoBundle "https://github.com/thinca/vim-template"
+NeoBundle 'https://github.com/thinca/vim-template'
 NeoBundle 'https://github.com/ujihisa/unite-colorscheme'
 NeoBundle 'https://github.com/vim-scripts/surround.vim'
 NeoBundle 'https://github.com/vim-scripts/sudo.vim'
