@@ -228,7 +228,9 @@ let g:indent_guides_enable_on_vim_startup = 1
 
 
 " spell check
-set spelllang+=cjk
+set spelllang=en,cjk
 set spell
+hi clear SpellBad
+hi SpellBad cterm=underline
 
 let g:vim_json_syntax_conceal = 0
