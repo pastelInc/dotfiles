@@ -4,18 +4,22 @@
 if ! which brew >/dev/null 2>&1; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
+
 # zplug
 if [ ! -d ~/.zplug ]; then
     brew install zplug
 fi
+
 # nodebrew
 if [ ! -d ~/.nodebrew ]; then
     curl -L git.io/nodebrew | perl - setup
 fi
+
 # rbenv
 if [ ! -d ~/.rbenv ]; then
     brew install rbenv
 fi
+
 # phpbrew
 if [ ! -d ~/.phpbrew ]; then
   curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
@@ -24,6 +28,7 @@ if [ ! -d ~/.phpbrew ]; then
   phpbrew init
   phpbrew lookup-prefix homebrew
 fi
+
 # pyenv
 if [ ! -d ~/.pyenv ]; then
   brew install pyenv
