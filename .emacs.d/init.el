@@ -11,7 +11,7 @@
 (global-linum-mode t)
 (set-face-background 'trailing-whitespace "#b14770")
 (set-frame-parameter (selected-frame) 'alpha '(0.87))
-(set-scroll-bar-mode nil)
+;(set-scroll-bar-mode nil)
 (show-paren-mode t)
 (setq frame-title-format
       (format "%%f - Emacs@%s" (system-name)))
@@ -24,7 +24,7 @@
 (setq-default show-trailing-whitespace t)
 (setq initial-scratch-message "")
 (size-indication-mode t)
-(tool-bar-mode -1)
+;(tool-bar-mode -1)
 
 ;; encoding
 (set-language-environment "Japanese")
