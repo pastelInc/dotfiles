@@ -7,7 +7,7 @@
 (depends-on "auto-complete")
 (depends-on "browse-kill-ring")
 (depends-on "color-theme")
-(depends-on "elscreen" :git "git@github.com:knu/elscreen.git")
+(depends-on "elscreen" :git "https://github.com/knu/elscreen.git")
 (depends-on "flycheck")
 (depends-on "git-gutter")
 (depends-on "graphene" "20141030.219")
