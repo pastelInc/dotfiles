@@ -6,7 +6,7 @@
 (depends-on "anything")
 (depends-on "auto-complete")
 (depends-on "browse-kill-ring")
-(depends-on "color-theme")
+;;(depends-on "color-theme")
 (depends-on "elscreen" :git "https://github.com/knu/elscreen.git")
 (depends-on "flycheck")
 (depends-on "git-gutter")
