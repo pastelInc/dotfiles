@@ -53,13 +53,16 @@
 (setq initial-scratch-message "")
 
 ;; ツールバー非表示
-(tool-bar-mode -1)
+(if window-system (progn
+                    (tool-bar-mode -1)))
 
 ;; メニューバーを非表示
-;;(menu-bar-mode -1)
+(if window-system (progn
+                    (menu-bar-mode -1)))
 
 ;; スクロールバー非表示
-(set-scroll-bar-mode nil)
+(if window-system (progn
+                    (set-scroll-bar-mode nil)))
 
 ;; タイトルバーにファイルのフルパス表示
 (setq frame-title-format
@@ -140,6 +143,14 @@
 (setq cua-enable-cua-keys nil)
 
 ;; ------------------------------------------------------------------------
+;; @ redo+.el
+
+;; redoできるようにする
+;; http://www.emacswiki.org/emacs/redo+.el
+(when (require 'redo+ nil t)
+  (define-key global-map (kbd "C-_") 'redo))
+
+;; ------------------------------------------------------------------------
 ;; @ modeline
 
 ;; モードラインの割合表示を総行数表示
@@ -218,10 +229,8 @@
 
 ;;(require 'auto-complete-config)
 (ac-config-default)
-;; text-modeでも自動的に有効にする
-(add-to-list 'ac-modes 'text-mode)
-(add-to-list 'ac-modes 'fundamental-mode)
-;;(add-to-list 'ac-modes 'org-mode)
+;; 自動的に有効にする
+(global-auto-complete-mode t)
 (ac-set-trigger-key "TAB")
 ;; 補完メニュー表示時にC-n/C-pで補完候補選択
 (setq ac-use-menu-map t)
@@ -238,3 +247,27 @@
 
 ;;(color-theme-initialize)
 (load-theme 'deeper-blue t)
+
+;; ------------------------------------------------------------------------
+;;  @ golang
+
+;;(add-to-list 'exec-path (expand-file-name "/usr/local/opt/go/libexec/bin"))
+;;(add-to-list 'exec-path (expand-file-name "~/go/bin"))
+(add-hook 'go-mode-hook
+          (lambda ()
+            ;; GOROOT, GOPATH環境変数の読み込み
+            (let ((envs '("GOROOT" "GOPATH")))
+              (exec-path-from-shell-copy-envs envs))
+            (setq-default)
+            ;; indentの設定
+            (setq tab-width 2)
+            (setq standard-indent 2)
+            (setq indent-tabs-mode nil)
+            ;; godef keybind
+            (local-set-key (kbd "M-.") 'godef-jump)
+            (local-set-key (kbd "M-,") 'pop-tag-mark)
+            ))
+(eval-after-load "go-mode"
+ '(progn
+     (require 'go-autocomplete)
+     (add-hook 'go-mode-hook 'go-eldoc-setup)))

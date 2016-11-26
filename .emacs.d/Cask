@@ -18,6 +18,7 @@
 (depends-on "powerline")
 (depends-on "quickrun")
 (depends-on "recentf-ext")
+(depends-on "redo+")
 (depends-on "use-package")
 (depends-on "zlc")
 
