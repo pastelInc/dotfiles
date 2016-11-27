@@ -11,6 +11,7 @@
 (depends-on "fuzzy")
 (depends-on "git-gutter")
 (depends-on "graphene" "20141030.219")
+(depends-on "maxframe")
 (depends-on "pallet" :git "https://github.com/rdallasgray/pallet" :ref "master")
 (depends-on "pbcopy")
 (depends-on "popup")
@@ -19,6 +20,8 @@
 (depends-on "quickrun")
 (depends-on "recentf-ext")
 (depends-on "redo+")
+(depends-on "twilight-theme")
+(depends-on "twilight-bright-theme")
 (depends-on "use-package")
 (depends-on "zlc")
 
