@@ -6,17 +6,19 @@
 
 ;;; Commentary:
 
+;;; Code:
+
 ;; ------------------------------------------------------------------------
 ;; @ load-path
 
 ;; load-pathの追加関数
-(defun add-to-load-path (&rest paths)
-  (let (path)
-    (dolist (path paths paths)
-      (let ((default-directory (expand-file-name (concat user-emacs-directory path))))
-        (add-to-list 'load-path default-directory)
-        (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-            (normal-top-level-add-subdirs-to-load-path))))))
+;; (defun add-to-load-path (&rest paths)
+;;   (let (path)
+;;     (dolist (path paths paths)
+;;       (let ((default-directory (expand-file-name (concat user-emacs-directory path))))
+;;         (add-to-list 'load-path default-directory)
+;;         (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+;;             (normal-top-level-add-subdirs-to-load-path))))))
 
 ;; elisp
 ;; (add-to-load-path "elisp")
@@ -200,9 +202,12 @@
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
+
 (use-package  anything
   :config
   (define-key global-map (kbd "\C-x b") 'anything))
+
+(use-package anything-startup)
 
 ;; ------------------------------------------------------------------------
 ;; @ auto-complete.el
@@ -347,7 +352,7 @@
 ;;  @ golang
 
 ;;(add-to-list 'exec-path (expand-file-name "/usr/local/opt/go/libexec/bin"))
-;;(add-to-list 'exec-path (expand-file-name "~/go/bin"))
+(add-to-list 'exec-path (expand-file-name "~/go/bin"))
 (add-hook 'go-mode-hook
           (lambda ()
             ;; GOROOT, GOPATH環境変数の読み込み
