@@ -1,4 +1,11 @@
-; -*- Mode: Emacs-Lisp ; Coding: utf-8 -*-
+;;; init.el --- My Emacs Initialization/Customization file  -*- lexical-binding: t -*-
+
+;; Filename: init.el
+;; Description: My Emacs Initialization/Customization file
+;; Package-Requires: ((emacs "25.1"))
+
+;;; Commentary:
+
 ;; ------------------------------------------------------------------------
 ;; @ load-path
 
@@ -12,13 +19,13 @@
             (normal-top-level-add-subdirs-to-load-path))))))
 
 ;; elisp
-;;(add-to-load-path "elisp")
+;; (add-to-load-path "elisp")
 
 ;; ------------------------------------------------------------------------
 ;; @ general
 
 ;; common lisp
-(require 'cl)
+;; (require 'cl)
 
 ;; 文字コード
 (set-language-environment "Japanese")
@@ -143,14 +150,6 @@
 (setq cua-enable-cua-keys nil)
 
 ;; ------------------------------------------------------------------------
-;; @ redo+.el
-
-;; redoできるようにする
-;; http://www.emacswiki.org/emacs/redo+.el
-(when (require 'redo+ nil t)
-  (define-key global-map (kbd "C-_") 'redo))
-
-;; ------------------------------------------------------------------------
 ;; @ modeline
 
 ;; モードラインの割合表示を総行数表示
@@ -177,26 +176,26 @@
 
 ;; 起動時にウィンドウ最大化
 ;; http://www.emacswiki.org/emacs/FullScreen#toc12
-(defun jbr-init ()
-  "Called from term-setup-hook after the default
-   terminal setup is
-   done or directly from startup if term-setup-hook not
-   used.  The value
-   0xF030 is the command for maximizing a window."
-  (interactive)
-  (w32-send-sys-command #xf030)
-  (ecb-redraw-layout)
-  (calendar))
+;; (defun jbr-init ()
+;;   "Called from term-setup-hook after the default
+;;    terminal setup is
+;;    done or directly from startup if term-setup-hook not
+;;    used.  The value
+;;    0xF030 is the command for maximizing a window."
+;;   (interactive)
+;;   (w32-send-sys-command #xf030)
+;;   (ecb-redraw-layout)
+;;   (calendar))
 
-(let ((ws window-system))
-  (cond ((eq ws 'w32)
-         (set-frame-position (selected-frame) 0 0)
-         (setq term-setup-hook 'jbr-init)
-         (setq window-setup-hook 'jbr-init))
-        ((eq ws 'ns)
-         ;; for MacBook Air(Late2010) 11inch display
-         (set-frame-position (selected-frame) 0 0)
-         (set-frame-size (selected-frame) 95 47))))
+;; (let ((ws window-system))
+;;   (cond ((eq ws 'w32)
+;;          (set-frame-position (selected-frame) 0 0)
+;;          (setq term-setup-hook 'jbr-init)
+;;          (setq window-setup-hook 'jbr-init))
+;;         ((eq ws 'ns)
+;;          ;; for MacBook Air(Late2010) 11inch display
+;;          (set-frame-position (selected-frame) 0 0)
+;;          (set-frame-size (selected-frame) 95 47))))
 
 ;; ------------------------------------------------------------------------
 ;; @ key bind
@@ -206,6 +205,11 @@
 
 ;; globalなC-zを無効化
 (global-unset-key "\C-z")
+
+;; ------------------------------------------------------------------------
+;; @ color theme
+
+(load-theme 'deeper-blue t)
 
 ;; ------------------------------------------------------------------------
 ;; @ package manager
@@ -220,33 +224,141 @@
 (cask-initialize)
 
 ;; ------------------------------------------------------------------------
+;; @ use-package.el
+
+(require 'use-package)
+
+;; ------------------------------------------------------------------------
 ;; @ anything.el
 
-(define-key global-map (kbd "\C-x b") 'anything)
+(use-package  anything
+  :config
+  (define-key global-map (kbd "\C-x b") 'anything))
 
 ;; ------------------------------------------------------------------------
 ;; @ auto-complete.el
 
-;;(require 'auto-complete-config)
-(ac-config-default)
-;; 自動的に有効にする
-(global-auto-complete-mode t)
-(ac-set-trigger-key "TAB")
-;; 補完メニュー表示時にC-n/C-pで補完候補選択
-(setq ac-use-menu-map t)
-;; 曖昧マッチ
-;;(setq ac-use-fuzzy t)
+(use-package auto-complete
+  :config
+  (ac-config-default)
+  ;; 自動的に有効にする
+  (global-auto-complete-mode t)
+  (ac-set-trigger-key "TAB")
+  ;; 補完メニュー表示時にC-n/C-pで補完候補選択
+  (setq ac-use-menu-map t)
+  ;; 曖昧マッチ
+  (setq ac-use-fuzzy t))
 
 ;; ------------------------------------------------------------------------
 ;; @ browse-kill-ring.el
 
-(global-set-key "\C-cy" 'browse-kill-ring)
+(use-package browse-kill-ring
+  :config
+  (global-set-key "\C-cy" 'browse-kill-ring))
 
 ;; ------------------------------------------------------------------------
-;; @ color-theme.el
+;; @ elscreen.el
 
-;;(color-theme-initialize)
-(load-theme 'deeper-blue t)
+(use-package elscreen
+  :config
+  ;; プレフィクスキーはC-t
+  (setq elscreen-prefix-key (kbd "C-t"))
+  (elscreen-start)
+  ;; タブの先頭に[X]を表示しない
+  (setq elscreen-tab-display-kill-screen nil)
+  ;; header-lineの先頭に[<->]を表示しない
+  (setq elscreen-tab-display-control nil))
+
+;; ------------------------------------------------------------------------
+;; @ flycheck.el
+
+(use-package flycheck
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+;; ------------------------------------------------------------------------
+;; @ git-gutter.el
+
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode +1))
+
+;; ------------------------------------------------------------------------
+;; @ pbcopy.el
+
+(use-package pbcopy
+  :config
+  (turn-on-pbcopy))
+
+;; ------------------------------------------------------------------------
+;; @ popwin.el
+
+(use-package popwin
+  :config
+  (popwin-mode 1))
+
+;; ------------------------------------------------------------------------
+;; @ powerline.el
+
+(use-package powerline
+  :config
+  (set-face-attribute 'mode-line nil
+                      :foreground "#fff"
+                      :background "#FF0066"
+                      :box nil)
+  (set-face-attribute 'powerline-active1 nil
+                      :foreground "#fff"
+                      :background "#FF6699"
+                      :inherit 'mode-line)
+  (set-face-attribute 'powerline-active2 nil
+                      :foreground "#000"
+                      :background "#ffaeb9"
+                      :inherit 'mode-line)
+  (powerline-default-theme))
+
+
+;; ------------------------------------------------------------------------
+;; @ recentf-ext.el
+
+;; 自動保存
+(use-package recentf-ext
+  :config
+  (setq recentf-max-saved-items 2000)
+  (setq recentf-exclude '(".recentf"))
+  (setq recentf-auto-cleanup 10)
+  (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
+  (recentf-mode 1)
+  ;; 起動画面で recentf を開く
+  (add-hook 'after-init-hook (lambda()
+                               (recentf-open-files)
+                               ))
+  ;; キーバインド
+  (global-set-key (kbd "C-x C-r") 'recentf-open-files))
+
+
+;; ------------------------------------------------------------------------
+;; @ redo+.el
+
+;; redoできるようにする
+;; http://www.emacswiki.org/emacs/redo+.el
+(use-package redo+
+  :config
+  (define-key global-map (kbd "C-_") 'redo))
+
+;; ------------------------------------------------------------------------
+;; @ zlc.el
+
+(use-package zlc
+  :config
+  (zlc-mode t)
+  (let ((map minibuffer-local-map))
+    (define-key map (kbd "<down>")  'zlc-select-next-vertical)
+    (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
+    (define-key map (kbd "<right>") 'zlc-select-next)
+    (define-key map (kbd "<left>")  'zlc-select-previous)
+
+    (define-key map (kbd "C-c") 'zlc-reset)
+    ))
 
 ;; ------------------------------------------------------------------------
 ;;  @ golang
@@ -268,6 +380,16 @@
             (local-set-key (kbd "M-,") 'pop-tag-mark)
             ))
 (eval-after-load "go-mode"
- '(progn
+  '(progn
      (require 'go-autocomplete)
      (add-hook 'go-mode-hook 'go-eldoc-setup)))
+
+;; (provide 'init) ; make sure it only load once.
+
+;; 幾つかのモードは、巨大ファイルでは動作が重くなるのでオフにする。
+
+;; Local Variables:
+;; coding: utf-8-unix
+;; End:
+
+;;; init.el ends here

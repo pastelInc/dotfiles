@@ -6,9 +6,9 @@
 (depends-on "anything")
 (depends-on "auto-complete")
 (depends-on "browse-kill-ring")
-;;(depends-on "color-theme")
 (depends-on "elscreen" :git "https://github.com/knu/elscreen.git")
 (depends-on "flycheck")
+(depends-on "fuzzy")
 (depends-on "git-gutter")
 (depends-on "graphene" "20141030.219")
 (depends-on "pallet" :git "https://github.com/rdallasgray/pallet" :ref "master")
@@ -47,6 +47,7 @@
 
 (depends-on "go-autocomplete")
 
+;; cask init
 ;; (depends-on "bind-key")
 ;; (depends-on "cask")
 ;; (depends-on "dash")
