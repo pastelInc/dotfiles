@@ -79,9 +79,6 @@
 
 ;; 行番号表示
 (global-linum-mode t)
-(set-face-attribute 'linum nil
-                    :foreground "#800"
-                    :height 0.9)
 
 ;; 行番号フォーマット
 (setq linum-format "%4d")
@@ -90,12 +87,6 @@
 (show-paren-mode t)
 (setq show-paren-delay 0)
 (setq show-paren-style 'expression)
-
-;; 括弧の範囲色
-(set-face-background 'show-paren-match-face "#500")
-
-;; 選択領域の色
-(set-face-background 'region "#555")
 
 ;; 行末の空白を強調表示
 (setq-default show-trailing-whitespace t)
@@ -202,7 +193,6 @@
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
-
 (use-package  anything
   :config
   (define-key global-map (kbd "\C-x b") 'anything))
@@ -233,8 +223,9 @@
 ;; ------------------------------------------------------------------------
 ;; @ color theme
 
-(use-package twilight-theme)
-(load-theme 'twilight t)
+(use-package moe-theme
+  :config
+  (load-theme 'moe-dark t))
 
 ;; ------------------------------------------------------------------------
 ;; @ elscreen.el
@@ -303,7 +294,6 @@
                       :background "#ffaeb9"
                       :inherit 'mode-line)
   (powerline-default-theme))
-
 
 ;; ------------------------------------------------------------------------
 ;; @ recentf-ext.el
