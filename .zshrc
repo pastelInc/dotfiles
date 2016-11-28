@@ -30,4 +30,5 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load --verbose
 
-
+# Settings for phpbrew
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc

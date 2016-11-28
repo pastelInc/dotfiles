@@ -18,3 +18,4 @@ case "${OSTYPE}" in
         bash "${DOTPATH}/etc/init/linux/init.sh"
         ;;
 esac
+
