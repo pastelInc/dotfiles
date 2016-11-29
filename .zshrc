@@ -7,15 +7,15 @@ fi
 # Essential
 source ~/.zplug/init.zsh
 
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-history-substring-search"
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "lib/theme-and-appearance", from:oh-my-zsh
 zplug "plugins/common-aliases", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
-zplug "plugins/git", from:oh-my-zsh, nice:10
-zplug "themes/cloud", from:oh-my-zsh
-zplug "lib/theme-and-appearance", from:oh-my-zsh
+zplug "plugins/git", from:oh-my-zsh
+zplug "themes/cloud", from:oh-my-zsh, as:theme, nice:10
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-syntax-highlighting", nice:10
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
