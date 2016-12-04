@@ -70,7 +70,7 @@ export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export WORDCHARS='*?.[]~&;!#$%^(){}<>'
 
 # History file and its size
-export HISTFILE=~/.zsh_history
+export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=1000000
 export SAVEHIST=1000000
 
@@ -88,3 +88,4 @@ if [[ $UID == 0 ]]; then
     unset HISTFILE
     export SAVEHIST=0
 fi
+
