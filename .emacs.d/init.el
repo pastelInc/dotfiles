@@ -81,12 +81,12 @@
 (global-linum-mode t)
 
 ;; 行番号フォーマット
-(setq linum-format "%4d")
+(defvar linum-format "%4d")
 
 ;; 括弧の範囲内を強調表示
 (show-paren-mode t)
-(setq show-paren-delay 0)
-(setq show-paren-style 'expression)
+(defvar show-paren-delay 0)
+(defvar show-paren-style 'expression)
 
 ;; 行末の空白を強調表示
 (setq-default show-trailing-whitespace t)
@@ -105,10 +105,10 @@
 (recentf-mode t)
 
 ;; 最近使ったファイルの表示数
-(setq recentf-max-menu-items 10)
+(defvar recentf-max-menu-items 10)
 
 ;; 最近開いたファイルの保存数を増やす
-(setq recentf-max-saved-items 3000)
+(defvar recentf-max-saved-items 3000)
 
 ;; ミニバッファの履歴を保存する
 (savehist-mode 1)
@@ -126,10 +126,10 @@
 (setq scroll-conservatively 35
       scroll-margin 0
       scroll-step 1)
-(setq comint-scroll-show-maximum-output t) ;; shell-mode
+(defvar comint-scroll-show-maximum-output t) ;; shell-mode
 
 ;; フレームの透明度
-(set-frame-parameter (selected-frame) 'alpha '(0.87))
+;; (set-frame-parameter (selected-frame) 'alpha '(0.87))
 
 ;; モードラインに行番号表示
 (line-number-mode t)
@@ -139,8 +139,8 @@
 
 ;; C-Ret で矩形選択
 ;; 詳しいキーバインド操作：http://dev.ariel-networks.com/articles/emacs/part5/
-(cua-mode t)
-(setq cua-enable-cua-keys nil)
+;; (cua-mode t)
+;; (defvar cua-enable-cua-keys nil)
 
 ;; ------------------------------------------------------------------------
 ;; @ modeline
@@ -204,6 +204,7 @@
 
 (use-package auto-complete
   :config
+  (use-package auto-complete-config)
   (ac-config-default)
   ;; 自動的に有効にする
   (global-auto-complete-mode t)
@@ -304,7 +305,7 @@
   (setq recentf-max-saved-items 2000)
   (setq recentf-exclude '(".recentf"))
   (setq recentf-auto-cleanup 10)
-  (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
+  (defvar recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
   (recentf-mode 1)
   ;; 起動画面で recentf を開く
   (add-hook 'after-init-hook (lambda()
