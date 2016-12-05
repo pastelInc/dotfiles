@@ -193,11 +193,11 @@
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
-(use-package  anything
-  :config
-  (define-key global-map (kbd "\C-x b") 'anything))
+;; (use-package  anything
+;;   :config
+;;   (define-key global-map (kbd "\C-x b") 'anything))
 
-(use-package anything-startup)
+;; (use-package anything-startup)
 
 ;; ------------------------------------------------------------------------
 ;; @ auto-complete.el
@@ -254,6 +254,13 @@
 (use-package git-gutter
   :config
   (global-git-gutter-mode +1))
+
+;; ------------------------------------------------------------------------
+;; @ helm.el
+
+(use-package helm-config
+  :config
+  (define-key global-map (kbd "\C-x b") 'helm-mini))
 
 ;; ------------------------------------------------------------------------
 ;; @ maxframe.el
