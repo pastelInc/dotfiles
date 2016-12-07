@@ -5,7 +5,7 @@
 (depends-on "ag")
 ;; (depends-on "anything")
 (depends-on "auto-complete")
-(depends-on "browse-kill-ring")
+(depends-on "bind-key")
 (depends-on "elscreen" :git "https://github.com/knu/elscreen.git")
 (depends-on "flycheck")
 (depends-on "fuzzy")
@@ -14,15 +14,16 @@
 (depends-on "helm")
 (depends-on "maxframe")
 (depends-on "moe-theme")
+(depends-on "neotree")
 (depends-on "pallet" :git "https://github.com/rdallasgray/pallet" :ref "master")
-(depends-on "pbcopy")
+;; (depends-on "pbcopy")
 (depends-on "popup")
 (depends-on "popwin")
 (depends-on "powerline")
 (depends-on "quickrun")
 (depends-on "recentf-ext")
 (depends-on "redo+")
-(depends-on "twilight-theme")
+;; (depends-on "twilight-theme")
 (depends-on "use-package")
 (depends-on "zlc")
 
@@ -36,6 +37,8 @@
 (depends-on "ruby-mode")
 (depends-on "sass-mode")
 (depends-on "slim-mode")
+(depends-on "typescript-mode")
+(depends-on "tss")
 (depends-on "yaml-mode")
 (depends-on "web-mode")
 
@@ -43,11 +46,6 @@
         :git "https://github.com/suzuki/php-completion.git"
         :branch "develop"
         :files ("*.el" "phpcmp-index-of-*"))
-
-(depends-on "rubocop")
-(depends-on "ruby-block")
-(depends-on "ruby-electric")
-(depends-on "ruby-end")
 
 (depends-on "go-autocomplete")
 

@@ -6,9 +6,10 @@
 
 ;;; Commentary:
 
+;;; Change Log:
+
 ;;; Code:
 
-;; ------------------------------------------------------------------------
 ;; @ load-path
 
 ;; load-pathの追加関数
@@ -23,11 +24,7 @@
 ;; elisp
 ;; (add-to-load-path "elisp")
 
-;; ------------------------------------------------------------------------
 ;; @ general
-
-;; common lisp
-;; (require 'cl)
 
 ;; 文字コード
 (set-language-environment "Japanese")
@@ -126,10 +123,11 @@
 (setq scroll-conservatively 35
       scroll-margin 0
       scroll-step 1)
-(defvar comint-scroll-show-maximum-output t) ;; shell-mode
+;; shell-mode
+(defvar comint-scroll-show-maximum-output t)
 
 ;; フレームの透明度
-;; (set-frame-parameter (selected-frame) 'alpha '(0.87))
+(set-frame-parameter (selected-frame) 'alpha '(0.87))
 
 ;; モードラインに行番号表示
 (line-number-mode t)
@@ -137,12 +135,12 @@
 ;; モードラインに列番号表示
 (column-number-mode t)
 
-;; C-Ret で矩形選択
-;; 詳しいキーバインド操作：http://dev.ariel-networks.com/articles/emacs/part5/
-;; (cua-mode t)
-;; (defvar cua-enable-cua-keys nil)
+;; Show paren
+(show-paren-mode t)
 
-;; ------------------------------------------------------------------------
+;; White space
+(setq-default show-trailing-whitespace t)
+
 ;; @ modeline
 
 ;; モードラインの割合表示を総行数表示
@@ -164,44 +162,34 @@
         '(:eval (format my-mode-line-format
                         (count-lines (point-max) (point-min))))))
 
-;; ------------------------------------------------------------------------
-;; @ key bind
-
-;; バックスラッシュ
-(define-key global-map (kbd "M-|") "\\")
-
-;; globalなC-zを無効化
-(global-unset-key "\C-z")
-
-;; ------------------------------------------------------------------------
 ;; @ package manager
-
-(require 'package)
 (package-initialize)
 
-;; ------------------------------------------------------------------------
 ;; @ cask
+(when (or (require 'cask "~/.cask/cask.el" t)
+          (require 'cask nil t))
+  (cask-initialize))
 
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-
-;; ------------------------------------------------------------------------
 ;; @ use-package.el
-
 (require 'use-package)
 
-;; ------------------------------------------------------------------------
-;; @ anything.el
+;; @ key bind
+;; use bind-key package
+(progn
+  (bind-key "<f8>" 'neotree-toggle)
+  (bind-key* "C-c <left>"  'windmove-left)
+  (bind-key* "C-c <down>"  'windmove-down)
+  (bind-key* "C-c <up>"    'windmove-up)
+  (bind-key* "C-c <right>" 'windmove-right))
 
+;; @ anything.el
 ;; (use-package  anything
 ;;   :config
 ;;   (define-key global-map (kbd "\C-x b") 'anything))
 
 ;; (use-package anything-startup)
 
-;; ------------------------------------------------------------------------
 ;; @ auto-complete.el
-
 (use-package auto-complete
   :config
   (use-package auto-complete-config)
@@ -214,23 +202,12 @@
   ;; 曖昧マッチ
   (setq ac-use-fuzzy t))
 
-;; ------------------------------------------------------------------------
-;; @ browse-kill-ring.el
-
-(use-package browse-kill-ring
-  :config
-  (global-set-key "\C-cy" 'browse-kill-ring))
-
-;; ------------------------------------------------------------------------
 ;; @ color theme
-
 (use-package moe-theme
   :config
   (load-theme 'moe-dark t))
 
-;; ------------------------------------------------------------------------
 ;; @ elscreen.el
-
 (use-package elscreen
   :config
   ;; プレフィクスキーはC-t
@@ -241,52 +218,36 @@
   ;; header-lineの先頭に[<->]を表示しない
   (setq elscreen-tab-display-control nil))
 
-;; ------------------------------------------------------------------------
 ;; @ flycheck.el
-
 (use-package flycheck
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-;; ------------------------------------------------------------------------
 ;; @ git-gutter.el
-
 (use-package git-gutter
   :config
   (global-git-gutter-mode +1))
 
-;; ------------------------------------------------------------------------
 ;; @ helm.el
-
 (use-package helm-config
   :config
   (define-key global-map (kbd "\C-x b") 'helm-mini))
 
-;; ------------------------------------------------------------------------
 ;; @ maxframe.el
-
 ;; 起動時にウィンドウ最大化
 (use-package maxframe
   :config
   (add-hook 'window-setup-hook 'maximize-frame t))
 
-;; ------------------------------------------------------------------------
-;; @ pbcopy.el
+;; @ neotree.el
+(use-package neotree)
 
-(use-package pbcopy
-  :config
-  (turn-on-pbcopy))
-
-;; ------------------------------------------------------------------------
 ;; @ popwin.el
-
 (use-package popwin
   :config
   (popwin-mode 1))
 
-;; ------------------------------------------------------------------------
 ;; @ powerline.el
-
 (use-package powerline
   :config
   (set-face-attribute 'mode-line nil
@@ -303,10 +264,7 @@
                       :inherit 'mode-line)
   (powerline-default-theme))
 
-;; ------------------------------------------------------------------------
 ;; @ recentf-ext.el
-
-;; 自動保存
 (use-package recentf-ext
   :config
   (setq recentf-max-saved-items 2000)
@@ -318,22 +276,16 @@
   (add-hook 'after-init-hook (lambda()
                                (recentf-open-files)
                                ))
-  ;; キーバインド
   (global-set-key (kbd "C-x C-r") 'recentf-open-files))
 
 
-;; ------------------------------------------------------------------------
 ;; @ redo+.el
-
-;; redoできるようにする
 ;; http://www.emacswiki.org/emacs/redo+.el
 (use-package redo+
   :config
   (define-key global-map (kbd "C-_") 'redo))
 
-;; ------------------------------------------------------------------------
 ;; @ zlc.el
-
 (use-package zlc
   :config
   (zlc-mode t)
@@ -346,9 +298,7 @@
     (define-key map (kbd "C-c") 'zlc-reset)
     ))
 
-;; ------------------------------------------------------------------------
 ;;  @ golang
-
 ;;(add-to-list 'exec-path (expand-file-name "/usr/local/opt/go/libexec/bin"))
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
 (add-hook 'go-mode-hook
@@ -370,12 +320,22 @@
      (require 'go-autocomplete)
      (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
-;; (provide 'init) ; make sure it only load once.
+;; @ JavaScript
+(use-package js2-mode :defer t
+  :mode ("\\.js\\'" "\\.jsx\\'"))
 
-;; 幾つかのモードは、巨大ファイルでは動作が重くなるのでオフにする。
+;; @ PHP
+(use-package php-mode)
 
-;; Local Variables:
-;; coding: utf-8-unix
-;; End:
+;; @ TypeScript
+(use-package typescript :defer t
+  :mode ("\\.ts\\'" . typescript-mode)
+  :config
+  (use-package tss)
+  (custom-set-variables
+   '(tss-popup-help-key "C-:")
+   '(tss-jump-to-definition-key "C->")
+   '(tss-implement-definition-key "C-c i"))
+  (tss-config-default))
 
 ;;; init.el ends here
