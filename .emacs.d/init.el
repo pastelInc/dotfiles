@@ -26,7 +26,7 @@
 
 ;; @ general
 
-;; 文字コード
+;; 文字コード
 (set-language-environment "Japanese")
 (let ((ws window-system))
   (cond ((eq ws 'w32)
@@ -52,25 +52,25 @@
                              :height 140)
          (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty")))))
 
-;; スタートアップ非表示
+;; スタートアップ非表示
 (setq inhibit-startup-screen t)
 
-;; scratchの初期メッセージ消去
+;; scratchの初期メッセージ消去
 (setq initial-scratch-message "")
 
-;; ツールバー非表示
+;; ツールバー非表示
 (if window-system (progn
                     (tool-bar-mode -1)))
 
-;; メニューバーを非表示
+;; メニューバーを非表示
 (if window-system (progn
                     (menu-bar-mode -1)))
 
-;; スクロールバー非表示
+;; スクロールバー非表示
 (if window-system (progn
                     (set-scroll-bar-mode nil)))
 
-;; タイトルバーにファイルのフルパス表示
+;; タイトルバーにファイルのフルパス表示
 (setq frame-title-format
       (format "%%f - Emacs@%s" (system-name)))
 
@@ -89,10 +89,10 @@
 (setq-default show-trailing-whitespace t)
 (set-face-background 'trailing-whitespace "#b14770")
 
-;; タブをスペースで扱う
+;; タブをスペースで扱う
 (setq-default indent-tabs-mode nil)
 
-;; タブ幅
+;; タブ幅
 (custom-set-variables '(tab-width 4))
 
 ;; yes or noをy or n
@@ -107,19 +107,19 @@
 ;; 最近開いたファイルの保存数を増やす
 (defvar recentf-max-saved-items 3000)
 
-;; ミニバッファの履歴を保存する
+;; ミニバッファの履歴を保存する
 (savehist-mode 1)
 
-;; ミニバッファの履歴の保存数を増やす
+;; ミニバッファの履歴の保存数を増やす
 (setq history-length 3000)
 
-;; バックアップを残さない
+;; バックアップを残さない
 (setq make-backup-files nil)
 
 ;; 行間
 (setq-default line-spacing 0)
 
-;; 1行ずつスクロール
+;; 1行ずつスクロール
 (setq scroll-conservatively 35
       scroll-margin 0
       scroll-step 1)
@@ -129,10 +129,10 @@
 ;; フレームの透明度
 (set-frame-parameter (selected-frame) 'alpha '(0.87))
 
-;; モードラインに行番号表示
+;; モードラインに行番号表示
 (line-number-mode t)
 
-;; モードラインに列番号表示
+;; モードラインに列番号表示
 (column-number-mode t)
 
 ;; Show paren
@@ -143,7 +143,7 @@
 
 ;; @ modeline
 
-;; モードラインの割合表示を総行数表示
+;; モードラインの割合表示を総行数表示
 (defvar my-lines-page-mode t)
 (defvar my-mode-line-format)
 
@@ -197,7 +197,7 @@
   ;; 自動的に有効にする
   (global-auto-complete-mode t)
   (ac-set-trigger-key "TAB")
-  ;; 補完メニュー表示時にC-n/C-pで補完候補選択
+  ;; 補完メニュー表示時にC-n/C-pで補完候補選択
   (setq ac-use-menu-map t)
   ;; 曖昧マッチ
   (setq ac-use-fuzzy t))
@@ -207,13 +207,52 @@
   :config
   (load-theme 'moe-dark t))
 
+;; @ company
+(use-package company
+  :config
+  ;; C-n, C-pで補完候補を選べるように
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  ;; C-hがデフォルトでドキュメント表示にmapされているので、文字を消せるようにmapを外す
+  (define-key company-active-map (kbd "C-h") nil)
+  ;; 1つしか候補がなかったらtabで補完、複数候補があればtabで次の候補へ行くように
+  (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+  ;; ドキュメント表示
+  (define-key company-active-map (kbd "M-d") 'company-show-doc-buffer)
+  ;; 1文字入力で補完されるように
+  (setq company-minimum-prefix-length 1)
+ ;; 候補の一番上でselect-previousしたら一番下に、一番下でselect-nextしたら一番上に行くように
+  (setq company-selection-wrap-around t)
+  ;; 色の設定
+  (set-face-attribute 'company-tooltip nil
+                      :foreground "black"
+                      :background "lightgray")
+  (set-face-attribute 'company-preview-common nil
+                      :foreground "dark gray"
+                      :background "black"
+                      :underline t)
+  (set-face-attribute 'company-tooltip-selection nil
+                      :background "steelblue"
+                      :foreground "white")
+  (set-face-attribute 'company-tooltip-common nil
+                      :foreground "black"
+                      :underline t)
+  (set-face-attribute 'company-tooltip-common-selection nil
+                      :foreground "white"
+                      :background "steelblue"
+                      :underline t)
+  (set-face-attribute 'company-tooltip-annotation nil
+                      :foreground "red"))
+
 ;; @ elscreen.el
 (use-package elscreen
   :config
-  ;; プレフィクスキーはC-t
+  ;; プレフィクスキーはC-t
   (setq elscreen-prefix-key (kbd "C-t"))
   (elscreen-start)
-  ;; タブの先頭に[X]を表示しない
+  ;; タブの先頭に[X]を表示しない
   (setq elscreen-tab-display-kill-screen nil)
   ;; header-lineの先頭に[<->]を表示しない
   (setq elscreen-tab-display-control nil))
@@ -234,7 +273,7 @@
   (define-key global-map (kbd "\C-x b") 'helm-mini))
 
 ;; @ maxframe.el
-;; 起動時にウィンドウ最大化
+;; 起動時にウィンドウ最大化
 (use-package maxframe
   :config
   (add-hook 'window-setup-hook 'maximize-frame t))
@@ -272,7 +311,7 @@
   (setq recentf-auto-cleanup 10)
   (defvar recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
   (recentf-mode 1)
-  ;; 起動画面で recentf を開く
+  ;; 起動画面で recentf を開く
   (add-hook 'after-init-hook (lambda()
                                (recentf-open-files)
                                ))
@@ -320,22 +359,53 @@
      (require 'go-autocomplete)
      (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
-;; @ JavaScript
-(use-package js2-mode :defer t
-  :mode ("\\.js\\'" "\\.jsx\\'"))
-
 ;; @ PHP
 (use-package php-mode)
 
+(defun my/setup-tide-mode ()
+  "Set up tide mode."
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; @ JavaScript
+(use-package js-mode
+  :mode ("\\.json$" . js-mode)
+  :init
+  (progn
+    (add-hook 'js-mode-hook (lambda () (defvar js-indent-level 2)))))
+
+(use-package js2-mode
+  :mode (("\\.js\\'" . js2-mode)
+         ("\\.jsx\\'" . js2-jsx-mode))
+  :interpreter ("node" . js2-mode)
+  :config
+  (progn
+    (add-hook 'js2-mode-hook #'my/setup-tide-mode)
+    (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
+    (add-hook 'js2-mode-hook (lambda ()
+                               (bind-key "M-j" 'join-line-or-lines-in-region js2-mode-map)))))
+
 ;; @ TypeScript
-(use-package typescript :defer t
+(use-package typescript
   :mode ("\\.ts\\'" . typescript-mode)
   :config
-  (use-package tss)
-  (custom-set-variables
-   '(tss-popup-help-key "C-:")
-   '(tss-jump-to-definition-key "C->")
-   '(tss-implement-definition-key "C-c i"))
-  (tss-config-default))
+  (setq typescript-indent-level 2)
+  (use-package ng2-mode)
+  (use-package tide
+    :config
+    ;; aligns annotation to the right hand side
+    (defvar company-tooltip-align-annotations t)
+    (progn
+      ;; formats the buffer before saving
+      (add-hook 'before-save-hook 'tide-format-before-save)
+      (add-hook 'typescript-mode-hook #'my/setup-tide-mode))))
 
 ;;; init.el ends here
