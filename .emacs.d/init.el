@@ -210,41 +210,26 @@
 ;; @ company
 (use-package company
   :config
-  ;; C-n, C-pで補完候補を選べるように
-  (define-key company-active-map (kbd "M-n") nil)
-  (define-key company-active-map (kbd "M-p") nil)
-  (define-key company-active-map (kbd "C-n") 'company-select-next)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous)
-  ;; C-hがデフォルトでドキュメント表示にmapされているので、文字を消せるようにmapを外す
-  (define-key company-active-map (kbd "C-h") nil)
-  ;; 1つしか候補がなかったらtabで補完、複数候補があればtabで次の候補へ行くように
-  (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
-  ;; ドキュメント表示
-  (define-key company-active-map (kbd "M-d") 'company-show-doc-buffer)
+  ;; C-n, C-pで補完候補を次/前の候補を選択
+  (bind-key "C-n" 'company-select-next company-active-map)
+  (bind-key "C-p" 'company-select-previous company-active-map)
+  (bind-key "C-n" 'company-select-next company-search-map)
+  (bind-key "C-p" 'company-select-previous company-search-map)
   ;; 1文字入力で補完されるように
   (setq company-minimum-prefix-length 1)
- ;; 候補の一番上でselect-previousしたら一番下に、一番下でselect-nextしたら一番上に行くように
+  ;; 候補の一番上でselect-previousしたら一番下に、一番下でselect-nextしたら一番上に行くように
   (setq company-selection-wrap-around t)
   ;; 色の設定
-  (set-face-attribute 'company-tooltip nil
-                      :foreground "black"
-                      :background "lightgray")
-  (set-face-attribute 'company-preview-common nil
-                      :foreground "dark gray"
-                      :background "black"
-                      :underline t)
-  (set-face-attribute 'company-tooltip-selection nil
-                      :background "steelblue"
-                      :foreground "white")
-  (set-face-attribute 'company-tooltip-common nil
-                      :foreground "black"
-                      :underline t)
-  (set-face-attribute 'company-tooltip-common-selection nil
-                      :foreground "white"
-                      :background "steelblue"
-                      :underline t)
-  (set-face-attribute 'company-tooltip-annotation nil
-                      :foreground "red"))
+  (copy-face 'popup-menu-face 'company-tooltip)
+  (copy-face 'popup-menu-face 'company-tooltip-common)
+  (copy-face 'popup-menu-selection-face 'company-tooltip-selection)
+  (copy-face 'popup-menu-selection-face 'company-tooltip-common-selection)
+  (copy-face 'popup-menu-summary-face 'company-tooltip-annotation)
+  (copy-face 'popup-menu-selection-face 'company-tooltip-annotation-selection)
+  (copy-face 'popup-scroll-bar-background-face 'company-scrollbar-bg)
+  (copy-face 'popup-scroll-bar-foreground-face 'company-scrollbar-fg)
+  (copy-face 'ac-completion-face 'company-preview)
+  (copy-face 'ac-completion-face 'company-preview-common))
 
 ;; @ elscreen.el
 (use-package elscreen
@@ -376,17 +361,11 @@
   (company-mode +1))
 
 ;; @ JavaScript
-(use-package js-mode
-  :mode ("\\.json$" . js-mode)
-  :init
-  (progn
-    (add-hook 'js-mode-hook (lambda () (defvar js-indent-level 2)))))
-
 (use-package js2-mode
   :mode (("\\.js\\'" . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter ("node" . js2-mode)
-  :config
+  :init
   (progn
     (add-hook 'js2-mode-hook #'my/setup-tide-mode)
     (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
@@ -396,16 +375,18 @@
 ;; @ TypeScript
 (use-package typescript
   :mode ("\\.ts\\'" . typescript-mode)
-  :config
+  :init
   (setq typescript-indent-level 2)
+  (progn
+    (add-hook 'typescript-mode-hook 'company-mode)
+    (add-hook 'typescript-mode-hook #'my/setup-tide-mode))
   (use-package ng2-mode)
   (use-package tide
-    :config
+    :init
     ;; aligns annotation to the right hand side
     (defvar company-tooltip-align-annotations t)
     (progn
       ;; formats the buffer before saving
-      (add-hook 'before-save-hook 'tide-format-before-save)
-      (add-hook 'typescript-mode-hook #'my/setup-tide-mode))))
+      (add-hook 'before-save-hook 'tide-format-before-save))))
 
 ;;; init.el ends here

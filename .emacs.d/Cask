@@ -29,18 +29,11 @@
 
 ;; prog modes
 (depends-on "go-mode")
-(depends-on "js-mode")
 (depends-on "js2-mode")
-(depends-on "json-mode")
-(depends-on "markdown-mode")
 (depends-on "ng2-mode")
 (depends-on "php-mode")
-(depends-on "ruby-mode")
-(depends-on "sass-mode")
 (depends-on "typescript-mode")
-(depends-on "tss")
-(depends-on "yaml-mode")
-(depends-on "web-mode")
+(depends-on "tide")
 
 (depends-on "php-completion"
         :git "https://github.com/suzuki/php-completion.git"
