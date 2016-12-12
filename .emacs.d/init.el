@@ -141,6 +141,12 @@
 ;; White space
 (setq-default show-trailing-whitespace t)
 
+;; ffapでワイルドカードを指定するとdiredを開くようにする
+(setq ffap-pass-wildcards-to-dired t)
+
+;; C-x C-fなどをffap関係のコマンドに割り当てる
+(ffap-bindings)
+
 ;; @ modeline
 
 ;; モードラインの割合表示を総行数表示
@@ -191,9 +197,8 @@
 
 ;; @ auto-complete.el
 (use-package auto-complete
+  :defer t
   :config
-  (use-package auto-complete-config)
-  (ac-config-default)
   ;; 自動的に有効にする
   (global-auto-complete-mode t)
   (ac-set-trigger-key "TAB")
@@ -201,6 +206,10 @@
   (setq ac-use-menu-map t)
   ;; 曖昧マッチ
   (setq ac-use-fuzzy t))
+(use-package auto-complete-config
+  :defer t
+  :config
+  (ac-config-default))
 
 ;; @ color theme
 (use-package moe-theme
@@ -209,6 +218,7 @@
 
 ;; @ company
 (use-package company
+  :defer t
   :config
   ;; C-n, C-pで補完候補を次/前の候補を選択
   (bind-key "C-n" 'company-select-next company-active-map)
@@ -220,19 +230,24 @@
   ;; 候補の一番上でselect-previousしたら一番下に、一番下でselect-nextしたら一番上に行くように
   (setq company-selection-wrap-around t)
   ;; 色の設定
-  (copy-face 'popup-menu-face 'company-tooltip)
-  (copy-face 'popup-menu-face 'company-tooltip-common)
-  (copy-face 'popup-menu-selection-face 'company-tooltip-selection)
-  (copy-face 'popup-menu-selection-face 'company-tooltip-common-selection)
-  (copy-face 'popup-menu-summary-face 'company-tooltip-annotation)
-  (copy-face 'popup-menu-selection-face 'company-tooltip-annotation-selection)
-  (copy-face 'popup-scroll-bar-background-face 'company-scrollbar-bg)
-  (copy-face 'popup-scroll-bar-foreground-face 'company-scrollbar-fg)
-  (copy-face 'ac-completion-face 'company-preview)
-  (copy-face 'ac-completion-face 'company-preview-common))
+  (set-face-attribute 'company-tooltip nil
+                      :foreground "black" :background "lightgrey")
+  (set-face-attribute 'company-tooltip-common nil
+                      :foreground "black" :background "lightgrey")
+  (set-face-attribute 'company-tooltip-common-selection nil
+                      :foreground "white" :background "steelblue")
+  (set-face-attribute 'company-tooltip-selection nil
+                      :foreground "black" :background "steelblue")
+  (set-face-attribute 'company-preview-common nil
+                      :background nil :foreground "lightgrey" :underline t)
+  (set-face-attribute 'company-scrollbar-fg nil
+                      :background "orange")
+  (set-face-attribute 'company-scrollbar-bg nil
+                      :background "gray40"))
 
 ;; @ elscreen.el
 (use-package elscreen
+  :defer t
   :config
   ;; プレフィクスキーはC-t
   (setq elscreen-prefix-key (kbd "C-t"))
@@ -244,18 +259,21 @@
 
 ;; @ flycheck.el
 (use-package flycheck
+  :defer t
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;; @ git-gutter.el
 (use-package git-gutter
+  :defer t
   :config
   (global-git-gutter-mode +1))
 
 ;; @ helm.el
 (use-package helm-config
-  :config
-  (define-key global-map (kbd "\C-x b") 'helm-mini))
+  :defer t
+  :init
+  (bind-key "C-x b" 'helm-mini))
 
 ;; @ maxframe.el
 ;; 起動時にウィンドウ最大化
@@ -264,10 +282,11 @@
   (add-hook 'window-setup-hook 'maximize-frame t))
 
 ;; @ neotree.el
-(use-package neotree)
+(use-package neotree :defer t)
 
 ;; @ popwin.el
 (use-package popwin
+  :defer t
   :config
   (popwin-mode 1))
 
@@ -290,27 +309,30 @@
 
 ;; @ recentf-ext.el
 (use-package recentf-ext
+  :defer t
+  :init
+  ;; 起動画面で recentf を開く
+  (add-hook 'after-init-hook (lambda()
+                               (recentf-open-files)
+                               ))
+  (bind-key "C-x C-r" 'recentf-open-files)
   :config
   (setq recentf-max-saved-items 2000)
   (setq recentf-exclude '(".recentf"))
   (setq recentf-auto-cleanup 10)
   (defvar recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
-  (recentf-mode 1)
-  ;; 起動画面で recentf を開く
-  (add-hook 'after-init-hook (lambda()
-                               (recentf-open-files)
-                               ))
-  (global-set-key (kbd "C-x C-r") 'recentf-open-files))
+  (recentf-mode 1))
 
 
 ;; @ redo+.el
-;; http://www.emacswiki.org/emacs/redo+.el
 (use-package redo+
+  :defer t
   :config
   (define-key global-map (kbd "C-_") 'redo))
 
 ;; @ zlc.el
 (use-package zlc
+  :defer t
   :config
   (zlc-mode t)
   (let ((map minibuffer-local-map))
@@ -345,7 +367,7 @@
      (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
 ;; @ PHP
-(use-package php-mode)
+(use-package php-mode :defer t)
 
 (defun my/setup-tide-mode ()
   "Set up tide mode."
@@ -362,6 +384,7 @@
 
 ;; @ JavaScript
 (use-package js2-mode
+  :defer t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter ("node" . js2-mode)
@@ -374,19 +397,26 @@
 
 ;; @ TypeScript
 (use-package typescript
+  :defer t
   :mode ("\\.ts\\'" . typescript-mode)
   :init
-  (setq typescript-indent-level 2)
+  (defvar typescript-indent-level 2)
   (progn
     (add-hook 'typescript-mode-hook 'company-mode)
-    (add-hook 'typescript-mode-hook #'my/setup-tide-mode))
-  (use-package ng2-mode)
-  (use-package tide
-    :init
-    ;; aligns annotation to the right hand side
-    (defvar company-tooltip-align-annotations t)
-    (progn
-      ;; formats the buffer before saving
-      (add-hook 'before-save-hook 'tide-format-before-save))))
+    (add-hook 'typescript-mode-hook #'my/setup-tide-mode)))
+
+(use-package ng2-mode
+  :defer t
+  :if (locate-library "typescript"))
+
+(use-package tide
+  :defer t
+  :if (locate-library "typescript")
+  :init
+  ;; aligns annotation to the right hand side
+  (defvar company-tooltip-align-annotations t)
+  (progn
+    ;; formats the buffer before saving
+    (add-hook 'before-save-hook 'tide-format-before-save)))
 
 ;;; init.el ends here
