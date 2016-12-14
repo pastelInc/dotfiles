@@ -247,27 +247,22 @@
 
 ;; @ elscreen.el
 (use-package elscreen
-  :defer t
   :config
   ;; プレフィクスキーはC-t
-  (setq elscreen-prefix-key (kbd "C-t"))
-  (elscreen-start)
+  (defvar elscreen-prefix-key (kbd "C-t"))
   ;; タブの先頭に[X]を表示しない
-  (setq elscreen-tab-display-kill-screen nil)
+  (defvar elscreen-tab-display-kill-screen nil)
   ;; header-lineの先頭に[<->]を表示しない
-  (setq elscreen-tab-display-control nil))
+  (defvar elscreen-tab-display-control nil)
+  (elscreen-start))
 
 ;; @ flycheck.el
 (use-package flycheck
-  :defer t
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+    :ensure t
+    :init (global-flycheck-mode))
 
 ;; @ git-gutter.el
-(use-package git-gutter
-  :defer t
-  :config
-  (global-git-gutter-mode +1))
+(use-package git-gutter :defer t)
 
 ;; @ helm.el
 (use-package helm-config
@@ -290,7 +285,7 @@
   :config
   (popwin-mode 1))
 
-;; @ powerline.el
+;; @ powerline.ela
 (use-package powerline
   :config
   (set-face-attribute 'mode-line nil
@@ -327,8 +322,8 @@
 ;; @ redo+.el
 (use-package redo+
   :defer t
-  :config
-  (define-key global-map (kbd "C-_") 'redo))
+  :init
+  (bind-key "C-_" 'redo))
 
 ;; @ zlc.el
 (use-package zlc
@@ -336,35 +331,45 @@
   :config
   (zlc-mode t)
   (let ((map minibuffer-local-map))
-    (define-key map (kbd "<down>")  'zlc-select-next-vertical)
-    (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
-    (define-key map (kbd "<right>") 'zlc-select-next)
-    (define-key map (kbd "<left>")  'zlc-select-previous)
+    (bind-key "<down>"  'zlc-select-next-vertical map)
+    (bind-key "<up>" 'zlc-select-previous-vertical map)
+    (bind-key "<right>" 'zlc-select-next map)
+    (bind-key "<left>" 'zlc-select-previous map)
+    (bind-key "C-c" 'zlc-reset map)))
 
-    (define-key map (kbd "C-c") 'zlc-reset)
-    ))
-
-;;  @ golang
-;;(add-to-list 'exec-path (expand-file-name "/usr/local/opt/go/libexec/bin"))
+;; @ golang
+;; (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
-(add-hook 'go-mode-hook
-          (lambda ()
-            ;; GOROOT, GOPATH環境変数の読み込み
-            (let ((envs '("GOROOT" "GOPATH")))
-              (exec-path-from-shell-copy-envs envs))
-            (setq-default)
-            ;; indentの設定
-            (setq tab-width 2)
-            (setq standard-indent 2)
-            (setq indent-tabs-mode nil)
-            ;; godef keybind
-            (local-set-key (kbd "M-.") 'godef-jump)
-            (local-set-key (kbd "M-,") 'pop-tag-mark)
-            ))
-(eval-after-load "go-mode"
-  '(progn
-     (require 'go-autocomplete)
-     (add-hook 'go-mode-hook 'go-eldoc-setup)))
+
+(use-package go-mode
+  :defer t
+  :config
+  (setq gofmt-command "goimports")
+  (bind-keys :map go-mode-map
+         ("M-." . godef-jump)
+         ("M-," . pop-tag-mark))
+  (add-hook 'go-mode-hook 'flycheck-mode)
+  (add-hook 'go-mode-hook '(lambda ()
+                             (setq tab-width 2)
+                             ;; GOROOT, GOPATH環境変数の読み込み
+                             (let ((envs '("GOROOT" "GOPATH")))
+                               (exec-path-from-shell-copy-envs envs))
+                             (setq-default)
+                             ;; indentの設定
+                             (setq tab-width 2)
+                             (setq standard-indent 2)
+                             (setq indent-tabs-mode nil)))
+  (add-hook 'before-save-hook 'gofmt-before-save))
+
+(use-package go-autocomplete :ensure t)
+
+(use-package go-eldoc
+  :config
+  (add-hook 'go-mode-hook 'go-eldoc-setup))
+
+(use-package go-autocomplete
+  :defer t
+  :if (locate-library "go-mode"))
 
 ;; @ PHP
 (use-package php-mode :defer t)
@@ -388,7 +393,7 @@
   :mode (("\\.js\\'" . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter ("node" . js2-mode)
-  :init
+  :config
   (progn
     (add-hook 'js2-mode-hook #'my/setup-tide-mode)
     (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
@@ -399,7 +404,7 @@
 (use-package typescript
   :defer t
   :mode ("\\.ts\\'" . typescript-mode)
-  :init
+  :config
   (defvar typescript-indent-level 2)
   (progn
     (add-hook 'typescript-mode-hook 'company-mode)
@@ -412,7 +417,7 @@
 (use-package tide
   :defer t
   :if (locate-library "typescript")
-  :init
+  :config
   ;; aligns annotation to the right hand side
   (defvar company-tooltip-align-annotations t)
   (progn

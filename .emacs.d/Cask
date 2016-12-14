@@ -33,7 +33,6 @@
 (depends-on "ng2-mode")
 (depends-on "php-mode")
 (depends-on "typescript-mode")
-(depends-on "tide")
 
 (depends-on "php-completion"
         :git "https://github.com/suzuki/php-completion.git"
@@ -41,3 +40,6 @@
         :files ("*.el" "phpcmp-index-of-*"))
 
 (depends-on "go-autocomplete")
+(depends-on "go-eldoc")
+
+(depends-on "tide")
