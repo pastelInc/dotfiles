@@ -142,7 +142,7 @@
 (setq-default show-trailing-whitespace t)
 
 ;; ffapでワイルドカードを指定するとdiredを開くようにする
-(setq ffap-pass-wildcards-to-dired t)
+(defvar ffap-pass-wildcards-to-dired t)
 
 ;; C-x C-fなどをffap関係のコマンドに割り当てる
 (ffap-bindings)
@@ -249,11 +249,11 @@
 (use-package elscreen
   :config
   ;; プレフィクスキーはC-t
-  (defvar elscreen-prefix-key (kbd "C-t"))
+  (setq elscreen-prefix-key (kbd "C-t"))
   ;; タブの先頭に[X]を表示しない
-  (defvar elscreen-tab-display-kill-screen nil)
+  (setq elscreen-tab-display-kill-screen nil)
   ;; header-lineの先頭に[<->]を表示しない
-  (defvar elscreen-tab-display-control nil)
+  (setq elscreen-tab-display-control nil)
   (elscreen-start))
 
 ;; @ flycheck.el
@@ -321,13 +321,11 @@
 
 ;; @ redo+.el
 (use-package redo+
-  :defer t
-  :init
+  :config
   (bind-key "C-_" 'redo))
 
 ;; @ zlc.el
 (use-package zlc
-  :defer t
   :config
   (zlc-mode t)
   (let ((map minibuffer-local-map))
