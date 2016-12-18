@@ -7,15 +7,12 @@ fi
 # Essential
 source ~/.zplug/init.zsh
 
-zplug "lib/theme-and-appearance", from:oh-my-zsh
-zplug "plugins/common-aliases", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/docker-compose", from:oh-my-zsh
-zplug "plugins/git", from:oh-my-zsh
-zplug "themes/cloud", from:oh-my-zsh, as:theme, nice:10
+# Async for zsh, used by pure
+zplug "mafredri/zsh-async", from:github, defer:0
+zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "zsh-users/zsh-syntax-highlighting"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -32,4 +29,3 @@ zplug load --verbose
 
 # Settings for phpbrew
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
-
