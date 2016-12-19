@@ -1,9 +1,6 @@
 # NOTE: set fpath before compinit
 typeset -gx -U fpath
-fpath=( \
-    /usr/local/share/zsh/site-functions(N-/) \
-    $fpath \
-    )
+fpath=( /usr/local/share/zsh/site-functions(N-/) $fpath )
 
 # autoload
 autoload -Uz run-help
@@ -69,14 +66,9 @@ export CORRECT_IGNORE_FILE='.*'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export WORDCHARS='*?.[]~&;!#$%^(){}<>'
 
-# History file and its size
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=1000000
-export SAVEHIST=1000000
-
 # History
 # History file
-export HISTFILE=~/.zsh_history
+export HISTFILE="$HOME/.zsh_history"
 # History size in memory
 export HISTSIZE=10000
 # The number of histsize
@@ -88,4 +80,3 @@ if [[ $UID == 0 ]]; then
     unset HISTFILE
     export SAVEHIST=0
 fi
-
