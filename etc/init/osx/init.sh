@@ -14,12 +14,3 @@ fi
 if [ ! -d ~/.nodebrew ]; then
     curl -L git.io/nodebrew | perl - setup
 fi
-
-# phpbrew
-if [ ! -d ~/.phpbrew ]; then
-  curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
-  chmod +x phpbrew
-  mv phpbrew ~/bin
-  phpbrew init
-  phpbrew lookup-prefix homebrew
-fi
