@@ -23,4 +23,3 @@ if [ ! -d ~/.phpbrew ]; then
   phpbrew init
   phpbrew lookup-prefix homebrew
 fi
-

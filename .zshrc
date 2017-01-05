@@ -5,7 +5,7 @@ if [[ ! -d ~/.zplug ]]; then
 fi
 
 # optionally define some options
-PURE_PROMPT_SYMBOL=">"
+# PURE_PROMPT_SYMBOL=">"
 
 # Essential
 source ~/.zplug/init.zsh

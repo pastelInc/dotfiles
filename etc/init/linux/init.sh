@@ -17,4 +17,3 @@ if [ ! -d ~/.phpbrew ]; then
   mv phpbrew ~/bin
   phpbrew init
 fi
-
