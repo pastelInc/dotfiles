@@ -10,9 +10,7 @@ PURE_PROMPT_SYMBOL=">"
 # Essential
 source ~/.zplug/init.zsh
 
-# Async for zsh, used by pure
-zplug "mafredri/zsh-async", from:github, defer:0
-zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+zplug "sindresorhus/pure", use:"*.zsh", as:theme
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting"
