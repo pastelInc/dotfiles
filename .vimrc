@@ -25,24 +25,11 @@ NeoBundle 'Shougo/vimproc.vim', {
 NeoBundle 'https://github.com/flazz/vim-colorschemes.git'
 NeoBundle 'https://github.com/scrooloose/syntastic'
 NeoBundle 'https://github.com/Shougo/unite.vim'
-NeoBundle 'https://github.com/Shougo/vimfiler'
-NeoBundle 'https://github.com/Shougo/vinarise'
-NeoBundle 'https://github.com/Shougo/neosnippet'
-NeoBundle 'https://github.com/Shougo/neosnippet-snippets'
-NeoBundle 'https://github.com/thinca/vim-template'
 NeoBundle 'https://github.com/ujihisa/unite-colorscheme'
-NeoBundle 'https://github.com/vim-scripts/surround.vim'
-NeoBundle 'https://github.com/vim-scripts/sudo.vim'
 NeoBundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
 NeoBundle 'https://github.com/bronson/vim-trailing-whitespace.git'
 NeoBundle 'https://github.com/elzr/vim-json.git'
 NeoBundle 'https://github.com/pangloss/vim-javascript.git'
-NeoBundle 'https://github.com/rust-lang/rust.vim'
-NeoBundle 'https://github.com/mxw/vim-jsx'
-NeoBundle 'https://github.com/leafgarland/typescript-vim'
-if has('python')
-    " NeoBundle "https://github.com/klen/python-mode"
-endif
 if has('lua')
     NeoBundle 'https://github.com/Shougo/neocomplete'
 endif
@@ -75,18 +62,9 @@ if has('lua')
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 endif
 
-
-" neosnippet settings
-set completeopt-=preview
-let g:neosnippet#snippets_directory = '~/.vim/snippets'
-let g:neosnippet#disable_runtime_snippets = {'javascript': 1}
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
 filetype plugin indent on
 syntax on
-colorscheme twilight256
+colorscheme default
 set list
 set listchars=eol:$,tab:>\
 set number
@@ -97,47 +75,16 @@ set autoindent
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-set backspace=start,indent
+set backspace=eol,start,indent
 set scrolloff=20
 
 if exists('&ambiwidth')
     set ambiwidth=double
 endif
 
-" encoding settings
-" source ~/dotfiles/encode.vim
-
 " statusline settings
 set laststatus=2
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
-
-" Python setting
-let g:pymode_doc = 0
-let g:pymode_folding = 0
-let g:pymode_run = 0
-let g:pymode_lint = 0
-let g:pymode_syntax_print_as_function = 1
-let g:pymode_rope_sorted_completions = 0
-let g:pymode_rope_extended_complete = 0
-let g:pymode_rope_vim_completion = 0
-
-" OCaml setting
-
-" C++ settings
-autocmd Filetype c,cpp,cu set cindent
-
-" case
-set smartcase
-
-" nobackup
-set nowritebackup
-set nobackup
-set noswapfile
-set noundofile
-
-" hlsearch
-set hlsearch
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " unite.vim setting
 let g:unite_enable_start_insert=0
@@ -166,41 +113,16 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 nnoremap <silent> ,h :<C-u>VimShell<CR>
 nnoremap <silent> H :<C-u>vne<CR>:<C-u>VimShell<CR>
 
-" VimFiler settings
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default = 0
-let g:vimfiler_directory_display_top = 0
-let g:vimfiler_ignore_pattern = '^\%(.git\|.DS_Store\)$'
-nnoremap <silent> ,f :<C-u>VimFilerBufferDir -create -quit <CR>
-nnoremap <silent> ,F :<C-u>VimFilerBufferDir -create -split -quit<CR>
-
 " tab setting
 nnoremap <silent> <C-t> :tabe<CR>
-
-" VimShell settings
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-if has('win32') || has('win64')
-  let g:vimshell_prompt = $USERNAME."% "
-else
-  let g:vimshell_prompt = $USER."% "
-endif
-let g:vimshell_interactive_update_time = 300
 
 " syntastic settings
 let g:syntastic_check_on_open = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': ['python', 'ocaml', 'javascript', 'coffee', 'php'],
-                           \ 'passive_filetypes': ['html', 'rst', 'latex'] }
+                           \ 'active_filetypes': ['python', 'javascript', 'php'],
+                           \ 'passive_filetypes': ['html'] }
 nnoremap <silent> ,s :<C-u>SyntasticToggleMode<CR>
-
-" syntastic c++ settings
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_remove_include_errors = 1
-let g:syntastic_cpp_compiler_options = ' -std=c++0x -stdlib=libc++'
-if executable('clang++')
-    let g:syntastic_cpp_compiler = 'clang++'
-endif
 
 " syntastic javascript settings
 let g:syntastic_javascript_checkers = ['standard']
@@ -208,7 +130,6 @@ let g:syntastic_javascript_checkers = ['standard']
 " syntastic typescript settings
 "let g:syntastic_typescript_tsc_args = '-t ES5 --noImplicitAny'
 let g:syntastic_typescript_tsc_args = '-t ES5 --module commonjs'
-
 
 " 行末の空白文字を可視化
 highlight WhitespaceEOL cterm=underline ctermbg=red guibg=#ff0000
@@ -220,12 +141,8 @@ highlight ZenkakuSpace cterm=underline ctermbg=red guibg=#666666
 au BufWinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
 au WinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
 
-" crontabファイルの編集
-autocmd BufRead /tmp/crontab.* :set nobackup nowritebackup
-
 " indent-guides
 let g:indent_guides_enable_on_vim_startup = 1
-
 
 " spell check
 set spelllang=en,cjk
