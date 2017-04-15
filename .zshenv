@@ -48,9 +48,6 @@ export PATH="/usr/local/sbin:$PATH"
 # Add ~/bin to PATH
 export PATH="$HOME/bin:$PATH"
 
-# Add the cask binary to PATH
-export PATH="$HOME/.cask/bin:$PATH"
-
 # Settings for nodebrew
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
