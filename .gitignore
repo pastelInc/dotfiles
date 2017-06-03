@@ -3,3 +3,4 @@
 .emacs.d.bak/*
 !.emacs.d.bak/init.el
 !.emacs.d.bak/Cask
+.vscode/

@@ -4,9 +4,6 @@ if [[ ! -d ~/.zplug ]]; then
     source ~/.zplug/init.zsh && zplug update --self
 fi
 
-# optionally define some options
-# PURE_PROMPT_SYMBOL=">"
-
 # Essential
 source ~/.zplug/init.zsh
 
@@ -14,7 +11,11 @@ zplug "sindresorhus/pure", use:"*.zsh", as:theme
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting"
-zplug "~/.zsh", from:local
+
+# Supports oh-my-zsh plugins and the like
+zplug "plugins/git",   from:oh-my-zsh
+zplug "plugins/common-aliases",   from:oh-my-zsh
+zplug "plugins/emacs",   from:oh-my-zsh
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
