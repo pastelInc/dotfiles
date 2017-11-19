@@ -32,3 +32,6 @@ zplug load --verbose
 
 # Settings for phpbrew
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
+
+# Settings for rbenv
+[[ -e ~/.rbenv ]] && eval "$(rbenv init -)"
