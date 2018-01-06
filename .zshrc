@@ -35,3 +35,6 @@ zplug load --verbose
 
 # Settings for rbenv
 [[ -e ~/.rbenv ]] && eval "$(rbenv init -)"
+
+# Emacs daemon killing command
+alias ekill='emacsclient -e "(kill-emacs)"'
