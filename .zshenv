@@ -45,6 +45,9 @@ setopt no_global_rcs
 # Add executables in /usr/local/sbin
 export PATH="/usr/local/sbin:$PATH"
 
+# Add executables in /usr/local/bin
+export PATH="/usr/local/bin:$PATH"
+
 # Add ~/bin to PATH
 export PATH="$HOME/bin:$PATH"
 
@@ -55,6 +58,12 @@ export PATH="$HOME/.nodebrew/current/bin:$PATH"
 export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
 export PATH="$GOBIN:$PATH"
+
+# Settings for pyenv
+export PATH="$HOME/.pyenv/shims:$PATH"
+
+# Add Visual Studio Code (code)
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # declare the environment variables
 export CORRECT_IGNORE='_*'
