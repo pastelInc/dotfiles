@@ -4,3 +4,5 @@
 !.emacs.d.bak/init.el
 !.emacs.d.bak/Cask
 .vscode/
+.vim
+bin/*

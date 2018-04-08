@@ -40,27 +40,28 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
+# Don't load default zshrc
 setopt no_global_rcs
 
-# Add executables in /usr/local/sbin
-export PATH="/usr/local/sbin:$PATH"
-
-# Add executables in /usr/local/bin
-export PATH="/usr/local/bin:$PATH"
-
-# Add ~/bin to PATH
-export PATH="$HOME/bin:$PATH"
+# Added by path_helper (ex: cat /etc/paths)
+export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 # Settings for nodebrew
-export PATH="$HOME/.nodebrew/current/bin:$PATH"
+export PATH="$PATH:$HOME/.nodebrew/current/bin"
 
 # Settings for golang
 export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
-export PATH="$GOBIN:$PATH"
+export PATH="$PATH:$GOBIN"
+
+# Settings for python
+export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # Settings for pyenv
 export PATH="$HOME/.pyenv/shims:$PATH"
+
+# Settings for rbenv
+export PATH="$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/shims"
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
