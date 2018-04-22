@@ -1,8 +1,12 @@
 .DS_Store
-!.emacs.d.bak/
 .emacs.d.bak/*
 !.emacs.d.bak/init.el
 !.emacs.d.bak/Cask
 .vscode/
+.config/*
+!.config/nvim
+.config/nvim/*
+!.config/nvim/init.vim
+!.config/nvim/ftplugin
 .vim
 bin/*

@@ -320,59 +320,12 @@ you should place your code here."
   (setq dired-use-ls-dired nil)
 
   (setq-default
-   ;; js2-mode
+   ;; javascript indent
    js2-basic-offset 2
-   ;; web-mode
-   css-indent-offset 2
-   web-mode-markup-indent-offset 2
-   web-mode-css-indent-offset 2
-   web-mode-code-indent-offset 2
-   web-mode-attr-indent-offset 2)
-
-  (with-eval-after-load 'web-mode
-    (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
-    (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
-    (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
-
-  (defun setup-typescript-mode ()
-    (setq typescript-indent-level 2))
-  (add-hook 'typescript-mode-hook  'setup-typescript-mode)
-
-  (defun setup-js-mode ()
-    (setq js-indent-level 2))
-  (add-hook 'js-mode-hook  'setup-js-mode)
-
-  (defun setup-js2-mode ()
-    (setq js2-basic-offset 2)
-    (setq js2-include-browser-externs nil)
-    (setq js2-mode-show-parse-errors nil)
-    (setq js2-mode-show-strict-warnings nil)
-    (setq js2-highlight-external-variables nil)
-    (setq js2-include-jslint-globals nil))
-  (add-hook 'js2-mode-hook  'setup-js2-mode)
-
-  (defun setup-web-mode ()
-    (setq web-mode-markup-indent-offset 2)
-    (setq web-mode-code-indent-offset 2)
-    (setq web-mode-css-indent-offset 2))
-  (add-hook 'web-mode-hook  'setup-web-mode)
-
-  (defun setup-tide-mode ()
-    (interactive)
-    (tide-setup)
-    (flycheck-mode +1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
-    (tide-hl-identifier-mode +1)
-    ;; company is an optional dependency. You have to
-    ;; install it separately via package-install
-    ;; `M-x package-install [ret] company`
-    (company-mode +1)
-    ;; aligns annotation to the right hand side
-    (setq company-tooltip-align-annotations t)
-    ;; sets format options
-    (setq tide-format-options '(:indentSize 2 :tabSize 2)))
-  (add-hook 'typescript-mode-hook 'setup-tide-mode)
+   ;; json indent
+   js-indent-level 4
+   ;; typescript indent
+   typescript-indent-level 2)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

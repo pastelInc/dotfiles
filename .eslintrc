@@ -6,6 +6,7 @@
   "plugins": [
     "react"
   ],
+  "root": true,
   "rules": {
     "react/jsx-uses-vars": 1
   }
