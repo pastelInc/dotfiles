@@ -46,7 +46,6 @@ Plug 'majutsushi/tagbar'
 Plug 'scrooloose/syntastic'
 Plug 'Yggdroot/indentLine'
 Plug 'avelino/vim-bootstrap-updater'
-Plug 'sheerun/vim-polyglot'
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
@@ -84,6 +83,8 @@ Plug 'tomasr/molokai'
 " elm
 "" Elm Bundle
 Plug 'elmcast/elm-vim'
+"" Fix https://github.com/ElmCast/elm-vim/issues/133
+Plug 'sheerun/vim-polyglot'
 
 
 " html
