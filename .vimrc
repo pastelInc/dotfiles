@@ -82,7 +82,7 @@ Plug 'tomasr/molokai'
 
 " elm
 "" Elm Bundle
-Plug 'elmcast/elm-vi'
+Plug 'elmcast/elm-vim'
 "" Fix https://github.com/ElmCast/elm-vim/issues/133
 Plug 'sheerun/vim-polyglot'
 
