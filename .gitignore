@@ -1,4 +1,5 @@
 .DS_Store
+.emacs.d/elpa
 .emacs.d.bak/*
 !.emacs.d.bak/init.el
 !.emacs.d.bak/Cask
