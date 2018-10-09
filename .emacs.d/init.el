@@ -158,7 +158,12 @@
   (message "`use-package' is unavailable!  Please install it via `M-x list-packages' if possible.")
   (defmacro use-package (&rest args)))
 
-(use-package helm-config)
+;; Helm
+(use-package helm
+  :defer t
+  :ensure t
+  :init
+  (require 'helm-config))
 
 ;; JavaScript
 (use-package js2-mode
