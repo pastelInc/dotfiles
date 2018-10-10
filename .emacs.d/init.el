@@ -161,15 +161,68 @@
 (use-package helm
   :defer t
   :ensure t
-  :init
+  :config
   (require 'helm-config))
 
-;; AutoComplete
+(use-package helm-descbinds
+  :defer t
+  :ensure t
+  :after helm
+  :config
+  (helm-descbinds-mode))
+
+;; Auto Complete
 (when (require 'auto-complete-config nil t)
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   (ac-config-default)
   (setq ac-use-menu-map t)
   (setq ac-ignore-case nil))
+
+;; Flycheck
+(use-package flycheck
+  :defer t
+  :ensure t
+  :init (global-flycheck-mode))
+
+(use-package flycheck-elm
+  :defer t
+  :ensure t
+  :after flycheck
+  :hook (flycheck-mode . my/flycheck-mode-hook))
+
+(defun my/flycheck-mode-hook ()
+  "Hooks for flycheck mode."
+  (flycheck-elm-setup))
+
+;; Company
+(use-package company
+  :defer t
+  :ensure t)
+
+(use-package company-quickhelp
+  :defer t
+  :ensure t
+  :after company)
+
+;; projectile
+(when (require 'projectile nil t)
+  ;;自動的にプロジェクト管理を開始
+  (projectile-mode)
+  ;; プロジェクト管理から除外するディレクトリを追加
+  (add-to-list
+    'projectile-globally-ignored-directories
+    "node_modules")
+  ;; プロジェクト情報をキャッシュする
+  (setq projectile-enable-caching t))
+
+;; projectileのプレフィックスキーをs-pに変更
+(define-key projectile-mode-map
+  (kbd "s-p") 'projectile-command-map)
+
+;; Fuzzyマッチを無効にする。
+;; (setq helm-projectile-fuzzy-match nil)
+(when (require 'helm-projectile nil t)
+  (setq projectile-completion-system 'helm))
 
 ;; @lang
 
@@ -188,7 +241,7 @@
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
   ;; web-modeのインデント設定用フック
   (defun my/web-mode-hook ()
-    "Hooks for Web mode."
+    "Hooks for web mode."
     (setq web-mode-markup-indent-offset 2) ; HTMLのインデイント
     (setq web-mode-css-indent-offset 2) ; CSSのインデント
     (setq web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
@@ -209,38 +262,46 @@
 (use-package js2-mode
   :defer t
   :ensure t
-  :hook ((js2-mode . my/js2-mode-hook))
+  :hook (js2-mode . my/js2-mode-hook)
   :mode ("\\.js\\'"))
 
 (defun my/js2-mode-hook ()
-  (setq tab-width 2))
+  "Hooks for js2 mode."
+  (setq js-indent-level 2))
 
-;; JSX
+;; React
 (use-package rjsx-mode
   :defer t
   :ensure t
-  :hook ((rjsx-mode . my/rjsx-mode-hook))
+  :hook (rjsx-mode . my/rjsx-mode-hook)
   :mode ("\\.jsx\\'"))
 
 (defun my/rjsx-mode-hook ()
+  "Hooks for rjsx mode."
   (setq tab-width 2))
 
 ;; TypeScript
 (use-package typescript-mode
   :defer t
   :ensure t
-  :hook ((typescript-mode . my/typescript-mode-hook))
+  :hook (typescript-mode . my/typescript-mode-hook)
   :mode ("\\.ts\\'" . typescript-mode))
 
 (defun my/typescript-mode-hook ()
-  (setq tab-width 2))
+  "Hooks for typescript mode."
+  (setq typescript-indent-level 2))
 
 ;; Elm
 (use-package elm-mode
   :defer t
   :ensure t
-  :hook ((elm-mode . my/elm-mode-hook))
+  :hook (elm-mode . my/elm-mode-hook)
   :mode ("\\.elm\\'" . elm-mode))
 
 (defun my/elm-mode-hook ()
-  (setq tab-width 4))
+  "Hooks for elm mode."
+  ;; (company-mode)
+  ;; (company-quickhelp-mode)
+  ;; (elm-oracle-setup-completion)
+  ;; (add-to-list 'company-backends 'company-elm)
+  (setq elm-format-on-save t))
