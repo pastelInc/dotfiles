@@ -54,6 +54,12 @@ flycheck_*.el
 # Network Security
 network-security.data
 
+# Recent Files
+recentf
+
+# ac-comphist-file
+ac-comphist.dat
+
 ### macOS ###
 # General
 .DS_Store

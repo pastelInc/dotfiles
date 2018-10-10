@@ -41,15 +41,14 @@
 ;;                     :family "Consolas"
 ;;                     :height 120)
 
-(when window-system
-  ;; ツールバー非表示
-  (when (fboundp 'tool-bar-mode) (tool-bar-mode 0))
-  ;; メニューバーを非表示
-  (when (fboundp 'menu-bar-mode) (menu-bar-mode 0)))
+;; ツールバー非表示
+(when (fboundp 'tool-bar-mode) (tool-bar-mode 0))
+;; メニューバーを非表示
+(when (fboundp 'menu-bar-mode) (menu-bar-mode 0))
 
-(unless (eq window-system 'ns)
-  ;; メニューバーを非表示
-  (when (fboundp 'menu-bar-mode) (menu-bar-mode 0)))
+;; (unless (eq window-system 'ns)
+;;   ;; メニューバーを非表示
+;;   (when (fboundp 'menu-bar-mode) (menu-bar-mode 0)))
 
 ;; タイトルバーにファイルのフルパス表示
 (setq frame-title-format "%f")
@@ -103,7 +102,7 @@
 (setq show-paren-style 'expression)
 ;; フェイスを変更する
 (set-face-attribute 'show-paren-match nil
-      :background nil
+      :background 'unspecified
       :underline "darkgreen")
 
 ;; 行末の空白を強調表示
@@ -165,27 +164,66 @@
   :init
   (require 'helm-config))
 
+;; AutoComplete
+(when (require 'auto-complete-config nil t)
+  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+  (ac-config-default)
+  (setq ac-use-menu-map t)
+  (setq ac-ignore-case nil))
+
+;; @lang
+
+;; Web
+(when (require 'web-mode nil t)
+  ;; 自動的にweb-modeを起動したい拡張子を追加する
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.ctp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  ;; web-modeのインデント設定用フック
+  (defun my/web-mode-hook ()
+    "Hooks for Web mode."
+    (setq web-mode-markup-indent-offset 2) ; HTMLのインデイント
+    (setq web-mode-css-indent-offset 2) ; CSSのインデント
+    (setq web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
+    (setq web-mode-comment-style 2) ; web-mode内のコメントのインデント
+    (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
+    (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
+    )
+  (add-hook 'web-mode-hook  'my/web-mode-hook)
+  )
+
+;; Sass
+(use-package sass-mode
+  :defer t
+  :ensure t
+  :mode ("\\.sass\\'"))
+
 ;; JavaScript
 (use-package js2-mode
   :defer t
   :ensure t
   :hook ((js2-mode . my/js2-mode-hook))
-  :mode
-  ("\\.js\\'"))
+  :mode ("\\.js\\'"))
 
 (defun my/js2-mode-hook ()
-  (set (make-local-variable 'tab-width) 2))
+  (setq tab-width 2))
 
 ;; JSX
 (use-package rjsx-mode
   :defer t
   :ensure t
   :hook ((rjsx-mode . my/rjsx-mode-hook))
-  :mode
-  ("\\.jsx\\'"))
+  :mode ("\\.jsx\\'"))
 
 (defun my/rjsx-mode-hook ()
-  (set (make-local-variable 'tab-width) 2))
+  (setq tab-width 2))
 
 ;; TypeScript
 (use-package typescript-mode
@@ -195,7 +233,7 @@
   :mode ("\\.ts\\'" . typescript-mode))
 
 (defun my/typescript-mode-hook ()
-  (set (make-local-variable 'tab-width) 2))
+  (setq tab-width 2))
 
 ;; Elm
 (use-package elm-mode
@@ -205,4 +243,4 @@
   :mode ("\\.elm\\'" . elm-mode))
 
 (defun my/elm-mode-hook ()
-  (set (make-local-variable 'tab-width) 4))
+  (setq tab-width 4))
