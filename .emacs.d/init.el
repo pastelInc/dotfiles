@@ -269,6 +269,17 @@
   "Hooks for js2 mode."
   (setq js-indent-level 2))
 
+;; JSON
+(use-package js-mode
+  :defer t
+  :ensure t
+  :hook (js-mode . my/js-mode-hook)
+  :mode ("\\.json\\'"))
+
+(defun my/js-mode-hook ()
+  "Hooks for js mode."
+  (setq js-indent-level 2))
+
 ;; React
 (use-package rjsx-mode
   :defer t
