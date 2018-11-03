@@ -1,3 +1,9 @@
+;;; init.el --- pastelInc's .emacs -*- coding: utf-8 ; lexical-binding: t -*-
+
+;;; Commentary:
+
+;;; Code:
+
 ;; load path
 (when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
@@ -119,14 +125,14 @@
 (global-auto-revert-mode t)
 
 ;; Elisp
-(add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
-
 (defun my/emacs-lisp-mode-hook ()
-  "lisp-mode-hooks"
+  "Hooks for Lisp mode."
   (when (require 'eldoc nil t)
     (setq eldoc-idle-delay 0.2)
     (setq eldoc-echo-area-use-multiline-p t)
     (turn-on-eldoc-mode)))
+
+(add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
 
 ;; @keymap
 
@@ -188,11 +194,12 @@
   :defer t
   :ensure t
   :after flycheck
-  :hook (flycheck-mode . my/flycheck-mode-hook))
+  :config
+  (defun my/flycheck-mode-hook ()
+    "Hooks for flycheck mode."
+    (flycheck-elm-setup))
 
-(defun my/flycheck-mode-hook ()
-  "Hooks for flycheck mode."
-  (flycheck-elm-setup))
+  (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook))
 
 ;; Company
 (use-package company
@@ -249,8 +256,7 @@
     (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
     (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
     )
-  (add-hook 'web-mode-hook  'my/web-mode-hook)
-  )
+  (add-hook 'web-mode-hook  'my/web-mode-hook))
 
 ;; Sass
 (use-package sass-mode
@@ -262,57 +268,64 @@
 (use-package js2-mode
   :defer t
   :ensure t
-  :hook (js2-mode . my/js2-mode-hook)
-  :mode ("\\.js\\'"))
+  :mode ("\\.js\\'")
+  :config
+  (defun my/js2-mode-hook ()
+    "Hooks for js2 mode."
+    (setq js-indent-level 2))
 
-(defun my/js2-mode-hook ()
-  "Hooks for js2 mode."
-  (setq js-indent-level 2))
+  (add-hook 'js2-mode-hook 'my/js2-mode-hook))
 
 ;; JSON
 (use-package js-mode
   :defer t
-  :ensure t
-  :hook (js-mode . my/js-mode-hook)
-  :mode ("\\.json\\'"))
+  :mode ("\\.json\\'")
+  :config
+  (defun my/js-mode-hook ()
+    "Hooks for js mode."
+    (setq js-indent-level 2))
 
-(defun my/js-mode-hook ()
-  "Hooks for js mode."
-  (setq js-indent-level 2))
+  (add-hook 'js-mode-hook 'my/js-mode-hook))
 
 ;; React
 (use-package rjsx-mode
   :defer t
   :ensure t
-  :hook (rjsx-mode . my/rjsx-mode-hook)
-  :mode ("\\.jsx\\'"))
+  :mode ("\\.jsx\\'")
+  :config
+  (defun my/rjsx-mode-hook ()
+    "Hooks for rjsx mode."
+    (setq tab-width 2))
 
-(defun my/rjsx-mode-hook ()
-  "Hooks for rjsx mode."
-  (setq tab-width 2))
+  (add-hook 'rjsx-mode-hook 'my/rjsx-mode-hook))
 
 ;; TypeScript
 (use-package typescript-mode
   :defer t
   :ensure t
-  :hook (typescript-mode . my/typescript-mode-hook)
-  :mode ("\\.ts\\'" . typescript-mode))
+  :mode ("\\.ts\\'" . typescript-mode)
+  :config
+  (defun my/typescript-mode-hook ()
+    "Hooks for typescript mode."
+    (setq typescript-indent-level 2))
 
-(defun my/typescript-mode-hook ()
-  "Hooks for typescript mode."
-  (setq typescript-indent-level 2))
+  (add-hook 'typescript-mode-hook 'my/typescript-mode-hook))
 
 ;; Elm
 (use-package elm-mode
   :defer t
   :ensure t
-  :hook (elm-mode . my/elm-mode-hook)
-  :mode ("\\.elm\\'" . elm-mode))
+  :after let-alist
+  :mode ("\\.elm\\'" . elm-mode)
+  :config
+  (defun my/elm-mode-hook ()
+    "Hooks for elm mode."
+    (company-mode)
+    (company-quickhelp-mode)
+    (add-to-list 'company-backends 'company-elm)
+    (setq elm-format-on-save t))
 
-(defun my/elm-mode-hook ()
-  "Hooks for elm mode."
-  ;; (company-mode)
-  ;; (company-quickhelp-mode)
-  ;; (elm-oracle-setup-completion)
-  ;; (add-to-list 'company-backends 'company-elm)
-  (setq elm-format-on-save t))
+  (add-hook 'elm-mode-hook 'my/elm-mode-hook))
+
+(provide 'init)
+;;; init.el ends here
