@@ -4,23 +4,6 @@
 
 ;;; Code:
 
-;; load path
-(when (< emacs-major-version 23)
-  (defvar user-emacs-directory "~/.emacs.d/"))
-
-;; load-pathを追加する関数を定義
-(defun add-to-load-path (&rest paths)
-  (let (path)
-    (dolist (path paths paths)
-      (let ((default-directory
-              (expand-file-name (concat user-emacs-directory path))))
-        (add-to-list 'load-path default-directory)
-        (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-            (normal-top-level-add-subdirs-to-load-path))))))
-
-;; 引数のディレクトリとそのサブディレクトリをload-pathに追加
-;; (add-to-load-path "elisp" "conf" "public_repos")
-
 ;; カスタムファイルを別ファイルにする
 (setq custom-file (locate-user-emacs-file "custom.el"))
 ;; (カスタムファイルが存在しない場合は作成する
@@ -52,16 +35,8 @@
 ;; メニューバーを非表示
 (when (fboundp 'menu-bar-mode) (menu-bar-mode 0))
 
-;; (unless (eq window-system 'ns)
-;;   ;; メニューバーを非表示
-;;   (when (fboundp 'menu-bar-mode) (menu-bar-mode 0)))
-
 ;; タイトルバーにファイルのフルパス表示
 (setq frame-title-format "%f")
-
-;; 行番号表示
-;; (when (version<= "26.0.50" emacs-version )
-;;   (global-display-line-numbers-mode))
 
 ;; タブをスペースで扱う
 (setq-default indent-tabs-mode nil)
@@ -89,16 +64,6 @@
   (setq dired-use-ls-dired nil))
 
 ;; hightlight
-(defface my/hl-line-face
-  ;; 背景がdarkなら背景色を紺に
-  '((((class color) (background dark))
-     (:background "NavyBlue" t))
-    ;; 背景がlightならば背景色を青に
-    (((class color) (background light))
-     (:background "LightSkyBlue" t))
-    (t (:bold t)))
-  "hl-line's my face")
-(setq hl-line-face 'my/hl-line-face)
 (global-hl-line-mode t)
 
 ;; paren-mode : 対応する括弧を強調して表示する
@@ -124,9 +89,13 @@
 ;; 更新されたファイルを自動的に読み込み直す
 (global-auto-revert-mode t)
 
-;; Elisp
+;; フレームの最大化
+;; https://emacs.stackexchange.com/questions/2999/how-to-maximize-my-emacs-frame-on-start-up
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; Emacs Lisp
 (defun my/emacs-lisp-mode-hook ()
-  "Hooks for Lisp mode."
+  "Hooks for Emacs Lisp mode."
   (when (require 'eldoc nil t)
     (setq eldoc-idle-delay 0.2)
     (setq eldoc-echo-area-use-multiline-p t)
@@ -216,9 +185,8 @@
   ;;自動的にプロジェクト管理を開始
   (projectile-mode)
   ;; プロジェクト管理から除外するディレクトリを追加
-  (add-to-list
-    'projectile-globally-ignored-directories
-    "node_modules")
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-globally-ignored-directories "elm-stuff")
   ;; プロジェクト情報をキャッシュする
   (setq projectile-enable-caching t))
 
@@ -226,8 +194,6 @@
 (define-key projectile-mode-map
   (kbd "s-p") 'projectile-command-map)
 
-;; Fuzzyマッチを無効にする。
-;; (setq helm-projectile-fuzzy-match nil)
 (when (require 'helm-projectile nil t)
   (setq projectile-completion-system 'helm))
 
