@@ -188,11 +188,10 @@
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories "elm-stuff")
   ;; プロジェクト情報をキャッシュする
-  (setq projectile-enable-caching t))
-
-;; projectileのプレフィックスキーをs-pに変更
-(define-key projectile-mode-map
-  (kbd "s-p") 'projectile-command-map)
+  (setq projectile-enable-caching t)
+  ;; projectileのプレフィックスキーをs-pに変更
+  (define-key projectile-mode-map
+    (kbd "s-p") 'projectile-command-map))
 
 (when (require 'helm-projectile nil t)
   (setq projectile-completion-system 'helm))
