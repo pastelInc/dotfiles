@@ -127,10 +127,11 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; 何もしないuse-package
-(unless (require 'use-package nil t)
-  (message "`use-package' is unavailable!  Please install it via `M-x list-packages' if possible.")
-  (defmacro use-package (&rest args)))
+;; This is only needed once, near the top of the file
+(eval-when-compile
+  ;; Following line is not needed if use-package.el is in ~/.emacs.d
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
+  (require 'use-package))
 
 ;; Helm
 (use-package helm
@@ -280,7 +281,6 @@
 (use-package elm-mode
   :defer t
   :ensure t
-  :after let-alist
   :mode ("\\.elm\\'" . elm-mode)
   :config
   (defun my/elm-mode-hook ()

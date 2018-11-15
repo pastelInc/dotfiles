@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode helm-projectile projectile auto-complete elm-mode typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm use-package))))
+    (elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

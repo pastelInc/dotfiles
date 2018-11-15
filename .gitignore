@@ -39,6 +39,9 @@ elpa/
 .cask/
 dist/
 
+# local emacs lisp
+site-lisp
+
 # Flycheck
 flycheck_*.el
 
