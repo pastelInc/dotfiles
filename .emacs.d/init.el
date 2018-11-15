@@ -64,7 +64,7 @@
   (setq dired-use-ls-dired nil))
 
 ;; hightlight
-(global-hl-line-mode t)
+;; (global-hl-line-mode t)
 
 ;; paren-mode : 対応する括弧を強調して表示する
 (setq show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
@@ -196,6 +196,12 @@
 
 (when (require 'helm-projectile nil t)
   (setq projectile-completion-system 'helm))
+
+;; nova-theme
+(use-package nova-theme
+  :ensure t
+  :init
+  (load-theme 'nova t))
 
 ;; @lang
 
