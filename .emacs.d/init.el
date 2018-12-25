@@ -158,7 +158,12 @@
 (use-package flycheck
   :defer t
   :ensure t
-  :init (global-flycheck-mode))
+  :init
+  (global-flycheck-mode)
+  ;; disable jshint since we prefer eslint checking
+  (setq-default flycheck-disabled-checkers
+                (append flycheck-disabled-checkers
+                        '(javascript-jshint))))
 
 (use-package flycheck-elm
   :defer t
@@ -203,6 +208,19 @@
   :init
   (load-theme 'nova t))
 
+;; exec-path-from-shell
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
+;; add-node-modules-path
+(use-package add-node-modules-path
+  :ensure t
+  :hook ((js2-mode . add-node-modules-path)
+         (rjsx-mode . add-node-modules-path)))
+
 ;; @lang
 
 ;; Web
@@ -210,9 +228,9 @@
   ;; 自動的にweb-modeを起動したい拡張子を追加する
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.ctp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
@@ -228,6 +246,7 @@
     (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
     (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
     )
+
   (add-hook 'web-mode-hook  'my/web-mode-hook))
 
 ;; Sass
@@ -244,7 +263,12 @@
   :config
   (defun my/js2-mode-hook ()
     "Hooks for js2 mode."
-    (setq js-indent-level 2))
+    (setq js-indent-level 2)
+    (setq js2-include-browser-externs nil)
+    (setq js2-mode-show-parse-errors nil)
+    (setq js2-mode-show-strict-warnings nil)
+    (setq js2-highlight-external-variables nil)
+    (setq js2-include-jslint-globals nil))
 
   (add-hook 'js2-mode-hook 'my/js2-mode-hook))
 
