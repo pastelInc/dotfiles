@@ -2,17 +2,19 @@
 
 ;;; Commentary:
 
+;; This is pastelInc's init file.
+
 ;;; Code:
+
+;; @General
 
 ;; カスタムファイルを別ファイルにする
 (setq custom-file (locate-user-emacs-file "custom.el"))
-;; (カスタムファイルが存在しない場合は作成する
+;; カスタムファイルが存在しない場合は作成する
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
 ;; カスタムファイルを読み込む
 (load custom-file)
-
-;; @ general
 
 ;; Macだけに読み込ませる内容を書く
 (when (eq system-type 'darwin)
@@ -66,7 +68,7 @@
 ;; hightlight
 ;; (global-hl-line-mode t)
 
-;; paren-mode : 対応する括弧を強調して表示する
+;; paren-mode
 (setq show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
 (show-paren-mode t) ;; 有効化
 ;; parenのスタイル: expressionは格好内も強調表示
@@ -80,9 +82,11 @@
 (setq-default show-trailing-whitespace t)
 (set-face-background 'trailing-whitespace "#b14770")
 
-;; バックアップとオートセーブファイルを~/.emacs.d/backups/へ
+;; バックアップ
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
+
+;; オートセーブファイル
 (setq auto-save-file-name-transforms
       `((".* " ,(expand-file-name "~/.emacs.d/backups/") t)))
 
@@ -103,15 +107,13 @@
 
 (add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
 
-;; @keymap
-
 ;; C-mにnewline-and-indentを割り当てる
 (global-set-key (kbd "C-m") 'newline-and-indent)
 
 ;; "C-t"でウィンドウを切り替える
 (global-set-key (kbd "C-t") 'other-window)
 
-;; @package
+;; @Packages
 
 ;; initialize
 (require 'package) ; package.elを有効化
@@ -220,8 +222,6 @@
   :ensure t
   :hook ((js2-mode . add-node-modules-path)
          (rjsx-mode . add-node-modules-path)))
-
-;; @lang
 
 ;; Web
 (when (require 'web-mode nil t)
