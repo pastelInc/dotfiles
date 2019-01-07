@@ -135,6 +135,15 @@
   (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
   (require 'use-package))
 
+;; dtrt-indent
+(use-package dtrt-indent
+  :ensure t
+  :commands dtrt-indent-mode
+  :diminish dtrt-indent-mode
+  :defer 3
+  :config
+  (dtrt-indent-mode 1))
+
 ;; Helm
 (use-package helm
   :defer t
