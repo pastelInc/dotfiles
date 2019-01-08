@@ -331,5 +331,16 @@
 
   (add-hook 'elm-mode-hook 'my/elm-mode-hook))
 
+;; Go
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :commands (go-set-project godoc gofmt gofmt-before-save)
+  :init
+  (add-hook 'before-save-hook 'gofmt-before-save)
+
+  :config
+  (add-hook 'go-mode-hook #'go-set-project))
+
 (provide 'init)
 ;;; init.el ends here
