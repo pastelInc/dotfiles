@@ -7,7 +7,6 @@ fi
 # Essential
 source ~/.zplug/init.zsh
 
-zplug "direnv/direnv", as:command, use:"direnv", hook-build:"make"
 zplug "sindresorhus/pure", use:"*.zsh", as:theme
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
@@ -33,11 +32,6 @@ zplug load --verbose
 
 # Emacs daemon killing command
 alias ekill='emacsclient -e "(kill-emacs)"'
-
-# Setup direnv
-if type direnv >/dev/null 2>&1; then
-    eval "$(direnv hook zsh)"
-fi
 
 # Load zsh local settings
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
