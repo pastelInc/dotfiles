@@ -342,5 +342,9 @@
   :config
   (add-hook 'go-mode-hook #'go-set-project))
 
+(use-package yaml-mode
+  :ensure t
+  :mode "\\.ya?ml\\'")
+
 (provide 'init)
 ;;; init.el ends here
