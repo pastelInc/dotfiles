@@ -6,7 +6,7 @@
 
 ;;; Code:
 
-;; @General
+;;; Editor
 
 ;; カスタムファイルを別ファイルにする
 (setq custom-file (locate-user-emacs-file "custom.el"))
@@ -34,6 +34,7 @@
 
 ;; ツールバー非表示
 (when (fboundp 'tool-bar-mode) (tool-bar-mode 0))
+
 ;; メニューバーを非表示
 (when (fboundp 'menu-bar-mode) (menu-bar-mode 0))
 
@@ -63,16 +64,16 @@
 
 ;; dired
 (when (eq system-type 'darwin)
-  (setq dired-use-ls-dired nil))
+  (defvar dired-use-ls-dired nil))
 
 ;; hightlight
 ;; (global-hl-line-mode t)
 
 ;; paren-mode
-(setq show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
-(show-paren-mode t) ;; 有効化
+(defvar show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
+(show-paren-mode t)
 ;; parenのスタイル: expressionは格好内も強調表示
-(setq show-paren-style 'expression)
+(defvar show-paren-style 'expression)
 ;; フェイスを変更する
 (set-face-attribute 'show-paren-match nil
       :background 'unspecified
@@ -97,25 +98,16 @@
 ;; https://emacs.stackexchange.com/questions/2999/how-to-maximize-my-emacs-frame-on-start-up
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; Emacs Lisp
-(defun my/emacs-lisp-mode-hook ()
-  "Hooks for Emacs Lisp mode."
-  (when (require 'eldoc nil t)
-    (setq eldoc-idle-delay 0.2)
-    (setq eldoc-echo-area-use-multiline-p t)
-    (turn-on-eldoc-mode)))
-
-(add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
-
 ;; C-mにnewline-and-indentを割り当てる
 (global-set-key (kbd "C-m") 'newline-and-indent)
 
 ;; "C-t"でウィンドウを切り替える
 (global-set-key (kbd "C-t") 'other-window)
 
-;; @Packages
+;; ビープ音を消音
+(setq visible-bell t)
 
-;; initialize
+;;; package
 (require 'package) ; package.elを有効化
 ;; パッケージリポジトリにMarmaladeとMELPAを追加
 (add-to-list
@@ -129,13 +121,30 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+;;; use-package
 ;; This is only needed once, near the top of the file
 (eval-when-compile
   ;; Following line is not needed if use-package.el is in ~/.emacs.d
   (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
   (require 'use-package))
 
-;; dtrt-indent
+;;; Emacs Lisp
+(defun my/emacs-lisp-mode-hook ()
+  "Hooks for Emacs Lisp mode."
+  (when (require 'eldoc nil t)
+    (setq eldoc-idle-delay 0.2)
+    (setq eldoc-echo-area-use-multiline-p t)
+    (turn-on-eldoc-mode)))
+
+(add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
+
+;;; nova-theme
+(use-package nova-theme
+  :ensure t
+  :config
+  (load-theme 'nova t))
+
+;;; dtrt-indent
 (use-package dtrt-indent
   :ensure t
   :commands dtrt-indent-mode
@@ -144,7 +153,7 @@
   :config
   (dtrt-indent-mode 1))
 
-;; Helm
+;;; Helm
 (use-package helm
   :defer t
   :ensure t
@@ -158,14 +167,15 @@
   :config
   (helm-descbinds-mode))
 
-;; Auto Complete
+;;; Auto Complete
+(defvar ac-mode-map)
 (when (require 'auto-complete-config nil t)
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   (ac-config-default)
-  (setq ac-use-menu-map t)
-  (setq ac-ignore-case nil))
+  (defvar ac-use-menu-map t)
+  (defvar ac-ignore-case nil))
 
-;; Flycheck
+;;; Flycheck
 (use-package flycheck
   :defer t
   :ensure t
@@ -187,7 +197,7 @@
 
   (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook))
 
-;; Company
+;;; Company
 (use-package company
   :defer t
   :ensure t)
@@ -197,42 +207,38 @@
   :ensure t
   :after company)
 
-;; projectile
+;;; projectile
 (when (require 'projectile nil t)
   ;;自動的にプロジェクト管理を開始
   (projectile-mode)
   ;; プロジェクト管理から除外するディレクトリを追加
+  (defvar projectile-globally-ignored-directories)
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories "elm-stuff")
   ;; プロジェクト情報をキャッシュする
-  (setq projectile-enable-caching t)
+  (defvar projectile-enable-caching t)
   ;; projectileのプレフィックスキーをs-pに変更
+  (defvar projectile-mode-map)
   (define-key projectile-mode-map
     (kbd "s-p") 'projectile-command-map))
 
 (when (require 'helm-projectile nil t)
-  (setq projectile-completion-system 'helm))
+  (defvar projectile-completion-system 'helm))
 
-;; nova-theme
-(use-package nova-theme
-  :ensure t
-  :init
-  (load-theme 'nova t))
-
-;; exec-path-from-shell
+;;; exec-path-from-shell
 (use-package exec-path-from-shell
   :ensure t
   :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-;; add-node-modules-path
+;;; add-node-modules-path
 (use-package add-node-modules-path
   :ensure t
   :hook ((js2-mode . add-node-modules-path)
          (rjsx-mode . add-node-modules-path)))
 
-;; Web
+;;; Web
 (when (require 'web-mode nil t)
   ;; 自動的にweb-modeを起動したい拡張子を追加する
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -248,23 +254,23 @@
   ;; web-modeのインデント設定用フック
   (defun my/web-mode-hook ()
     "Hooks for web mode."
-    (setq web-mode-markup-indent-offset 2) ; HTMLのインデイント
-    (setq web-mode-css-indent-offset 2) ; CSSのインデント
-    (setq web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
-    (setq web-mode-comment-style 2) ; web-mode内のコメントのインデント
-    (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
-    (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
+    (defvar web-mode-markup-indent-offset 2) ; HTMLのインデイント
+    (defvar web-mode-css-indent-offset 2) ; CSSのインデント
+    (defvar web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
+    (defvar web-mode-comment-style 2) ; web-mode内のコメントのインデント
+    (defvar web-mode-style-padding 1) ; <style>内のインデント開始レベル
+    (defvar web-mode-script-padding 1) ; <script>内のインデント開始レベル
     )
 
   (add-hook 'web-mode-hook  'my/web-mode-hook))
 
-;; Sass
+;;; SCSS
 (use-package sass-mode
   :defer t
   :ensure t
   :mode ("\\.sass\\'"))
 
-;; JavaScript
+;;; JavaScript
 (use-package js2-mode
   :defer t
   :ensure t
@@ -281,18 +287,18 @@
 
   (add-hook 'js2-mode-hook 'my/js2-mode-hook))
 
-;; JSON
+;;; JSON
 (use-package js-mode
   :defer t
   :mode ("\\.json\\'")
   :config
   (defun my/js-mode-hook ()
     "Hooks for js mode."
-    (setq js-indent-level 2))
+    (setq js-indent-level 4))
 
   (add-hook 'js-mode-hook 'my/js-mode-hook))
 
-;; React
+;;; React
 (use-package rjsx-mode
   :defer t
   :ensure t
@@ -304,7 +310,7 @@
 
   (add-hook 'rjsx-mode-hook 'my/rjsx-mode-hook))
 
-;; TypeScript
+;;; TypeScript
 (use-package typescript-mode
   :defer t
   :ensure t
@@ -316,7 +322,7 @@
 
   (add-hook 'typescript-mode-hook 'my/typescript-mode-hook))
 
-;; Elm
+;;; Elm
 (use-package elm-mode
   :defer t
   :ensure t
@@ -331,7 +337,7 @@
 
   (add-hook 'elm-mode-hook 'my/elm-mode-hook))
 
-;; Go
+;;; Go
 (use-package go-mode
   :ensure t
   :mode "\\.go\\'"
@@ -342,6 +348,7 @@
   :config
   (add-hook 'go-mode-hook #'go-set-project))
 
+;;; YAML
 (use-package yaml-mode
   :ensure t
   :mode "\\.ya?ml\\'")
