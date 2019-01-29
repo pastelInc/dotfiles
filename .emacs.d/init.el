@@ -105,7 +105,7 @@
 (global-set-key (kbd "C-t") 'other-window)
 
 ;; ビープ音を消音
-(setq visible-bell t)
+(setq ring-bell-function 'ignore)
 
 ;;; package
 (require 'package) ; package.elを有効化
