@@ -144,6 +144,18 @@
   :config
   (load-theme 'nova t))
 
+;; reference to https://stackoverflow.com/questions/19362373/font-color-of-mode-line-becomes-black-in-emacsclient
+(defun my/reload-theme ()
+  (when window-system
+      (load-theme 'nova)))
+
+(defadvice server-create-window-system-frame
+  (after reload-theme-on-frame-created ())
+  "Reload theme when a frame is created"
+  (my/reload-theme))
+
+(ad-activate 'server-create-window-system-frame)
+
 ;;; dtrt-indent
 (use-package dtrt-indent
   :ensure t
