@@ -195,7 +195,7 @@
 
 (use-package flycheck-elm
   :ensure t
-  :after flycheck
+  :after (flycheck elm)
   :config
   (defun my/flycheck-mode-hook ()
     "Hooks for flycheck mode."
@@ -357,7 +357,7 @@
   :ensure t
   :commands lsp
   :config
-  (setq lsp-prefer-flymake nil))
+  (defvar lsp-prefer-flymake nil))
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
