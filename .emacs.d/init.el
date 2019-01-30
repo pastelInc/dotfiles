@@ -141,7 +141,7 @@
 ;;; nova-theme
 (use-package nova-theme
   :ensure t
-  :init
+  :config
   (load-theme 'nova t))
 
 ;; reference to https://stackoverflow.com/questions/19362373/font-color-of-mode-line-becomes-black-in-emacsclient
@@ -164,13 +164,11 @@
 
 ;;; Helm
 (use-package helm
-  :defer t
   :ensure t
   :config
   (require 'helm-config))
 
 (use-package helm-descbinds
-  :defer t
   :ensure t
   :after helm
   :config
@@ -187,24 +185,21 @@
 
 ;;; Flycheck
 (use-package flycheck
-  :defer t
   :ensure t
-  :init
-  (global-flycheck-mode)
+  :config
   ;; disable jshint since we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
-                        '(javascript-jshint))))
+                        '(javascript-jshint)))
+  (add-hook 'after-init-hook 'global-flycheck-mode))
 
 (use-package flycheck-elm
-  :defer t
   :ensure t
   :after flycheck
   :config
   (defun my/flycheck-mode-hook ()
     "Hooks for flycheck mode."
     (flycheck-elm-setup))
-
   (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook))
 
 ;;; Company
@@ -278,13 +273,11 @@
 
 ;;; SCSS
 (use-package sass-mode
-  :defer t
   :ensure t
   :mode ("\\.sass\\'"))
 
 ;;; JavaScript
 (use-package js2-mode
-  :defer t
   :ensure t
   :mode ("\\.js\\'")
   :config
@@ -301,7 +294,6 @@
 
 ;;; JSON
 (use-package js-mode
-  :defer t
   :mode ("\\.json\\'")
   :config
   (defun my/js-mode-hook ()
@@ -312,7 +304,6 @@
 
 ;;; React
 (use-package rjsx-mode
-  :defer t
   :ensure t
   :mode ("\\.jsx\\'")
   :config
@@ -324,7 +315,6 @@
 
 ;;; TypeScript
 (use-package typescript-mode
-  :defer t
   :ensure t
   :mode ("\\.ts\\'" . typescript-mode)
   :config
