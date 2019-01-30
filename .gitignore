@@ -21,6 +21,9 @@ tramp
 # flymake-mode
 *_flymake.*
 
+# lsp-mode
+.lsp-session*
+
 # eshell files
 /eshell/history
 /eshell/lastdir

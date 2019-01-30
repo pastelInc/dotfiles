@@ -177,10 +177,11 @@
   (helm-descbinds-mode))
 
 ;;; Auto Complete
-(defvar ac-mode-map)
 (when (require 'auto-complete-config nil t)
+  (defvar ac-mode-map)
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-  (ac-config-default)
+  (define-key ac-mode-map (kbd "C-n") 'ac-next)
+  (define-key ac-mode-map (kbd "C-p") 'ac-previous)
   (defvar ac-use-menu-map t)
   (defvar ac-ignore-case nil))
 
@@ -208,13 +209,15 @@
 
 ;;; Company
 (use-package company
-  :defer t
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package company-quickhelp
-  :defer t
   :ensure t
-  :after company)
+  :after company
+  :config
+  (add-hook 'after-init-hook 'company-quickhelp-mode))
 
 ;;; projectile
 (when (require 'projectile nil t)
@@ -333,14 +336,12 @@
 
 ;;; Elm
 (use-package elm-mode
-  :defer t
   :ensure t
+  :after company
   :mode ("\\.elm\\'" . elm-mode)
   :config
   (defun my/elm-mode-hook ()
     "Hooks for elm mode."
-    (company-mode)
-    (company-quickhelp-mode)
     (add-to-list 'company-backends 'company-elm)
     (setq elm-format-on-save t))
 
@@ -351,16 +352,29 @@
   :ensure t
   :mode "\\.go\\'"
   :commands (go-set-project godoc gofmt gofmt-before-save)
-  :init
-  (add-hook 'before-save-hook 'gofmt-before-save)
-
   :config
+  (add-hook 'before-save-hook #'gofmt-before-save)
+  (add-hook 'go-mode-hook #'lsp)
   (add-hook 'go-mode-hook #'go-set-project))
 
 ;;; YAML
 (use-package yaml-mode
   :ensure t
   :mode "\\.ya?ml\\'")
+
+;;; Language Server Protocol
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :config
+  (setq lsp-prefer-flymake nil))
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+(use-package company-lsp
+  :ensure t
+  :after company
+  :commands company-lsp)
 
 (provide 'init)
 ;;; init.el ends here
