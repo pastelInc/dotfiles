@@ -70,14 +70,8 @@
 ;; (global-hl-line-mode t)
 
 ;; paren-mode
-(defvar show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
 (show-paren-mode t)
-;; parenのスタイル: expressionは格好内も強調表示
-(defvar show-paren-style 'expression)
-;; フェイスを変更する
-(set-face-attribute 'show-paren-match nil
-      :background 'unspecified
-      :underline "darkgreen")
+(setq show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
 
 ;; 行末の空白を強調表示
 (setq-default show-trailing-whitespace t)
@@ -138,20 +132,11 @@
 
 (add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
 
-;;; nova-theme
-(use-package nova-theme
+;;; overcast-theme
+(use-package overcast-theme
   :ensure t
   :config
-  (load-theme 'nova t))
-
-;; reference to https://stackoverflow.com/questions/19362373/font-color-of-mode-line-becomes-black-in-emacsclient
-(defun my/reload-theme (&rest _)
-  "Reload theme when a frame is created."
-  (when (display-graphic-p)
-    (mapc 'disable-theme custom-enabled-themes)
-    (load-theme 'nova t)))
-
-(advice-add 'make-frame :after #'my/reload-theme)
+  (load-theme 'overcast))
 
 ;;; dtrt-indent
 (use-package dtrt-indent
