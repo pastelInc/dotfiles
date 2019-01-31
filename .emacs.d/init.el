@@ -64,7 +64,7 @@
 
 ;; dired
 (when (eq system-type 'darwin)
-  (defvar dired-use-ls-dired nil))
+  (setq dired-use-ls-dired nil))
 
 ;; hightlight
 ;; (global-hl-line-mode t)
@@ -165,8 +165,8 @@
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   (define-key ac-mode-map (kbd "C-n") 'ac-next)
   (define-key ac-mode-map (kbd "C-p") 'ac-previous)
-  (defvar ac-use-menu-map t)
-  (defvar ac-ignore-case nil))
+  (setq ac-use-menu-map t)
+  (setq ac-ignore-case nil))
 
 ;;; Flycheck
 (use-package flycheck
@@ -208,7 +208,7 @@
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories "elm-stuff")
   ;; プロジェクト情報をキャッシュする
-  (defvar projectile-enable-caching t)
+  (setq projectile-enable-caching t)
   ;; projectileのプレフィックスキーをs-pに変更
   (defvar projectile-mode-map)
   (define-key projectile-mode-map
@@ -246,13 +246,12 @@
   ;; web-modeのインデント設定用フック
   (defun my/web-mode-hook ()
     "Hooks for web mode."
-    (defvar web-mode-markup-indent-offset 2) ; HTMLのインデイント
-    (defvar web-mode-css-indent-offset 2) ; CSSのインデント
-    (defvar web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
-    (defvar web-mode-comment-style 2) ; web-mode内のコメントのインデント
-    (defvar web-mode-style-padding 1) ; <style>内のインデント開始レベル
-    (defvar web-mode-script-padding 1) ; <script>内のインデント開始レベル
-    )
+    (setq web-mode-markup-indent-offset 2) ; HTMLのインデイント
+    (setq web-mode-css-indent-offset 2) ; CSSのインデント
+    (setq web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
+    (setq web-mode-comment-style 2) ; web-mode内のコメントのインデント
+    (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
+    (setq web-mode-script-padding 1)) ; <script>内のインデント開始レベル
 
   (add-hook 'web-mode-hook  'my/web-mode-hook))
 
@@ -342,7 +341,7 @@
   :ensure t
   :commands lsp
   :config
-  (defvar lsp-prefer-flymake nil))
+  (setq lsp-prefer-flymake nil))
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
