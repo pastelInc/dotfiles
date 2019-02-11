@@ -133,10 +133,16 @@
 (add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
 
 ;;; overcast-theme
-(use-package overcast-theme
+;; (use-package overcast-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'overcast))
+
+;;; solarized-theme
+(use-package solarized-theme
   :ensure t
   :config
-  (load-theme 'overcast))
+  (load-theme 'solarized-light))
 
 ;;; dtrt-indent
 (use-package dtrt-indent
