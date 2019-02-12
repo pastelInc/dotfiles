@@ -257,14 +257,32 @@
     (setq web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
     (setq web-mode-comment-style 2) ; web-mode内のコメントのインデント
     (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
-    (setq web-mode-script-padding 1)) ; <script>内のインデント開始レベル
+    (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
+    (lsp))
 
   (add-hook 'web-mode-hook  'my/web-mode-hook))
 
-;;; SCSS
+;;; SASS
 (use-package sass-mode
   :ensure t
-  :mode ("\\.sass\\'"))
+  :mode ("\\.sass\\'")
+  :config
+  (defun my/sass-mode-hook ()
+    "Hooks for sass mode."
+    (lsp))
+
+  (add-hook 'sass-mode-hook 'my/sass-mode-hook))
+
+;;; SCSS
+(use-package scss-mode
+  :ensure t
+  :mode "\\.scss$"
+  :config
+  (defun my/scss-mode-hook ()
+    "Hooks for scss mode."
+    (lsp))
+
+  (add-hook 'scss-mode-hook 'my/scss-mode-hook))
 
 ;;; JavaScript
 (use-package js2-mode
@@ -310,7 +328,8 @@
   :config
   (defun my/typescript-mode-hook ()
     "Hooks for typescript mode."
-    (setq typescript-indent-level 2))
+    (setq typescript-indent-level 2)
+    (lsp))
 
   (add-hook 'typescript-mode-hook 'my/typescript-mode-hook))
 

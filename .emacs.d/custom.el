@@ -9,7 +9,7 @@
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (dtrt-indent solarized-theme ## company-lsp lsp-ui lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm)))
+    (dtrt-indent solarized-theme scss-mode ## company-lsp lsp-ui lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm)))
  '(vc-annotate-background "#3C4C55")
  '(vc-annotate-color-map
    (\`
