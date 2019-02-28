@@ -186,7 +186,7 @@
 
 (use-package flycheck-elm
   :ensure t
-  :after (flycheck elm)
+  :after flycheck
   :config
   (defun my/flycheck-mode-hook ()
     "Hooks for flycheck mode."
@@ -233,8 +233,7 @@
 ;;; add-node-modules-path
 (use-package add-node-modules-path
   :ensure t
-  :hook ((js2-mode . add-node-modules-path)
-         (rjsx-mode . add-node-modules-path)))
+  :hook (js2-mode rjsx-mode elm-mode typescript-mode))
 
 ;;; Web
 (when (require 'web-mode nil t)
