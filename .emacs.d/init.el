@@ -16,13 +16,6 @@
 ;; カスタムファイルを読み込む
 (load custom-file)
 
-;; Macだけに読み込ませる内容を書く
-(when (eq system-type 'darwin)
-  ;; MacのEmacsでファイル名を正しく扱うための設定
-  (require 'ucs-normalize)
-  (setq file-name-coding-system 'utf-8-hfs)
-  (setq locale-coding-system 'utf-8-hfs))
-
 ;; 文字コード
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
@@ -122,15 +115,23 @@
   (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
   (require 'use-package))
 
-;;; Emacs Lisp
-(defun my/emacs-lisp-mode-hook ()
+;;; eldoc
+(use-package eldoc
+  :config
+  (defun my/emacs-lisp-mode-hook ()
   "Hooks for Emacs Lisp mode."
-  (when (require 'eldoc nil t)
-    (setq eldoc-idle-delay 0.2)
-    (setq eldoc-echo-area-use-multiline-p t)
-    (turn-on-eldoc-mode)))
+  (setq eldoc-idle-delay 0.2)
+  (setq eldoc-echo-area-use-multiline-p t)
+  (turn-on-eldoc-mode))
+  (add-hook 'emacs-lisp-mode #'my/emacs-lisp-mode-hook))
 
-(add-hook 'emacs-lisp-mode-hook 'my/emacs-lisp-mode-hook)
+;; MacのEmacsでファイル名を正しく扱うための設定
+(use-package ucs-normalize
+  ;; Macだけに読み込ませる内容を書く
+  :if (eq system-type 'darwin)
+  :config
+  (setq file-name-coding-system 'utf-8-hfs)
+  (setq locale-coding-system 'utf-8-hfs))
 
 ;;; overcast-theme
 ;; (use-package overcast-theme
@@ -165,15 +166,6 @@
   :config
   (helm-descbinds-mode))
 
-;;; Auto Complete
-(when (require 'auto-complete-config nil t)
-  (defvar ac-mode-map)
-  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-  (define-key ac-mode-map (kbd "C-n") 'ac-next)
-  (define-key ac-mode-map (kbd "C-p") 'ac-previous)
-  (setq ac-use-menu-map t)
-  (setq ac-ignore-case nil))
-
 ;;; Flycheck
 (use-package flycheck
   :ensure t
@@ -183,15 +175,6 @@
                 (append flycheck-disabled-checkers
                         '(javascript-jshint)))
   (add-hook 'after-init-hook 'global-flycheck-mode))
-
-(use-package flycheck-elm
-  :ensure t
-  :after flycheck
-  :config
-  (defun my/flycheck-mode-hook ()
-    "Hooks for flycheck mode."
-    (flycheck-elm-setup))
-  (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook))
 
 ;;; Company
 (use-package company
@@ -206,7 +189,9 @@
   (add-hook 'after-init-hook 'company-quickhelp-mode))
 
 ;;; projectile
-(when (require 'projectile nil t)
+(use-package projectile
+  :ensure t
+  :config
   ;;自動的にプロジェクト管理を開始
   (projectile-mode)
   ;; プロジェクト管理から除外するディレクトリを追加
@@ -220,8 +205,12 @@
   (define-key projectile-mode-map
     (kbd "s-p") 'projectile-command-map))
 
-(when (require 'helm-projectile nil t)
-  (defvar projectile-completion-system 'helm))
+(use-package helm-projectile
+  :ensure t
+  :after projectile
+  :config
+  (helm-projectile-on)
+  (setq projectile-completion-system 'helm))
 
 ;;; exec-path-from-shell
 (use-package exec-path-from-shell
@@ -236,7 +225,9 @@
   :hook (js2-mode rjsx-mode elm-mode typescript-mode))
 
 ;;; Web
-(when (require 'web-mode nil t)
+(use-package web-mode
+  :ensure t
+  :config
   ;; 自動的にweb-modeを起動したい拡張子を追加する
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
@@ -344,6 +335,15 @@
     (setq elm-format-on-save t))
 
   (add-hook 'elm-mode-hook 'my/elm-mode-hook))
+
+(use-package flycheck-elm
+  :ensure t
+  :after flycheck
+  :config
+  (defun my/flycheck-mode-hook ()
+    "Hooks for flycheck mode."
+    (flycheck-elm-setup))
+  (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook))
 
 ;;; Go
 (use-package go-mode
