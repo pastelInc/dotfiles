@@ -248,20 +248,14 @@
     (setq web-mode-comment-style 2) ; web-mode内のコメントのインデント
     (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
     (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
-    (lsp))
+    )
 
   (add-hook 'web-mode-hook  'my/web-mode-hook))
 
 ;;; SCSS
 (use-package scss-mode
   :ensure t
-  :mode "\\.scss$"
-  :config
-  (defun my/scss-mode-hook ()
-    "Hooks for scss mode."
-    (lsp))
-
-  (add-hook 'scss-mode-hook 'my/scss-mode-hook))
+  :mode "\\.scss$")
 
 ;;; JavaScript
 (use-package js2-mode
@@ -307,8 +301,7 @@
   :config
   (defun my/typescript-mode-hook ()
     "Hooks for typescript mode."
-    (setq typescript-indent-level 2)
-    (lsp))
+    (setq typescript-indent-level 2))
 
   (add-hook 'typescript-mode-hook 'my/typescript-mode-hook))
 
@@ -341,7 +334,6 @@
   :commands (go-set-project godoc gofmt gofmt-before-save)
   :config
   (add-hook 'before-save-hook #'gofmt-before-save)
-  (add-hook 'go-mode-hook #'lsp)
   (add-hook 'go-mode-hook #'go-set-project))
 
 ;;; YAML
@@ -353,6 +345,7 @@
 (use-package lsp-mode
   :ensure t
   :commands lsp
+  :hook ((web-mode scss-mode typescript-mode go-mode) . lsp)
   :config
   (setq lsp-prefer-flymake nil))
 (use-package lsp-ui
