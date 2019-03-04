@@ -252,17 +252,6 @@
 
   (add-hook 'web-mode-hook  'my/web-mode-hook))
 
-;;; SASS
-(use-package sass-mode
-  :ensure t
-  :mode ("\\.sass\\'")
-  :config
-  (defun my/sass-mode-hook ()
-    "Hooks for sass mode."
-    (lsp))
-
-  (add-hook 'sass-mode-hook 'my/sass-mode-hook))
-
 ;;; SCSS
 (use-package scss-mode
   :ensure t
