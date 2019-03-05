@@ -127,11 +127,11 @@
 
 ;; MacのEmacsでファイル名を正しく扱うための設定
 (use-package ucs-normalize
-  ;; Macだけに読み込ませる内容を書く
-  :if (eq system-type 'darwin)
   :config
   (setq file-name-coding-system 'utf-8-hfs)
-  (setq locale-coding-system 'utf-8-hfs))
+  (setq locale-coding-system 'utf-8-hfs)
+  ;; Macだけに読み込ませる内容を書く
+  :if (eq system-type 'darwin))
 
 ;;; overcast-theme
 ;; (use-package overcast-theme
@@ -141,56 +141,55 @@
 
 ;;; solarized-theme
 (use-package solarized-theme
-  :ensure t
   :config
-  (load-theme 'solarized-light))
+  (load-theme 'solarized-light)
+  :ensure t)
 
 ;;; dtrt-indent
 (use-package dtrt-indent
-  :ensure t
   :commands dtrt-indent-mode
-  :diminish dtrt-indent-mode
-  :defer 3
   :config
-  (dtrt-indent-mode 1))
+  (dtrt-indent-mode 1)
+  :defer 3
+  :diminish dtrt-indent-mode
+  :ensure t)
 
 ;;; Helm
 (use-package helm
-  :ensure t
   :config
-  (require 'helm-config))
+  (require 'helm-config)
+  :ensure t)
 
 (use-package helm-descbinds
-  :ensure t
   :after helm
   :config
-  (helm-descbinds-mode))
+  (helm-descbinds-mode)
+  :ensure t)
 
 ;;; Flycheck
 (use-package flycheck
-  :ensure t
   :config
   ;; disable jshint since we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(javascript-jshint)))
-  (add-hook 'after-init-hook 'global-flycheck-mode))
+  (add-hook 'after-init-hook 'global-flycheck-mode)
+  :ensure t)
 
 ;;; Company
 (use-package company
-  :ensure t
   :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  (add-hook 'after-init-hook 'global-company-mode)
+  :ensure t)
 
 (use-package company-quickhelp
-  :ensure t
   :after company
   :config
-  (add-hook 'after-init-hook 'company-quickhelp-mode))
+  (add-hook 'after-init-hook 'company-quickhelp-mode)
+  :ensure t)
 
 ;;; projectile
 (use-package projectile
-  :ensure t
   :config
   ;;自動的にプロジェクト管理を開始
   (projectile-mode)
@@ -203,14 +202,15 @@
   ;; projectileのプレフィックスキーをs-pに変更
   (defvar projectile-mode-map)
   (define-key projectile-mode-map
-    (kbd "s-p") 'projectile-command-map))
+    (kbd "s-p") 'projectile-command-map)
+  :ensure t)
 
 (use-package helm-projectile
-  :ensure t
   :after projectile
   :config
   (helm-projectile-on)
-  (setq projectile-completion-system 'helm))
+  (setq projectile-completion-system 'helm)
+  :ensure t)
 
 ;;; exec-path-from-shell
 (use-package exec-path-from-shell
@@ -226,7 +226,6 @@
 
 ;;; Web
 (use-package web-mode
-  :ensure t
   :config
   ;; 自動的にweb-modeを起動したい拡張子を追加する
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -250,7 +249,8 @@
     (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
     )
 
-  (add-hook 'web-mode-hook  'my/web-mode-hook))
+  (add-hook 'web-mode-hook  'my/web-mode-hook)
+  :ensure t)
 
 ;;; SCSS
 (use-package scss-mode
@@ -259,8 +259,6 @@
 
 ;;; JavaScript
 (use-package js2-mode
-  :ensure t
-  :mode ("\\.js\\'")
   :config
   (defun my/js2-mode-hook ()
     "Hooks for js2 mode."
@@ -271,70 +269,72 @@
     (setq js2-highlight-external-variables nil)
     (setq js2-include-jslint-globals nil))
 
-  (add-hook 'js2-mode-hook 'my/js2-mode-hook))
+  (add-hook 'js2-mode-hook 'my/js2-mode-hook)
+  :ensure t
+  :mode ("\\.js\\'"))
 
 ;;; JSON
 (use-package js-mode
-  :mode ("\\.json\\'")
   :config
   (defun my/js-mode-hook ()
     "Hooks for js mode."
     (setq js-indent-level 4))
 
-  (add-hook 'js-mode-hook 'my/js-mode-hook))
+  (add-hook 'js-mode-hook 'my/js-mode-hook)
+  :mode ("\\.json\\'"))
 
 ;;; React
 (use-package rjsx-mode
-  :ensure t
-  :mode ("\\.jsx\\'")
   :config
   (defun my/rjsx-mode-hook ()
     "Hooks for rjsx mode."
     (setq tab-width 2))
 
-  (add-hook 'rjsx-mode-hook 'my/rjsx-mode-hook))
+  (add-hook 'rjsx-mode-hook 'my/rjsx-mode-hook)
+  :ensure t
+  :mode ("\\.jsx\\'"))
 
 ;;; TypeScript
 (use-package typescript-mode
-  :ensure t
-  :mode ("\\.ts\\'" . typescript-mode)
   :config
   (defun my/typescript-mode-hook ()
     "Hooks for typescript mode."
     (setq typescript-indent-level 2))
 
-  (add-hook 'typescript-mode-hook 'my/typescript-mode-hook))
+  (add-hook 'typescript-mode-hook 'my/typescript-mode-hook)
+  :ensure t
+  :mode ("\\.ts\\'" . typescript-mode))
 
 ;;; Elm
 (use-package elm-mode
-  :ensure t
   :after company
-  :mode ("\\.elm\\'" . elm-mode)
   :config
   (defun my/elm-mode-hook ()
     "Hooks for elm mode."
     (add-to-list 'company-backends 'company-elm)
     (setq elm-format-on-save t))
 
-  (add-hook 'elm-mode-hook 'my/elm-mode-hook))
+  (add-hook 'elm-mode-hook 'my/elm-mode-hook)
+  :ensure t
+  :mode ("\\.elm\\'" . elm-mode))
 
 (use-package flycheck-elm
-  :ensure t
   :after flycheck
   :config
   (defun my/flycheck-mode-hook ()
     "Hooks for flycheck mode."
     (flycheck-elm-setup))
-  (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook))
+  (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook)
+  :ensure t)
 
 ;;; Go
 (use-package go-mode
-  :ensure t
-  :mode "\\.go\\'"
   :commands (go-set-project godoc gofmt gofmt-before-save)
   :config
   (add-hook 'before-save-hook #'gofmt-before-save)
-  (add-hook 'go-mode-hook #'go-set-project))
+  (add-hook 'go-mode-hook #'go-set-project)
+  :ensure t
+  :mode "\\.go\\'")
 
 ;;; YAML
 (use-package yaml-mode
@@ -343,18 +343,20 @@
 
 ;;; Language Server Protocol
 (use-package lsp-mode
-  :ensure t
   :commands lsp
-  :hook ((web-mode scss-mode typescript-mode go-mode) . lsp)
   :config
-  (setq lsp-prefer-flymake nil))
+  (setq lsp-prefer-flymake nil)
+  :ensure t
+  :hook ((web-mode scss-mode typescript-mode go-mode) . lsp))
+
 (use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+  :commands lsp-ui-mode
+  :ensure t)
+
 (use-package company-lsp
-  :ensure t
   :after company
-  :commands company-lsp)
+  :commands company-lsp
+  :ensure t)
 
 (provide 'init)
 ;;; init.el ends here
