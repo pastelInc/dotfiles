@@ -358,5 +358,18 @@
   :commands company-lsp
   :ensure t)
 
+;;; dimmer
+(use-package dimmer
+  :config
+  (setq dimmer-exclusion-regexp "^\*helm.*\\|^ \*Minibuf-.*\\|^ \*Echo.*")
+  (dimmer-mode t)
+  :ensure t)
+
+;;; beacon
+(use-package beacon
+  :config
+  (beacon-mode t)
+  :ensure t)
+
 (provide 'init)
 ;;; init.el ends here
