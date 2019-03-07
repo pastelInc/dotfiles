@@ -367,6 +367,7 @@
 ;;; dimmer
 (use-package dimmer
   :config
+  (setq dimmer-fraction 0.5)
   (setq dimmer-exclusion-regexp "^\*helm.*\\|^ \*Minibuf-.*\\|^ \*Echo.*")
   (dimmer-mode t)
   :ensure t)
