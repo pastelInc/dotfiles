@@ -368,6 +368,7 @@
 ;;; beacon
 (use-package beacon
   :config
+  (setq beacon-color "green")
   (beacon-mode t)
   :ensure t)
 
