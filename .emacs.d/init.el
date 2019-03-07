@@ -140,9 +140,15 @@
 ;;   (load-theme 'overcast))
 
 ;;; solarized-theme
-(use-package solarized-theme
+;; (use-package solarized-theme
+;;   :config
+;;   (load-theme 'solarized-light)
+;;   :ensure t)
+
+;;; sublime-themes
+(use-package sublime-themes
   :config
-  (load-theme 'solarized-light)
+  (load-theme 'brin t)
   :ensure t)
 
 ;;; dtrt-indent
