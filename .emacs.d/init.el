@@ -149,6 +149,15 @@
 (use-package sublime-themes
   :config
   (load-theme 'brin t)
+  :custom-face
+  (company-tooltip ((t (:inherit default :foreground "#c0c5ce" :background "#333"))))
+  (company-scrollbar-bg ((t (:background "#333"))))
+  (company-scrollbar-fg ((t (:background "deep sky blue"))))
+  (company-tooltip-annotation ((t (:foreground "white smoke"))))
+  (company-tooltip-annotation-selection ((t (:foreground "black"))))
+  (company-tooltip-selection ((t (:foreground "black" :background "deep sky blue"))))
+  (company-tooltip-common ((t (:foreground "orange"))))
+  (company-tooltip-common-selection ((t (:foreground "black"))))
   :ensure t)
 
 ;;; dtrt-indent
@@ -184,6 +193,14 @@
 
 ;;; Company
 (use-package company
+  :bind
+  (:map company-active-map
+        ("C-n" . company-select-next)
+        ("C-p" . company-select-previous)
+  :map company-search-map
+        ("C-n" . company-select-next)
+        ("C-p" . company-select-previous)
+        ("C-t" . company-search-toggle-filtering))
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   :ensure t)
