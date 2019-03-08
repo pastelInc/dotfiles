@@ -9,7 +9,7 @@
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (sublime-theme sublime-themes dimmer dtrt-indent solarized-theme scss-mode ## company-lsp lsp-ui lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm)))
+    (company-box sublime-theme sublime-themes dimmer dtrt-indent scss-mode ## company-lsp lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm)))
  '(safe-local-variable-values (quote ((elm-format-elm-version . "0.18"))))
  '(vc-annotate-background "#3C4C55")
  '(vc-annotate-color-map
@@ -46,4 +46,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background nil)))))
+ '(default ((t (:background nil))))
+ '(company-scrollbar-bg ((t (:background "#333"))))
+ '(company-scrollbar-fg ((t (:background "deep sky blue"))))
+ '(company-tooltip ((t (:inherit default :foreground "#c0c5ce" :background "#333"))))
+ '(company-tooltip-annotation ((t (:foreground "white smoke"))))
+ '(company-tooltip-annotation-selection ((t (:foreground "black"))))
+ '(company-tooltip-common ((t (:foreground "orange"))))
+ '(company-tooltip-common-selection ((t (:foreground "black"))))
+ '(company-tooltip-selection ((t (:foreground "black" :background "deep sky blue")))))

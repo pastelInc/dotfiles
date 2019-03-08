@@ -205,11 +205,18 @@
   (add-hook 'after-init-hook 'global-company-mode)
   :ensure t)
 
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
+
 (use-package company-quickhelp
   :after company
-  :config
-  (add-hook 'after-init-hook 'company-quickhelp-mode)
-  :ensure t)
+  :ensure t
+  :hook
+  (company-mode . company-quickhelp-mode)
+  :init
+  (setq company-quickhelp-color-foreground "#c0c5ce")
+  (setq company-quickhelp-color-background "#333"))
 
 ;;; projectile
 (use-package projectile
@@ -378,7 +385,8 @@
 
 (use-package company-lsp
   :after company
-  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends)
   :ensure t)
 
 ;;; dimmer
