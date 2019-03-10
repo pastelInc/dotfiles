@@ -377,7 +377,7 @@
   :config
   (setq lsp-prefer-flymake nil)
   :ensure t
-  :hook ((web-mode scss-mode typescript-mode go-mode) . lsp))
+  :hook ((web-mode scss-mode typescript-mode go-mode python-mode) . lsp))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
@@ -403,6 +403,18 @@
   (setq beacon-color "green")
   (beacon-mode t)
   :ensure t)
+
+;;; Python
+(use-package python-mode
+  :config
+  (defun my/python-mode-hook ()
+    "Hooks for python mode."
+    (setq indent-tabs-mode nil)
+    (setq indent-level 4)
+    (setq python-indent 4))
+  (add-hook 'python-mode-hook 'my/python-mode-hook)
+  :ensure t
+  :mode "\\.py\\'")
 
 (provide 'init)
 ;;; init.el ends here
