@@ -31,8 +31,11 @@
 ;; メニューバーを非表示
 (when (fboundp 'menu-bar-mode) (menu-bar-mode 0))
 
-;; タイトルバーにファイルのフルパス表示
-(setq frame-title-format "%f")
+;; タイトルバーにバッファーのファイルパスを表示
+(setq frame-title-format
+        '((:eval (if (buffer-file-name)
+                     (abbreviate-file-name (buffer-file-name))
+                   "%b"))))
 
 ;; タブをスペースで扱う
 (setq-default indent-tabs-mode nil)
