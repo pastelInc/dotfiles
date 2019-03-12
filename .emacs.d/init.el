@@ -65,10 +65,6 @@
 ;; hightlight
 ;; (global-hl-line-mode t)
 
-;; paren-mode
-(show-paren-mode t)
-(setq show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
-
 ;; 行末の空白を強調表示
 (setq-default show-trailing-whitespace t)
 (set-face-background 'trailing-whitespace "#b14770")
@@ -117,6 +113,17 @@
   ;; Following line is not needed if use-package.el is in ~/.emacs.d
   (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
   (require 'use-package))
+
+;; paren-mode
+(use-package paren
+  :custom-face
+  (show-paren-match ((nil (:background "#44475a" :foreground "#f1fa8c"))))
+  :custom
+  (show-paren-mode t)
+  (show-paren-delay 0) ;; 表示までの秒数。初期値は0.125
+  (show-paren-style 'mixed)
+  (show-paren-when-point-inside-paren t)
+  (show-paren-when-point-in-periphery t))
 
 ;;; eldoc
 (use-package eldoc
