@@ -351,11 +351,11 @@
   :config
   (defun my/elm-mode-hook ()
     "Hooks for elm mode."
+    (elm-format-on-save-mode)
     (add-to-list 'company-backends 'company-elm))
 
   (add-hook 'elm-mode-hook 'my/elm-mode-hook)
   :ensure t
-  :init (setq elm-format-on-save t)
   :mode ("\\.elm\\'" . elm-mode))
 
 (use-package flycheck-elm
