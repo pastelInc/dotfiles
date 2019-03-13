@@ -350,11 +350,7 @@
 (use-package elm-mode
   :after company
   :config
-  (defun my/elm-mode-hook ()
-    "Hooks for elm mode."
-    (add-to-list 'company-backends 'company-elm))
-
-  (add-hook 'elm-mode-hook 'my/elm-mode-hook)
+  (add-to-list 'company-backends 'company-elm)
   :ensure t
   :init
   (setq elm-format-on-save t)
