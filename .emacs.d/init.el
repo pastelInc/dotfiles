@@ -213,6 +213,7 @@
         ("C-t" . company-search-toggle-filtering))
   :config
   (add-hook 'after-init-hook 'global-company-mode)
+  :defer nil
   :ensure t)
 
 (use-package company-box
@@ -351,11 +352,12 @@
   :config
   (defun my/elm-mode-hook ()
     "Hooks for elm mode."
-    (elm-format-on-save-mode)
     (add-to-list 'company-backends 'company-elm))
 
   (add-hook 'elm-mode-hook 'my/elm-mode-hook)
   :ensure t
+  :init
+  (setq elm-format-on-save t)
   :mode ("\\.elm\\'" . elm-mode))
 
 (use-package flycheck-elm
