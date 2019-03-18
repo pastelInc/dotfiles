@@ -125,6 +125,16 @@
   (show-paren-when-point-inside-paren t)
   (show-paren-when-point-in-periphery t))
 
+;; tempbuf
+;; https://www.emacswiki.org/emacs/tempbuf.el
+(use-package tempbuf
+  :diminish tempbuf-mode
+  :ensure nil
+  :load-path "site-lisp/tempbuf"
+  :init
+  (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'find-file-hooks 'turn-on-tempbuf-mode))
+
 ;;; eldoc
 (use-package eldoc
   :config
