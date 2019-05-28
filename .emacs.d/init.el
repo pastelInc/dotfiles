@@ -223,6 +223,10 @@
         ("C-t" . company-search-toggle-filtering))
   :config
   (add-hook 'after-init-hook 'global-company-mode)
+  :custom
+  (company-idle-delay 0)
+  (company-echo-delay 0)
+  (company-minimum-prefix-length 2)
   :defer nil
   :ensure t)
 
@@ -358,9 +362,9 @@
 
 ;;; Elm
 (use-package elm-mode
-  :after company
-  :config
-  (add-to-list 'company-backends 'company-elm)
+  ;; :after company
+  ;; :config
+  ;; (add-to-list 'company-backends 'company-elm)
   :ensure t
   :init
   (setq elm-format-on-save t)
@@ -392,10 +396,15 @@
 ;;; Language Server Protocol
 (use-package lsp-mode
   :commands lsp
-  :config
-  (setq lsp-prefer-flymake nil)
+  :custom
+  (lsp-enable-snippet nil)
+  (lsp-prefer-flymake nil)
+  (lsp-elm-server-install-dir "~/.elm-language-server")
+  (lsp-auto-guess-root t)
+  ;; (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
+  (lsp-response-timeout 10)
   :ensure t
-  :hook ((web-mode scss-mode typescript-mode go-mode python-mode) . lsp))
+  :hook ((web-mode scss-mode typescript-mode go-mode python-mode elm-mode) . lsp))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
@@ -405,6 +414,11 @@
   :after company
   :config
   (push 'company-lsp company-backends)
+  :custom
+  ;; (company-lsp-cache-candidates t) ;; auto, t(always using a cache), or nil
+  ;; (company-lsp-async t)
+  (company-lsp-enable-snippet nil)
+  ;; (company-lsp-enable-recompletion t)
   :ensure t)
 
 ;;; dimmer
