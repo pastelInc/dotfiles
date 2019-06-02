@@ -343,9 +343,9 @@
   ;; 自動的にweb-modeを起動したい拡張子を追加する
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-  ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-  ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  ;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.ctp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
@@ -371,41 +371,30 @@
   :mode "\\.scss$")
 
 ;;; JavaScript
-(use-package js2-mode
-  :config
-  (defun my/js2-mode-hook ()
-    "Hooks for js2 mode."
-    (setq js-indent-level 2)
-    (setq js2-include-browser-externs nil)
-    (setq js2-mode-show-parse-errors nil)
-    (setq js2-mode-show-strict-warnings nil)
-    (setq js2-highlight-external-variables nil)
-    (setq js2-include-jslint-globals nil))
+;; (use-package js2-mode
+;;   :config
+;;   (defun my/js2-mode-hook ()
+;;     "Hooks for js2 mode."
+;;     (setq js-indent-level 2)
+;;     (setq js2-include-browser-externs nil)
+;;     (setq js2-mode-show-parse-errors nil)
+;;     (setq js2-mode-show-strict-warnings nil)
+;;     (setq js2-highlight-external-variables nil)
+;;     (setq js2-include-jslint-globals nil))
 
-  (add-hook 'js2-mode-hook 'my/js2-mode-hook)
-  :ensure t
-  :mode ("\\.js\\'"))
+;;   (add-hook 'js2-mode-hook 'my/js2-mode-hook)
+;;   :ensure t
+;;   :mode ("\\.js\\'"))
 
 ;;; JSON
 (use-package js-mode
   :config
   (defun my/js-mode-hook ()
     "Hooks for js mode."
-    (setq js-indent-level 4))
+    (setq js-indent-level 2))
 
   (add-hook 'js-mode-hook 'my/js-mode-hook)
   :mode ("\\.json\\'"))
-
-;;; React
-(use-package rjsx-mode
-  :config
-  (defun my/rjsx-mode-hook ()
-    "Hooks for rjsx mode."
-    (setq tab-width 2))
-
-  (add-hook 'rjsx-mode-hook 'my/rjsx-mode-hook)
-  :ensure t
-  :mode ("\\.jsx\\'"))
 
 ;;; TypeScript
 (use-package typescript-mode
