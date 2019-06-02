@@ -231,17 +231,55 @@
   :ensure t)
 
 (use-package company-box
+  :custom
+  (company-box-backends-colors nil)
+  (company-box-show-single-candidate t)
+  (company-box-max-candidates 20)
+  :config
+  (with-eval-after-load 'all-the-icons
+      (declare-function all-the-icons-faicon 'all-the-icons)
+      (declare-function all-the-icons-fileicon 'all-the-icons)
+      (declare-function all-the-icons-material 'all-the-icons)
+      (declare-function all-the-icons-octicon 'all-the-icons)
+      (setq company-box-icons-all-the-icons
+            `((Unknown . ,(all-the-icons-material "find_in_page" :height 0.7 :v-adjust -0.15))
+              (Text . ,(all-the-icons-faicon "book" :height 0.68 :v-adjust -0.15))
+              (Method . ,(all-the-icons-faicon "cube" :height 0.7 :v-adjust -0.05 :face 'font-lock-constant-face))
+              (Function . ,(all-the-icons-faicon "cube" :height 0.7 :v-adjust -0.05 :face 'font-lock-constant-face))
+              (Constructor . ,(all-the-icons-faicon "cube" :height 0.7 :v-adjust -0.05 :face 'font-lock-constant-face))
+              (Field . ,(all-the-icons-faicon "tags" :height 0.65 :v-adjust -0.15 :face 'font-lock-warning-face))
+              (Variable . ,(all-the-icons-faicon "tag" :height 0.7 :v-adjust -0.05 :face 'font-lock-warning-face))
+              (Class . ,(all-the-icons-faicon "clone" :height 0.65 :v-adjust 0.01 :face 'font-lock-constant-face))
+              (Interface . ,(all-the-icons-faicon "clone" :height 0.65 :v-adjust 0.01))
+              (Module . ,(all-the-icons-octicon "package" :height 0.7 :v-adjust -0.15))
+              (Property . ,(all-the-icons-octicon "package" :height 0.7 :v-adjust -0.05 :face 'font-lock-warning-face)) ;; Golang module
+              (Unit . ,(all-the-icons-material "settings_system_daydream" :height 0.7 :v-adjust -0.15))
+              (Value . ,(all-the-icons-material "format_align_right" :height 0.7 :v-adjust -0.15 :face 'font-lock-constant-face))
+              (Enum . ,(all-the-icons-material "storage" :height 0.7 :v-adjust -0.15 :face 'all-the-icons-orange))
+              (Keyword . ,(all-the-icons-material "filter_center_focus" :height 0.7 :v-adjust -0.15))
+              (Snippet . ,(all-the-icons-faicon "code" :height 0.7 :v-adjust 0.02 :face 'font-lock-variable-name-face))
+              (Color . ,(all-the-icons-material "palette" :height 0.7 :v-adjust -0.15))
+              (File . ,(all-the-icons-faicon "file-o" :height 0.7 :v-adjust -0.05))
+              (Reference . ,(all-the-icons-material "collections_bookmark" :height 0.7 :v-adjust -0.15))
+              (Folder . ,(all-the-icons-octicon "file-directory" :height 0.7 :v-adjust -0.05))
+              (EnumMember . ,(all-the-icons-material "format_align_right" :height 0.7 :v-adjust -0.15 :face 'all-the-icons-blueb))
+              (Constant . ,(all-the-icons-faicon "tag" :height 0.7 :v-adjust -0.05))
+              (Struct . ,(all-the-icons-faicon "clone" :height 0.65 :v-adjust 0.01 :face 'font-lock-constant-face))
+              (Event . ,(all-the-icons-faicon "bolt" :height 0.7 :v-adjust -0.05 :face 'all-the-icons-orange))
+              (Operator . ,(all-the-icons-fileicon "typedoc" :height 0.65 :v-adjust 0.05))
+              (TypeParameter . ,(all-the-icons-faicon "hashtag" :height 0.65 :v-adjust 0.07 :face 'font-lock-const-face))
+              (Template . ,(all-the-icons-faicon "code" :height 0.7 :v-adjust 0.02 :face 'font-lock-variable-name-face)))))
   :ensure t
   :hook (company-mode . company-box-mode))
 
 (use-package company-quickhelp
   :after company
+  :custom
+  (company-quickhelp-delay 0.8)
+  :defines company-quickhelp-delay
   :ensure t
   :hook
-  (company-mode . company-quickhelp-mode)
-  :init
-  (setq company-quickhelp-color-foreground "#c0c5ce")
-  (setq company-quickhelp-color-background "#333"))
+  (global-company-mode . company-quickhelp-mode))
 
 ;;; projectile
 (use-package projectile
@@ -362,9 +400,6 @@
 
 ;;; Elm
 (use-package elm-mode
-  ;; :after company
-  ;; :config
-  ;; (add-to-list 'company-backends 'company-elm)
   :ensure t
   :init
   (setq elm-format-on-save t)
@@ -396,29 +431,80 @@
 ;;; Language Server Protocol
 (use-package lsp-mode
   :commands lsp
+  :config
+   (require 'lsp-clients)
   :custom
+  ;; debug
+  (lsp-print-io t)
+  (lsp-trace t)
+  (lsp-print-performance nil)
+  ;; general
+  (lsp-auto-guess-root t)
+  (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
+  (lsp-elm-server-install-dir "~/.elm-language-server")
   (lsp-enable-snippet nil)
   (lsp-prefer-flymake nil)
-  (lsp-elm-server-install-dir "~/.elm-language-server")
-  (lsp-auto-guess-root t)
-  ;; (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
   (lsp-response-timeout 10)
   :ensure t
   :hook ((web-mode scss-mode typescript-mode go-mode python-mode elm-mode) . lsp))
 
 (use-package lsp-ui
+  :after lsp-mode
+  :bind
+  (:map lsp-mode-map
+        ("C-c C-r" . lsp-ui-peek-find-references)
+        ("C-c C-j" . lsp-ui-peek-find-definitions)
+        ("C-c i"   . lsp-ui-peek-find-implementation)
+        ("C-c m"   . lsp-ui-imenu)
+        ("C-c s"   . lsp-ui-sideline-mode)
+        ("C-c d"   . my/toggle-lsp-ui-doc))
   :commands lsp-ui-mode
-  :ensure t)
+  :custom
+  ;; lsp-ui-doc
+  (lsp-ui-doc-enable nil)
+  (lsp-ui-doc-header t)
+  (lsp-ui-doc-include-signature nil)
+  (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
+  (lsp-ui-doc-max-width 120)
+  (lsp-ui-doc-max-height 30)
+  (lsp-ui-doc-use-childframe t)
+  (lsp-ui-doc-use-webkit t)
+  ;; lsp-ui-flycheck
+  (lsp-ui-flycheck-enable nil)
+  ;; lsp-ui-sideline
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-ignore-duplicate t)
+  (lsp-ui-sideline-show-symbol t)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-sideline-show-diagnostics nil)
+  (lsp-ui-sideline-show-code-actions t)
+  ;; lsp-ui-imenu
+  (lsp-ui-imenu-enable t)
+  (lsp-ui-imenu-kind-position 'top)
+  ;; lsp-ui-peek
+  (lsp-ui-peek-enable t)
+  (lsp-ui-peek-peek-height 20)
+  (lsp-ui-peek-list-width 50)
+  (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
+  :ensure t
+  :preface
+    (defun my/toggle-lsp-ui-doc ()
+      (interactive)
+      (if lsp-ui-doc-mode
+        (progn
+          (lsp-ui-doc-mode -1)
+          (lsp-ui-doc--hide-frame))
+         (lsp-ui-doc-mode 1))))
 
 (use-package company-lsp
   :after company
   :config
   (push 'company-lsp company-backends)
   :custom
-  ;; (company-lsp-cache-candidates t) ;; auto, t(always using a cache), or nil
-  ;; (company-lsp-async t)
+  (company-lsp-async t)
+  (company-lsp-cache-candidates t) ;; auto, t(always using a cache), or nil
   (company-lsp-enable-snippet nil)
-  ;; (company-lsp-enable-recompletion t)
+  (company-lsp-enable-recompletion t)
   :ensure t)
 
 ;;; dimmer
