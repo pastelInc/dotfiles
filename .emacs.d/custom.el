@@ -6,10 +6,12 @@
  '(custom-safe-themes
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "c74fff70a4cc37e2348dd083ae572c8b4baab4f6fb86adae5e0f2139a63e9a96" "2beaaef4f47f22c89948fdb3859799f8f2b64c1282ec21d71d6df49d68e68862" default)))
+ '(doom-themes-enable-bold t)
+ '(doom-themes-enable-italic t)
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (posframe beacon lsp-ui use-package python-mode company-box sublime-theme sublime-themes dimmer dtrt-indent scss-mode ## company-lsp lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm)))
+    (doom-modeline posframe beacon lsp-ui use-package python-mode company-box sublime-theme dimmer dtrt-indent scss-mode ## company-lsp lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode js2-mode sass-mode company-quickhelp company helm-descbinds helm)))
  '(safe-local-variable-values (quote ((elm-format-elm-version . "0.18"))))
  '(show-paren-delay 0)
  '(show-paren-mode t)

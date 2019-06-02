@@ -166,19 +166,49 @@
 ;;   :ensure t)
 
 ;;; sublime-themes
-(use-package sublime-themes
+;; (use-package sublime-themes
+;;   :config
+;;   (load-theme 'brin t)
+;;   :custom-face
+;;   (company-tooltip ((t (:inherit default :foreground "#c0c5ce" :background "#333"))))
+;;   (company-scrollbar-bg ((t (:background "#333"))))
+;;   (company-scrollbar-fg ((t (:background "deep sky blue"))))
+;;   (company-tooltip-annotation ((t (:foreground "white smoke"))))
+;;   (company-tooltip-annotation-selection ((t (:foreground "black"))))
+;;   (company-tooltip-selection ((t (:foreground "black" :background "deep sky blue"))))
+;;   (company-tooltip-common ((t (:foreground "orange"))))
+;;   (company-tooltip-common-selection ((t (:foreground "black"))))
+;;   :ensure t)
+
+;;; doom-themes
+(use-package doom-themes
+  :custom
+  (doom-themes-enable-italic t)
+  (doom-themes-enable-bold t)
   :config
-  (load-theme 'brin t)
-  :custom-face
-  (company-tooltip ((t (:inherit default :foreground "#c0c5ce" :background "#333"))))
-  (company-scrollbar-bg ((t (:background "#333"))))
-  (company-scrollbar-fg ((t (:background "deep sky blue"))))
-  (company-tooltip-annotation ((t (:foreground "white smoke"))))
-  (company-tooltip-annotation-selection ((t (:foreground "black"))))
-  (company-tooltip-selection ((t (:foreground "black" :background "deep sky blue"))))
-  (company-tooltip-common ((t (:foreground "orange"))))
-  (company-tooltip-common-selection ((t (:foreground "black"))))
+  (load-theme 'doom-spacegrey t)
+  (doom-themes-neotree-config)
+  (doom-themes-org-config)
   :ensure t)
+
+;; doom-modeline
+(use-package doom-modeline
+  :custom
+  (doom-modeline-buffer-file-name-style 'truncate-with-project)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon nil)
+  (doom-modeline-minor-modes nil)
+  :config
+  (set-cursor-color "cyan")
+  (line-number-mode 0)
+  (column-number-mode 0)
+  (doom-modeline-def-modeline
+   'main
+   '(bar workspace-name window-number evil-state god-state ryo-modal xah-fly-keys matches buffer-info remote-host buffer-position parrot selection-info)
+   '(misc-info persp-name lsp github debug minor-modes input-method major-mode process vcs checker))
+  :ensure t
+  :hook
+  (after-init . doom-modeline-mode))
 
 ;;; dtrt-indent
 (use-package dtrt-indent
@@ -200,6 +230,10 @@
   :config
   (helm-descbinds-mode)
   :ensure t)
+
+;;; all-the-icons
+(use-package all-the-icons
+  :defer t)
 
 ;;; Flymake
 (use-package posframe
