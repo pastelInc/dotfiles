@@ -201,15 +201,35 @@
   (helm-descbinds-mode)
   :ensure t)
 
-;;; Flycheck
-(use-package flycheck
-  :config
-  ;; disable jshint since we prefer eslint checking
-  (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers
-                        '(javascript-jshint)))
-  (add-hook 'after-init-hook 'global-flycheck-mode)
+;;; Flymake
+(use-package posframe
   :ensure t)
+
+(use-package flymake-posframe
+  :after posframe
+  :custom-face
+  (flymake-posframe-foreground-face ((t (:foreground "white"))))
+  :hook (flymake-mode . flymake-posframe-mode)
+  :load-path "site-lisp/flymake-posframe")
+
+(use-package flymake-diagnostic-at-point
+  :after flymake
+  :custom
+  (flymake-diagnostic-at-point-timer-delay 0.1)
+  (flymake-diagnostic-at-point-display-diagnostic-function 'flymake-diagnostic-at-point-display-popup) ;; or flymake-diagnostic-at-point-display-minibuffer
+  :disabled
+  :hook
+  (flymake-mode . flymake-diagnostic-at-point-mode))
+
+;;; Flycheck
+;; (use-package flycheck
+;;   :config
+;;   ;; disable jshint since we prefer eslint checking
+;;   (setq-default flycheck-disabled-checkers
+;;                 (append flycheck-disabled-checkers
+;;                         '(javascript-jshint)))
+;;   (add-hook 'after-init-hook 'global-flycheck-mode)
+;;   :ensure t)
 
 ;;; Company
 (use-package company
@@ -405,14 +425,14 @@
   (setq elm-format-on-save t)
   :mode ("\\.elm\\'" . elm-mode))
 
-(use-package flycheck-elm
-  :after flycheck
-  :config
-  (defun my/flycheck-mode-hook ()
-    "Hooks for flycheck mode."
-    (flycheck-elm-setup))
-  (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook)
-  :ensure t)
+;; (use-package flycheck-elm
+;;   :after flycheck
+;;   :config
+;;   (defun my/flycheck-mode-hook ()
+;;     "Hooks for flycheck mode."
+;;     (flycheck-elm-setup))
+;;   (add-hook 'flycheck-mode-hook 'my/flycheck-mode-hook)
+;;   :ensure t)
 
 ;;; Go
 (use-package go-mode
@@ -443,7 +463,7 @@
   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
   (lsp-elm-server-install-dir "~/.elm-language-server")
   (lsp-enable-snippet nil)
-  (lsp-prefer-flymake nil)
+  (lsp-prefer-flymake t)
   (lsp-response-timeout 10)
   :ensure t
   :hook ((web-mode scss-mode typescript-mode go-mode python-mode elm-mode) . lsp))

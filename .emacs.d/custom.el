@@ -9,8 +9,13 @@
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (beacon lsp-ui use-package python-mode company-box sublime-theme sublime-themes dimmer dtrt-indent scss-mode ## company-lsp lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm)))
+    (posframe beacon lsp-ui use-package python-mode company-box sublime-theme sublime-themes dimmer dtrt-indent scss-mode ## company-lsp lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode rjsx-mode js2-mode sass-mode company-quickhelp company flycheck-elm flycheck helm-descbinds helm)))
  '(safe-local-variable-values (quote ((elm-format-elm-version . "0.18"))))
+ '(show-paren-delay 0)
+ '(show-paren-mode t)
+ '(show-paren-style (quote mixed))
+ '(show-paren-when-point-in-periphery t)
+ '(show-paren-when-point-inside-paren t)
  '(vc-annotate-background "#3C4C55")
  '(vc-annotate-color-map
    (\`
@@ -54,4 +59,6 @@
  '(company-tooltip-annotation-selection ((t (:foreground "black"))))
  '(company-tooltip-common ((t (:foreground "orange"))))
  '(company-tooltip-common-selection ((t (:foreground "black"))))
- '(company-tooltip-selection ((t (:foreground "black" :background "deep sky blue")))))
+ '(company-tooltip-selection ((t (:foreground "black" :background "deep sky blue"))))
+ '(flymake-posframe-foreground-face ((t (:foreground "white"))))
+ '(show-paren-match ((nil (:background "#44475a" :foreground "#f1fa8c")))))

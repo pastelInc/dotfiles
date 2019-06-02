@@ -1,0 +1,3 @@
+[submodule ".emacs.d/site-lisp/flymake-posframe"]
+	path = .emacs.d/site-lisp/flymake-posframe
+	url = git@github.com:Ladicle/flymake-posframe.git
