@@ -368,7 +368,7 @@
 ;;; add-node-modules-path
 (use-package add-node-modules-path
   :ensure t
-  :hook (js2-mode rjsx-mode elm-mode typescript-mode))
+  :hook (elm-mode typescript-mode web-mode))
 
 ;;; Web
 (use-package web-mode
@@ -552,9 +552,18 @@
 ;;; dimmer
 (use-package dimmer
   :config
-  (setq dimmer-fraction 0.5)
-  (setq dimmer-exclusion-regexp "^\*helm.*\\|^ \*Minibuf-.*\\|^ \*Echo.*")
   (dimmer-mode t)
+  :custom
+  (dimmer-fraction 0.5)
+  (dimmer-exclusion-regexp-list
+       '(".*Minibuf.*"
+         ".*which-key.*"
+         ".*NeoTree.*"
+         ".*Messages.*"
+         ".*Async.*"
+         ".*Warnings.*"
+         ".*LV.*"
+         ".*Ilist.*"))
   :ensure t)
 
 ;;; beacon
