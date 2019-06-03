@@ -200,12 +200,11 @@
   (doom-modeline-minor-modes nil)
   :config
   (set-cursor-color "cyan")
-  (line-number-mode 0)
-  (column-number-mode 0)
-  (doom-modeline-def-modeline
-   'main
-   '(bar workspace-name window-number evil-state god-state ryo-modal xah-fly-keys matches buffer-info remote-host buffer-position parrot selection-info)
-   '(misc-info persp-name lsp github debug minor-modes input-method major-mode process vcs checker))
+  (line-number-mode t)
+  (column-number-mode t)
+  (doom-modeline-def-modeline 'main
+    '(bar workspace-name window-number modals matches buffer-info remote-host buffer-position parrot selection-info)
+    '(misc-info persp-name lsp github debug minor-modes input-method major-mode process vcs checker))
   :ensure t
   :hook
   (after-init . doom-modeline-mode))
