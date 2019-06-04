@@ -420,13 +420,9 @@
 ;;   :mode ("\\.js\\'"))
 
 ;;; JSON
-(use-package js-mode
-  :config
-  (defun my/js-mode-hook ()
-    "Hooks for js mode."
-    (setq js-indent-level 2))
-
-  (add-hook 'js-mode-hook 'my/js-mode-hook)
+(use-package json-mode
+  :custom (js-indent-level 2)
+  :ensure t
   :mode ("\\.json\\'"))
 
 ;;; TypeScript
