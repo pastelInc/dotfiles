@@ -589,5 +589,24 @@
   :ensure t
   :mode "\\.py\\'")
 
+;;; Git
+(use-package diffview
+  :bind ("M-g v" . my/diffview-dwim)
+  :commands (diffview-region diffview-current)
+  :ensure t
+  :preface
+  (defun my/diffview-dwim ()
+    (interactive)
+    (if (region-active-p)
+        (diffview-region)
+      (diffview-current))))
+
+(use-package magit
+  :bind
+  ("M-g s" . magit-status)
+  :custom
+  (magit-auto-revert-mode nil)
+  :ensure t)
+
 (provide 'init)
 ;;; init.el ends here
