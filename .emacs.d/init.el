@@ -384,18 +384,26 @@
   (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  ;; web-modeのインデント設定用フック
-  (defun my/web-mode-hook ()
-    "Hooks for web mode."
-    (setq web-mode-markup-indent-offset 2) ; HTMLのインデイント
-    (setq web-mode-css-indent-offset 2) ; CSSのインデント
-    (setq web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
-    (setq web-mode-comment-style 2) ; web-mode内のコメントのインデント
-    (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
-    (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
-    )
+  ;; ;; web-modeのインデント設定用フック
+  ;; (defun my/web-mode-hook ()
+  ;;   "Hooks for web mode."
+  ;;   (setq web-mode-markup-indent-offset 2) ; HTMLのインデイント
+  ;;   (setq web-mode-css-indent-offset 2) ; CSSのインデント
+  ;;   (setq web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
+  ;;   (setq web-mode-comment-style 2) ; web-mode内のコメントのインデント
+  ;;   (setq web-mode-style-padding 1) ; <style>内のインデント開始レベル
+  ;;   (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
+  ;;   )
 
-  (add-hook 'web-mode-hook  'my/web-mode-hook)
+  ;; (add-hook 'web-mode-hook  'my/web-mode-hook)
+  (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
+  :custom
+  (web-mode-markup-indent-offset 2) ; HTMLのインデイント
+  (web-mode-css-indent-offset 2) ; CSSのインデント
+  (web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
+  (web-mode-comment-style 2) ; web-mode内のコメントのインデント
+  (web-mode-style-padding 1) ; <style>内のインデント開始レベル
+  (web-mode-script-padding 1) ; <script>内のインデント開始レベル
   :ensure t)
 
 ;;; SCSS
