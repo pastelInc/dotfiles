@@ -481,6 +481,7 @@
 
 ;;; Language Server Protocol
 (use-package lsp-mode
+  ;; :load-path "site-lisp/lsp-mode"
   :commands lsp
   :config
    (require 'lsp-clients)
@@ -491,7 +492,7 @@
   (lsp-print-performance nil)
   ;; general
   (lsp-auto-guess-root t)
-  (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
+  (lsp-document-sync-method nil) ;; none, full, incremental, or nil
   (lsp-elm-server-install-dir "~/.elm-language-server")
   (lsp-enable-snippet t)
   (lsp-prefer-flymake t)
