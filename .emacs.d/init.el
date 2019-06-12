@@ -264,6 +264,11 @@
 ;;   (add-hook 'after-init-hook 'global-flycheck-mode)
 ;;   :ensure t)
 
+;;; Yasnippet
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :hook (after-init . yas-global-mode))
+
 ;;; Company
 (use-package company
   :bind
@@ -488,7 +493,7 @@
   (lsp-auto-guess-root t)
   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
   (lsp-elm-server-install-dir "~/.elm-language-server")
-  (lsp-enable-snippet nil)
+  (lsp-enable-snippet t)
   (lsp-prefer-flymake t)
   (lsp-response-timeout 10)
   :ensure t
@@ -549,7 +554,7 @@
   :custom
   (company-lsp-async t)
   (company-lsp-cache-candidates t) ;; auto, t(always using a cache), or nil
-  (company-lsp-enable-snippet nil)
+  (company-lsp-enable-snippet t)
   (company-lsp-enable-recompletion t)
   :ensure t)
 

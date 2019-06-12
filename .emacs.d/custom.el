@@ -11,7 +11,7 @@
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (magit diffview json-mode doom-modeline posframe beacon lsp-ui use-package python-mode company-box sublime-theme dimmer dtrt-indent scss-mode ## company-lsp lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode js2-mode sass-mode company-quickhelp company helm-descbinds helm)))
+    (yasnippet magit diffview json-mode doom-modeline posframe beacon lsp-ui use-package python-mode company-box sublime-theme dimmer dtrt-indent scss-mode ## company-lsp lsp-mode yaml-mode go-mode add-node-modules-path exec-path-from-shell nova-theme elm-mode web-mode helm-projectile projectile auto-complete typescript-mode js2-mode sass-mode company-quickhelp company helm-descbinds helm)))
  '(safe-local-variable-values (quote ((elm-format-elm-version . "0.18"))))
  '(show-paren-delay 0)
  '(show-paren-mode t)
