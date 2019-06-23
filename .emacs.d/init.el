@@ -332,7 +332,6 @@
   ;; general
   (lsp-auto-guess-root t)
   (lsp-document-sync-method nil) ; none, full, incremental, or nil
-  (lsp-elm-server-install-dir "~/.elm-language-server")
   (lsp-enable-snippet t)
   (lsp-prefer-flymake t)
   (lsp-response-timeout 10)
