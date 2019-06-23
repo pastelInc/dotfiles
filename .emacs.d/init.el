@@ -481,14 +481,13 @@
 
 ;;; Language Server Protocol
 (use-package lsp-mode
-  ;; :load-path "site-lisp/lsp-mode"
   :commands lsp
   :config
    (require 'lsp-clients)
   :custom
   ;; debug
-  (lsp-print-io t)
-  (lsp-trace t)
+  (lsp-print-io nil)
+  (lsp-trace nil)
   (lsp-print-performance nil)
   ;; general
   (lsp-auto-guess-root t)
@@ -531,7 +530,7 @@
   (lsp-ui-sideline-show-diagnostics nil)
   (lsp-ui-sideline-show-code-actions t)
   ;; lsp-ui-imenu
-  (lsp-ui-imenu-enable t)
+  (lsp-ui-imenu-enable nil)
   (lsp-ui-imenu-kind-position 'top)
   ;; lsp-ui-peek
   (lsp-ui-peek-enable t)
@@ -556,7 +555,7 @@
   (company-lsp-async t)
   (company-lsp-cache-candidates t) ;; auto, t(always using a cache), or nil
   (company-lsp-enable-snippet t)
-  (company-lsp-enable-recompletion t)
+  (company-lsp-enable-recompletion nil)
   :ensure t)
 
 ;;; dimmer
