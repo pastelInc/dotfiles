@@ -100,6 +100,9 @@
 ;; https://emacs.stackexchange.com/questions/2999/how-to-maximize-my-emacs-frame-on-start-up
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;; ファイル末尾に改行文字を自動挿入しない
+(setq require-final-newline nil)
+
 ;;;;; paren
 (use-package paren
   :custom-face
