@@ -270,6 +270,7 @@
   (company-idle-delay 0)
   (company-echo-delay 0)
   (company-minimum-prefix-length 2)
+  (company-dabbrev-downcase nil)
   :defer nil
   :ensure t)
 
