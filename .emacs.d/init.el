@@ -384,8 +384,18 @@
   (lsp-enable-snippet t)
   (lsp-prefer-flymake t)
   (lsp-response-timeout 10)
+  ;; elm
+  (lsp-elm-elm-path (my/file-exists-fallback "./node_modules/.bin/elm" "elm"))
+  (lsp-elm-elm-format-path (my/file-exists-fallback "./node_modules/.bin/elm-format" "elm-format"))
+  (lsp-elm-elm-test-path (my/file-exists-fallback "./node_modules/.bin/elm-test" "elm-test"))
   :ensure t
-  :hook ((web-mode scss-mode typescript-mode go-mode python-mode elm-mode) . lsp))
+  :hook ((web-mode scss-mode typescript-mode go-mode python-mode elm-mode) . lsp)
+  :preface
+  (defun my/file-exists-fallback (path fallback)
+    "If not, fall back"
+    (if (file-exists-p path)
+        path
+      fallback)))
 
 (use-package lsp-ui
   :after lsp-mode
