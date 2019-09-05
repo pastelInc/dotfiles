@@ -347,6 +347,20 @@
   (magit-auto-revert-mode nil)
   :ensure t)
 
+;;;;; GitGutter
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode +1)
+  :custom
+  (git-gutter:modified-sign "~")
+  (git-gutter:added-sign    "+")
+  (git-gutter:deleted-sign  "-")
+  :custom-face
+  (git-gutter:modified ((t (:foreground "#f1fa8c" :background "#f1fa8c"))))
+  (git-gutter:added    ((t (:foreground "#50fa7b" :background "#50fa7b"))))
+  (git-gutter:deleted  ((t (:foreground "#ff79c6" :background "#ff79c6"))))
+  :ensure t)
+
 ;;;; Language
 
 ;;;;; add-node-modules-path
