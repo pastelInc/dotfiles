@@ -291,24 +291,24 @@
   :defer nil
   :ensure t)
 
-(use-package company-box
-  :custom
-  (company-box-backends-colors nil)
-  (company-box-doc-delay 0.3)
-  (company-box-icons-alist 'company-box-icons-all-the-icons)
-  (company-box-show-single-candidate t)
-  (company-box-max-candidates 20)
-  :ensure t
-  :hook (company-mode . company-box-mode))
+;; (use-package company-box
+;;   :custom
+;;   (company-box-backends-colors nil)
+;;   (company-box-doc-delay 0.3)
+;;   (company-box-icons-alist 'company-box-icons-all-the-icons)
+;;   (company-box-show-single-candidate t)
+;;   (company-box-max-candidates 20)
+;;   :ensure t
+;;   :hook (company-mode . company-box-mode))
 
-(use-package company-quickhelp
-  :after company
-  :custom
-  (company-quickhelp-delay 0.8)
-  :defines company-quickhelp-delay
-  :ensure t
-  :hook
-  (global-company-mode . company-quickhelp-mode))
+;; (use-package company-quickhelp
+;;   :after company
+;;   :custom
+;;   (company-quickhelp-delay 0.8)
+;;   :defines company-quickhelp-delay
+;;   :ensure t
+;;   :hook
+;;   (global-company-mode . company-quickhelp-mode))
 
 ;;;; Git
 
