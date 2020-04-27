@@ -1,4 +1,4 @@
-;;; init.el --- pastelInc's .emacs -*- coding: utf-8 ; lexical-binding: t -*-
+;;; init.el --- pastelInc's configration -*- coding: utf-8 ; lexical-binding: t -*-
 
 ;;; Commentary:
 
@@ -197,23 +197,28 @@
 
 ;;;;; projectile
 (use-package projectile
+  :bind-keymap
+  ;; projectileのプレフィックスキーをs-pに変更
+  ("s-p" . projectile-command-map)
   :config
   ;;自動的にプロジェクト管理を開始
   (projectile-mode)
   ;; プロジェクト管理から除外するディレクトリを追加
-  (defvar projectile-globally-ignored-directories)
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories "elm-stuff")
+  (add-to-list 'projectile-globally-ignored-directories "vendor")
+  :custom
   ;; プロジェクト情報をキャッシュする
-  (setq projectile-enable-caching t)
-  ;; projectileのプレフィックスキーをs-pに変更
-  (defvar projectile-mode-map)
-  (define-key projectile-mode-map
-    (kbd "s-p") 'projectile-command-map)
+  (projectile-enable-caching t)
   :ensure t)
 
 ;;;;; Helm
 (use-package helm
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-m" . helm-M-x)
+         ("C-x b" . helm-mini)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x C-f" . helm-find-files))
   :config
   (require 'helm-config)
   :ensure t)
@@ -228,13 +233,15 @@
   :after projectile
   :config
   (helm-projectile-on)
-  (setq projectile-completion-system 'helm)
+  :custom
+  (projectile-completion-system 'helm)
   :ensure t)
 
 ;;;;; tempbuf
 ;; https://www.emacswiki.org/emacs/tempbuf.el
 (use-package tempbuf
   :diminish tempbuf-mode
+  :disabled
   :ensure nil
   :load-path "site-lisp/tempbuf"
   :init
@@ -280,35 +287,39 @@
   (company-emoji-insert-unicode nil)
   (company-flx-mode t)
   (company-global-modes t)
-  (company-idle-delay 0)
+  (company-idle-delay 0.5)
   ;; (company-echo-delay 0)
   (company-lsp-cache-candidates 'auto)
   (company-minimum-prefix-length 2)
+  (company-show-numbers t)
   (company-tooltip-align-annotations t)
+  (company-tooltip-flip-when-above t)
   (company-tooltip-idle-delay 0.1)
-  (company-tooltip-limit 20)
-  (company-tooltip-minimum 10)
+  (company-tooltip-limit 10)
+  ;; (company-tooltip-minimum 10)
   :defer nil
   :ensure t)
 
-;; (use-package company-box
-;;   :custom
-;;   (company-box-backends-colors nil)
-;;   (company-box-doc-delay 0.3)
-;;   (company-box-icons-alist 'company-box-icons-all-the-icons)
-;;   (company-box-show-single-candidate t)
-;;   (company-box-max-candidates 20)
-;;   :ensure t
-;;   :hook (company-mode . company-box-mode))
+(use-package company-box
+  :custom
+  (company-box-backends-colors nil)
+  (company-box-doc-delay 0.3)
+  (company-box-icons-alist 'company-box-icons-all-the-icons)
+  (company-box-show-single-candidate t)
+  (company-box-max-candidates 20)
+  :disabled
+  :ensure t
+  :hook (company-mode . company-box-mode))
 
-;; (use-package company-quickhelp
-;;   :after company
-;;   :custom
-;;   (company-quickhelp-delay 0.8)
-;;   :defines company-quickhelp-delay
-;;   :ensure t
-;;   :hook
-;;   (global-company-mode . company-quickhelp-mode))
+(use-package company-quickhelp
+  :after company
+  :custom
+  (company-quickhelp-delay 0.8)
+  :defines company-quickhelp-delay
+  :disabled
+  :ensure t
+  :hook
+  (global-company-mode . company-quickhelp-mode))
 
 ;;;; Git
 
@@ -316,6 +327,7 @@
 (use-package diffview
   :bind ("M-g v" . my/diffview-dwim)
   :commands (diffview-region diffview-current)
+  :disabled
   :ensure t
   :preface
   (defun my/diffview-dwim ()
@@ -327,23 +339,17 @@
 ;;;;; magit
 (use-package magit
   :bind
-  ("M-g s" . magit-status)
+  ("C-x g" . magit-status)
   :custom
   (magit-auto-revert-mode nil)
   :ensure t)
 
-;;;;; GitGutter
-(use-package git-gutter
+;;;;; diff-hl
+(use-package diff-hl
   :config
-  (global-git-gutter-mode +1)
-  :custom
-  (git-gutter:modified-sign "~")
-  (git-gutter:added-sign    "+")
-  (git-gutter:deleted-sign  "-")
-  :custom-face
-  (git-gutter:modified ((t (:foreground "#f1fa8c" :background "#f1fa8c"))))
-  (git-gutter:added    ((t (:foreground "#50fa7b" :background "#50fa7b"))))
-  (git-gutter:deleted  ((t (:foreground "#ff79c6" :background "#ff79c6"))))
+  (global-diff-hl-mode t)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   :ensure t)
 
 ;;;; Language
@@ -452,23 +458,25 @@
   (turn-on-eldoc-mode))
   (add-hook 'emacs-lisp-mode #'my/emacs-lisp-mode-hook))
 
-;;;;; Web/JavaScript
+;;;;; Web
 (use-package web-mode
   :config
   ;; 自動的にweb-modeを起動したい拡張子を追加する
-  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.ctp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.blade\\.php\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
-  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist
+               '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode))
+  ;; (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
+  ;; (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
   :custom
+  (web-mode-enable-auto-pairing nil)
   (web-mode-markup-indent-offset 2) ; HTMLのインデイント
   (web-mode-css-indent-offset 2) ; CSSのインデント
   (web-mode-code-indent-offset 2) ; JS, PHP, Rubyなどのインデント
@@ -477,8 +485,17 @@
   (web-mode-script-padding 1) ; <script>内のインデント開始レベル
   :ensure t)
 
+;;;;; JavaScript
+(use-package js2-mode
+  :custom (js-indent-level 2)
+  :ensure t
+  :interpreter "node"
+  :mode ("\\.js\\'" "\\.pac\\'"))
+
 ;;;;; SCSS
 (use-package scss-mode
+  :custom
+  (scss-compile-at-save nil)
   :ensure t
   :mode "\\.scss$")
 
