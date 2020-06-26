@@ -250,8 +250,17 @@
 
 ;;;; Check
 
-;;;;; Flymake
+;;;;; Flycheck
+(use-package flycheck
+  :config
+  ;; disable jshint since we prefer eslint checking
+  (setq-default flycheck-disabled-checkers
+                (append flycheck-disabled-checkers
+                        '(javascript-jshint)))
+  (add-hook 'after-init-hook 'global-flycheck-mode)
+  :ensure t)
 
+;;;;; Flymake
 (use-package flymake-posframe
   :after posframe
   :custom-face
@@ -373,7 +382,7 @@
   (lsp-auto-guess-root t)
   (lsp-document-sync-method nil) ; none, full, incremental, or nil
   (lsp-enable-snippet t)
-  (lsp-prefer-flymake t)
+  (lsp-prefer-flymake nil)
   (lsp-response-timeout 10)
   ;; elm
   (lsp-elm-elm-path (my/file-exists-fallback "./node_modules/.bin/elm" "elm"))
@@ -411,7 +420,7 @@
   (lsp-ui-doc-use-childframe t)
   (lsp-ui-doc-use-webkit t)
   ;; lsp-ui-flycheck
-  (lsp-ui-flycheck-enable nil)
+  (lsp-ui-flycheck-enable t)
   ;; lsp-ui-sideline
   (lsp-ui-sideline-enable nil)
   (lsp-ui-sideline-ignore-duplicate t)
@@ -514,6 +523,14 @@
 
   (add-hook 'typescript-mode-hook 'my/typescript-mode-hook)
   :ensure t
+  :mode ("\\.ts\\'" . typescript-mode))
+
+(use-package tide
+  :after (typescript-mode company flycheck)
+  :ensure t
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save))
   :mode ("\\.ts\\'" . typescript-mode))
 
 ;;;;; Elm
