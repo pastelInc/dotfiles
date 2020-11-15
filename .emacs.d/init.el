@@ -260,14 +260,6 @@
   (add-hook 'after-init-hook 'global-flycheck-mode)
   :ensure t)
 
-;;;;; Flymake
-(use-package flymake-posframe
-  :after posframe
-  :custom-face
-  (flymake-posframe-foreground-face ((t (:foreground "white"))))
-  :hook (flymake-mode . flymake-posframe-mode)
-  :load-path "site-lisp/flymake-posframe")
-
 ;;;; Completion
 
 ;;;;; Yasnippet
@@ -371,32 +363,25 @@
 ;;;;; Language Server Protocol
 (use-package lsp-mode
   :commands lsp
-  :config
-   (require 'lsp-clients)
   :custom
   ;; debug
-  (lsp-print-io nil)
-  (lsp-trace nil)
-  (lsp-print-performance nil)
+  (lsp-print-io t)
+  (lsp-trace t)
+  (lsp-print-performance t)
   ;; general
   (lsp-auto-guess-root t)
+  (lsp-completion-provider :capf)
   (lsp-document-sync-method nil) ; none, full, incremental, or nil
   (lsp-enable-snippet t)
+  (lsp-idle-delay 0.500)
   (lsp-prefer-flymake nil)
   (lsp-response-timeout 10)
+  (gc-cons-threshold 12800000) ; 12mb
+  (read-process-output-max (* 1024 1024)) ;; 1mb
   ;; elm
-  (lsp-elm-elm-path (my/file-exists-fallback "./node_modules/.bin/elm" "elm"))
-  (lsp-elm-elm-format-path (my/file-exists-fallback "./node_modules/.bin/elm-format" "elm-format"))
-  (lsp-elm-elm-test-path (my/file-exists-fallback "./node_modules/.bin/elm-test" "elm-test"))
-  (lsp-elm-elm-analyse-trigger "never")
+  (lsp-elm-elm-analyse-trigger "change")
   :ensure t
-  :hook ((web-mode scss-mode typescript-mode go-mode python-mode elm-mode) . lsp)
-  :preface
-  (defun my/file-exists-fallback (path fallback)
-    "If not, fall back"
-    (if (file-exists-p path)
-        path
-      fallback)))
+  :hook ((scss-mode go-mode python-mode elm-mode) . lsp))
 
 (use-package lsp-ui
   :after lsp-mode
@@ -446,25 +431,14 @@
           (lsp-ui-doc--hide-frame))
          (lsp-ui-doc-mode 1))))
 
-(use-package company-lsp
-  :after company
-  :config
-  (push 'company-lsp company-backends)
-  :custom
-  (company-lsp-async t)
-  (company-lsp-cache-candidates t) ; auto, t(always using a cache), or nil
-  (company-lsp-enable-snippet t)
-  (company-lsp-enable-recompletion nil)
-  :ensure t)
-
 ;;;;; eldoc
 (use-package eldoc
   :config
   (defun my/emacs-lisp-mode-hook ()
-  "Hooks for Emacs Lisp mode."
-  (setq eldoc-idle-delay 0.2)
-  (setq eldoc-echo-area-use-multiline-p t)
-  (turn-on-eldoc-mode))
+    "Hooks for Emacs Lisp mode."
+    (setq eldoc-idle-delay 0.2)
+    (setq eldoc-echo-area-use-multiline-p t)
+    (turn-on-eldoc-mode))
   (add-hook 'emacs-lisp-mode #'my/emacs-lisp-mode-hook))
 
 ;;;;; Web
