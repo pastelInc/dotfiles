@@ -434,6 +434,7 @@
 ;;;;; eldoc
 (use-package eldoc
   :config
+  (global-eldoc-mode -1)
   (defun my/emacs-lisp-mode-hook ()
     "Hooks for Emacs Lisp mode."
     (setq eldoc-idle-delay 0.2)
@@ -556,20 +557,16 @@
 ;;;;; doom-modeline
 (use-package doom-modeline
   :custom
+  (doom-modeline-buffer-encoding t)
   (doom-modeline-buffer-file-name-style 'truncate-with-project)
   (doom-modeline-icon t)
   (doom-modeline-major-mode-icon nil)
   (doom-modeline-minor-modes nil)
   :config
-  (set-cursor-color "cyan")
   (line-number-mode t)
   (column-number-mode t)
-  (doom-modeline-def-modeline 'main
-    '(bar workspace-name window-number modals matches buffer-info remote-host buffer-position parrot selection-info)
-    '(misc-info persp-name lsp github debug minor-modes input-method major-mode process vcs checker))
   :ensure t
-  :hook
-  (after-init . doom-modeline-mode))
+  :init (doom-modeline-mode 1))
 
 ;;;;; dimmer
 (use-package dimmer
