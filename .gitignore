@@ -99,9 +99,3 @@ Temporary Items
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-
-### Vim ###
-.config/*
-!.config/nvim/init.vim
-!.config/nvim/ftplugin
